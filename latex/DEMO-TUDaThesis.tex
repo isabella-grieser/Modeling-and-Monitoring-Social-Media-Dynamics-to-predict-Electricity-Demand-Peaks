@@ -1,0 +1,149 @@
+\documentclass[
+	ngerman,
+	ruledheaders=section,%Ebene bis zu der die Überschriften mit Linien abgetrennt werden, vgl. DEMO-TUDaPub
+	class=report,% Basisdokumentenklasse. Wählt die Korrespondierende KOMA-Script Klasse
+	thesis={type=master},% Dokumententyp Thesis, für Dissertationen siehe die Demo-Datei DEMO-TUDaPhd
+	accentcolor=3c,% Auswahl der Akzentfarbe
+	custommargins=true,% Ränder werden mithilfe von typearea automatisch berechnet
+	marginpar=false,% Kopfzeile und Fußzeile erstrecken sich nicht über die Randnotizspalte
+	%BCOR=5mm,%Bindekorrektur, falls notwendig
+	parskip=half-,%Absatzkennzeichnung durch Abstand vgl. KOMA-Sript
+	fontsize=11pt,%Basisschriftgröße laut Corporate Design ist mit 9pt häufig zu klein
+%	logofile=example-image, %Falls die Logo Dateien nicht vorliegen
+]{tudapub}
+
+\usepackage[acronym,nonumberlist,nopostdot,shortcuts]{glossaries}
+
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{xfrac}
+%\usepackage{amssymb}
+\usepackage{epstopdf} 
+\usepackage{eurosym}
+%\usepackage{lmodern} % nicht nutzen dies schaltet die TU Schriftart aus!!!!!!!!!
+\usepackage{subfig}
+\usepackage{booktabs} % hübschere Tabellen als der LaTeX-Standard
+\usepackage{amsmath}
+\usepackage{placeins}
+\usepackage{siunitx}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{mwe}
+\usepackage{subfig}
+\usepackage{paralist}
+% Der folgende Block ist nur bei pdfTeX auf Versionen vor April 2018 notwendig
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[utf8]{inputenc}%kompatibilität mit TeX Versionen vor April 2018
+\fi
+
+%%%%%%%%%%%%%%%%%%%
+%Sprachanpassung & Verbesserte Trennregeln
+%%%%%%%%%%%%%%%%%%%
+\usepackage[english, main=english]{babel}
+\usepackage[autostyle]{csquotes}% Anführungszeichen vereinfacht
+\usepackage{microtype}
+
+
+%%%%%%%%%%%%%%%%%%%
+%Literaturverzeichnis
+%%%%%%%%%%%%%%%%%%%
+\usepackage{biblatex}   % Literaturverzeichnis
+%\bibliography{DEMO-TUDaBibliography}
+
+
+%%%%%%%%%%%%%%%%%%%
+%Tabellen
+%%%%%%%%%%%%%%%%%%%
+%\usepackage{array}     % Basispaket für Tabellenkonfiguration, wird von den folgenden automatisch geladen
+\usepackage{tabularx}   % Tabellen, die sich automatisch der Breite anpassen
+%\usepackage{longtable} % Mehrseitige Tabellen
+%\usepackage{xltabular} % Mehrseitige Tabellen mit anpassarer Breite
+\usepackage{booktabs}   % Verbesserte Möglichkeiten für Tabellenlayout über horizontale Linien
+
+%%%%%%%%%%%%%%%%%%%
+%Paketvorschläge Mathematik
+%%%%%%%%%%%%%%%%%%%
+\usepackage{mathtools} % erweiterte Fassung von amsmath
+\usepackage{amssymb}   % erweiterter Zeichensatz
+\usepackage{siunitx}   % Einheiten
+
+
+
+%Formatierungen für Beispiele in diesem Dokument. Im Allgemeinen nicht notwendig!
+\let\file\texttt
+\let\code\texttt
+
+\usepackage{pifont}% Zapf-Dingbats Symbole
+\newcommand*{\FeatureTrue}{\ding{52}}
+\newcommand*{\FeatureFalse}{\ding{56}}
+%\bibliographystyle{IEEEtran}
+
+
+
+\bibliography{bib/Literatur}
+%Own Commands
+
+
+
+\linespread{1.25}
+
+
+
+
+
+\begin{document}
+
+\Metadata{
+	title=Modeling and Analysis of Human Behavior Impacts on Energy Systems during Crisis Events,
+	author=Isabella Nunes Grieser
+}
+
+\title{Modeling and Analysis of Human Behavior Impacts on 
+Energy Systems during Crisis Events}
+\subtitle{Modellierung und Analyse der Auswirkung des menschlichen
+Verhaltens auf Energienetze während Krisensituationen}
+\author[short Name]{Isabella Nunes Grieser}%optionales Argument ist die Signatur, 
+%\birthplace{Geburtsort}%Geburtsort, bei Dissertationen zwingend notwendig
+\reviewer{Prof. Dr. Florian Steinke \and second supervisor}%Gutachter
+\publishers{}
+%Diese Felder erden untereinander auf der Titelseite platziert. 
+%\department ist eine notwendige Angabe, siehe auch dem Abschnitt `Abweichung von den Vorgaben für die Titelseite'
+\department{etit} % Das Kürzel wird automatisch ersetzt und als Studienfach gewählt, siehe Liste der Kürzel im Dokument.
+\institute{\includegraphics*[width=4cm]{gfx/EINS_Logo}}
+\group{}
+
+\submissiondate{\today}
+\examdate{\today}
+
+%	\tuprints{urn=1234,printid=12345}
+%	\dedication{Für alle, die \TeX{} nutzen.}
+
+\maketitle
+
+\affidavit
+
+\tableofcontents
+
+
+\listoftables
+\listoffigures
+\printglossary %[type = \acronymtype]
+
+\input{inc/Introduction.tex}
+\input{inc/Theory.tex}
+\input{inc/Experiments.tex}
+\input{inc/Results.tex}
+\input{inc/Outlook.tex}
+
+%\appendix
+
+%\input{inc/diaApx.tex}
+
+
+		
+\printbibliography
+	
+\end{document}

@@ -1,0 +1,507 @@
+% Encoding: UTF-8
+
+@Book{Kundur_1994,
+  title     = {Power system stability and control},
+  publisher = {McGraw-hill New York},
+  year      = {1994},
+  author    = {Kundur, Prabha and Balu, Neal J and Lauby, Mark G},
+  volume    = {7},
+}
+
+@Article{nuclearDW_2011,
+  author  = {Fox, H. and Hallam, M.},
+  title   = {German cabinet approves 2022 nuclear shutdown},
+  journal = {Deutsche Welle},
+  year    = {2011},
+}
+
+@Article{energyStorage_2018,
+  author  = {Amelang, S.},
+  title   = {Energy storage and the Energiewende},
+  journal = {Clean Energy Wire},
+  year    = {2018},
+}
+
+@Article{renewableRecord_2019,
+  author  = {Wettenegel, J.},
+  title   = {Renewables hit record 77 percent of German power on Easter Monday},
+  journal = {Clean Energy Wire},
+  year    = {2019},
+}
+
+@Article{fan2018impact,
+  author    = {Fan, Rui and Lian, Jianming and Kalsi, Karanjit and Elizondo, Marcelo},
+  title     = {Impact of Cyber Attacks on High Voltage DC Transmission Damping Control},
+  journal   = {Energies},
+  year      = {2018},
+  volume    = {11},
+  number    = {5},
+  pages     = {1046},
+  publisher = {Multidisciplinary Digital Publishing Institute},
+}
+
+@InProceedings{Pasqualetti_2011,
+  author    = {F. {Pasqualetti} and F. {Dörfler} and F. {Bullo}},
+  title     = {Cyber-physical attacks in power networks: Models, fundamental limitations and monitor design},
+  booktitle = {2011 50th IEEE Conference on Decision and Control and European Control Conference},
+  year      = {2011},
+  pages     = {2195-2201},
+  month     = {Dec},
+  doi       = {10.1109/CDC.2011.6160641},
+  issn      = {0191-2216},
+  keywords  = {Power system dynamics;Mathematical model;Detectors;Equations;Load modeling;Generators;Security},
+}
+
+@Article{Pasqualetti_2013,
+  author   = {F. {Pasqualetti} and F. {Dörfler} and F. {Bullo}},
+  title    = {Attack Detection and Identification in Cyber-Physical Systems},
+  journal  = {IEEE Transactions on Automatic Control},
+  year     = {2013},
+  volume   = {58},
+  number   = {11},
+  pages    = {2715-2729},
+  month    = {Nov},
+  issn     = {0018-9286},
+  doi      = {10.1109/TAC.2013.2266831},
+  keywords = {fault diagnosis;graph theory;network theory (graphs);reliability theory;power systems;transportation networks;industrial control processes;critical infrastructures;failure analysis;external malicious attacks;mathematical framework;cyber-physical systems;cyber-physical attacks;cyber-physical monitors;system theory;graph theory;centralized attack detection monitor design;distributed attack detection monitor design;centralized attack identification monitor design;distributed attack identification monitor design;Monitoring;Control systems;Security;Biomedical monitoring;Sensors;Noise;Power system dynamics;Cyber-physical systems;descriptor systems;distributed control;fault detection;geometric control;graph theory;networks;security},
+}
+
+@Article{Pasqualetti_2015,
+  author   = {F. {Pasqualetti} and F. {Dorfler} and F. {Bullo}},
+  title    = {Control-Theoretic Methods for Cyberphysical Security: Geometric Principles for Optimal Cross-Layer Resilient Control Systems},
+  journal  = {IEEE Control Systems Magazine},
+  year     = {2015},
+  volume   = {35},
+  number   = {1},
+  pages    = {110-127},
+  month    = {Feb},
+  issn     = {1066-033X},
+  doi      = {10.1109/MCS.2014.2364725},
+  keywords = {control engineering computing;optimal control;security of data;StuxNet computer worm;Davis-Besse nuclear plant;SQL Slammer worm attack;Maroochy water breach;cybertechnology integration;critical infrastructures;industrial automation systems;sensor networks;cyberphysical system;optimal cross-layer resilient control system;geometric principles;cyberphysical security;control theoretic methods;Generators;Computer security;Reservoirs;Biological system modeling;Computational modeling;Computer crime},
+}
+
+@InBook{Shahraeini_2012,
+  title  = {Wide Area Measurement Systems},
+  year   = {2012},
+  author = {Shahraeini, Mohammad and Javidi, Hossein},
+  month  = {03},
+  isbn   = {978-953-51-0128-4},
+  doi    = {10.5772/35466},
+}
+
+@InProceedings{Sridhar_2012,
+  author    = {S. {Sridhar} and A. {Hahn} and M. {Govindarasu}},
+  title     = {Cyber attack-resilient control for smart grid},
+  booktitle = {2012 IEEE PES Innovative Smart Grid Technologies (ISGT)},
+  year      = {2012},
+  pages     = {1-3},
+  month     = {Jan},
+  doi       = {10.1109/ISGT.2012.6175567},
+  keywords  = {power system control;power system security;smart power grids;telecommunication security;cyber attack-resilient control;smart grid;power system operation;wide-area measurement systems;demand side management;power utilities;communication network;industrial control systems;cyber security;control system algorithms;control loop;Smart grids;Timing;Automatic generation control;Power system stability;Power system control;Cyber-Physical Systems;Smart Grid;SCADA},
+}
+
+@InProceedings{Sun_2016,
+  author    = {Y. {Sun} and W. {Li} and W. {Song} and C. {Yuen}},
+  title     = {Joint cyber and physical attacks against topology of electric grids},
+  booktitle = {2016 IEEE Region 10 Conference (TENCON)},
+  year      = {2016},
+  pages     = {746-750},
+  month     = {Nov},
+  doi       = {10.1109/TENCON.2016.7848103},
+  issn      = {2159-3450},
+  keywords  = {load flow;power grids;power transmission lines;power transmission reliability;joint cyber-physical attacks;electric grid topology;electric network topology;transmission lines;gird power flow;cascading failures;large-area blackout;attack strategy;IEEE 9-bus systems;IEEE 14-bus systems;electric grid damage risks;Power transmission lines;Topology;Transmission line measurements;Power system faults;Power system protection;Power grids;Intentional attack strategy;undetectable/unidentifed attack;false data injection;topology attack;topology identif cation},
+}
+
+@Electronic{refHVDC,
+  author       = {Casoria, Silvano.},
+  year         = {2019},
+  title        = {VSC-Based HVDC Transmission System (Detailed Model)},
+  language     = {English},
+  howpublished = {M},
+  organization = {Hydro-Québec},
+  url          = {https://de.mathworks.com/help/physmod/sps/examples/vsc-based-hvdc-transmission-system-detailed-model.html},
+}
+
+@Book{Oswald_2016,
+  title     = {Elektrische Kraftwerke und Netze},
+  publisher = {Springer},
+  year      = {2016},
+  author    = {Oeding, Dietrich and Oswald, Bernd R},
+}
+
+@Book{Wood_2013,
+  title     = {Power generation, operation, and control},
+  publisher = {John Wiley \& Sons},
+  year      = {2013},
+  author    = {Wood, Allen J and Wollenberg, Bruce F and Shebl{\'e}, Gerald B},
+}
+
+@Book{Fitzgerald_2014,
+  title     = {Fitzgerald \& Kingsley's electric machinery},
+  publisher = {McGraw-Hill},
+  year      = {2014},
+  author    = {Umans, Stephen D},
+}
+
+@Book{Binder_2012,
+  title     = {Elektrische Maschinen und Antriebe},
+  publisher = {Springer},
+  year      = {2012},
+  author    = {Binder, Andreas},
+}
+
+@Electronic{simulinkSM,
+  author   = {Mathworks},
+  year     = {2006},
+  title    = {Synchronous Machine Fundamental},
+  language = {English},
+  url      = {https://de.mathworks.com/help/physmod/sps/powersys/ref/synchronousmachine.html},
+}
+
+@Electronic{simulinkDC1A,
+  author   = {Mathworks},
+  year     = {2006},
+  title    = {DC1A Excitation System},
+  language = {English},
+  url      = {https://de.mathworks.com/help/physmod/sps/powersys/ref/dc1aexcitationsystem.html},
+}
+
+@Article{exc_IEEE_2007,
+  title    = {{IEEE} Standard Definitions for Excitation Systems for Synchronous Machines},
+  journal  = {IEEE Std 421.1-2007 (Revision of IEEE Std 421.1-1986)},
+  year     = {2007},
+  pages    = {1--33},
+  month    = jul,
+  doi      = {10.1109/IEEESTD.2007.385319},
+  keywords = {excited states, IEEE standards, synchronous machines, IEEE standard definitions, excitation control system, synchronous machines, one-line block diagrams, definitions of excitation controls, excitation block diagrams, excitation control systems, excitation systems terminology, synchronous generator controls},
+}
+
+@Article{exc_IEEE_1986,
+  title    = {{IEEE} Standard Definitions for Excitation Systems for Synchronous Machines},
+  journal  = {ANSI/IEEE Std 421.1-1986},
+  year     = {1986},
+  pages    = {1--24},
+  month    = nov,
+  doi      = {10.1109/IEEESTD.1986.81603},
+  keywords = {exciters, standards, synchronous machines, IEEE standard definitions, excitation control systems, synchronous machines, Standards, Synchronous machines, excitation system, synchronous machines},
+}
+
+@Article{exc_IEEE_1990,
+  title    = {{IEEE} Guide for Identification, Testing, and Evaluation of the Dynamic Performance of Excitation Control Systems},
+  journal  = {IEEE Std 421.2-1990},
+  year     = {1990},
+  pages    = {1--44},
+  month    = aug,
+  doi      = {10.1109/IEEESTD.1990.94594},
+  keywords = {closed loop systems, control system analysis, power system control, IEEE guide, power system control, identification, testing, dynamic performance, excitation control systems, electric utilities, closed-loop, disturbances, mathematical models, specifications, standards, Closed loop systems, Power system control, Closed-loop performance, excitation control systems, excitation system specifications, large signal disturbances, small signal disturbances},
+}
+
+@Article{exc_IEEE_2016,
+  title         = {{IEEE} Recommended Practice for Excitation System Models for Power System Stability Studies},
+  journal       = {IEEE Std 421.5-2016 (Revision of IEEE Std 421.5-2005)},
+  year          = {2016},
+  pages         = {1--207},
+  month         = aug,
+  __markedentry = {[alvar:]},
+  doi           = {10.1109/IEEESTD.2016.7553421},
+  keywords      = {oscillations, power system stability, shafts, IEEE recommended, excitation system models, power system stability, power system stabilizer models, excitation limiters, control loops, oscillation frequencies, subsynchronous resonance, shaft torsional interaction behavior, delayed protective, dynamic performance, frequency 3 Hz, IEEE Standards, Power system stability, Data models, Resonant frequency, Power generation, Trademarks, excitation limiter models, excitation systems models, IEEE 421.5(TM), power system stability, power system stabilizer models},
+}
+
+@Electronic{simulinkPSS,
+  author   = {Mathworks},
+  year     = {2006},
+  title    = {Generic Power System Stabilizer},
+  language = {English},
+  url      = {https://de.mathworks.com/help/physmod/sps/powersys/ref/genericpowersystemstabilizer.html},
+}
+
+@Proceedings{EU_2050,
+  title     = {10 Trends Reshaping Climate and Energy},
+  year      = {2018},
+  editor    = {European Political Strategy Centre},
+  publisher = {European Comission},
+  author    = {European Political Strategy Centre},
+}
+
+@Electronic{AKWDeutschland_2019,
+  author   = {Bundesministerium für Ummwelt, Naturschutz und nukleare Sicherheit},
+  month    = jul,
+  year     = {2015},
+  title    = {Kernkraftwerke in Deutschland},
+  language = {German},
+  url      = {https://www.bmu.de/themen/atomenergie-strahlenschutz/nukleare-sicherheit/aufsicht-ueber-kernkraftwerke/kernkraftwerke-in-deutschland/},
+}
+
+@Electronic{NSF_CPS,
+  author   = {US National Science Foundation},
+  year     = {2019},
+  title    = {Cyber-Physical Systems (CPS)},
+  language = {English},
+  url      = {https://www.nsf.gov/publications/pub_summ.jsp?ods_key=nsf19553},
+}
+
+@Article{Khaitan_2015,
+  author   = {S. K. {Khaitan} and J. D. {McCalley}},
+  title    = {Design Techniques and Applications of Cyberphysical Systems: A Survey},
+  journal  = {IEEE Systems Journal},
+  year     = {2015},
+  volume   = {9},
+  number   = {2},
+  pages    = {350-365},
+  month    = {June},
+  issn     = {1932-8184},
+  doi      = {10.1109/JSYST.2014.2322503},
+  keywords = {systems analysis;systems engineering;cyberphysical system;CPS;Security;Sensors;Unified modeling language;Computational modeling;Semantics;Mathematical model;Software;Application;challenges;classification;cyberphysical systems (CPSs);design;development;review;security;survey;system of system;Application;challenges;classification;cyberphysical systems (CPSs);design;development;review;security;survey;system of system},
+}
+
+@InProceedings{Lee_2008,
+  author    = {E. A. {Lee}},
+  title     = {Cyber Physical Systems: Design Challenges},
+  booktitle = {2008 11th IEEE International Symposium on Object and Component-Oriented Real-Time Distributed Computing (ISORC)},
+  year      = {2008},
+  pages     = {363-369},
+  month     = {May},
+  doi       = {10.1109/ISORC.2008.25},
+  issn      = {1555-0885},
+  keywords  = {embedded systems;systems analysis;cyber-physical systems;feedback loops;object-oriented software;CPS;Physics computing;Computer networks;Embedded computing;Computerized monitoring;Process control;Feedback loop;Investments;Safety;Software quality;Yarn;Cyber-physical systems;real time;embedded systems},
+}
+
+@Periodical{unblockingPowerGrid_2018,
+  title    = {Energiewende hinges on unblocking the power grid},
+  year     = {2018},
+  editor   = {Clean Energy Wire},
+  language = {English},
+  month    = apr,
+  url      = {https://www.cleanenergywire.org/dossiers/energy-transition-and-germanys-power-grid},
+  author   = {Kerstine Appunn},
+}
+
+@Electronic{qualidadeONS_2019,
+  author       = {Operador Nacional do Sistema},
+  year         = {2019},
+  title        = {Qualidade do Suprimento},
+  language     = {Portuguese},
+  organization = {Operador Nacional do Sistema},
+  address      = {SIA Área de Serviços Públicos A - Guará, Brasília - DF, 71215-000, Brasil},
+  url          = {http://www.ons.org.br/paginas/resultados-da-operacao/qualidade-do-suprimento},
+}
+
+@Book{terrorism_2012,
+  title     = {Terrorism and the electric power delivery system},
+  publisher = {National Academies Press},
+  year      = {2012},
+  author    = {National Research Council and others},
+}
+
+@Article{vscPerformance,
+  author  = {Khatir, Mohamed and sid ahmed, Zidi and Hadjeri, S and Fellah, Mohammed-Karim and Amiri, RABIE},
+  title   = {Performance Analysis of a Voltage Source Converter (VSC) based HVDC Transmission System under Faulted Conditions},
+  journal = {Leonardo Journal of Sciences. ISSN 1583-0233},
+  year    = {2009},
+  pages   = {33-46},
+  month   = {12},
+}
+
+@PhdThesis{Meier_2005,
+  author = {Meier, Stephan},
+  title  = {Novel voltage source converter based HVDC transmission system for offshore wind farms},
+  school = {KTH},
+  year   = {2005},
+}
+
+@InProceedings{grunbaum__1999,
+  author    = {Gr{\"u}nbaum, Rolf and Halvarsson, Bruno and Wilk-Wilczynski, Aleksander},
+  title     = {FACTS and HVDC light for power system interconnections},
+  booktitle = {Power Delivery Conference, Madrid, Spain},
+  year      = {1999},
+  pages     = {1--18},
+}
+
+@Article{agelidis_2006,
+  author = {Agelidis, Vassilios G and Demetriades, Georgios D and Flourentzou, Nikolas},
+  title  = {Recent advances in high-voltage direct-current power transmission systems},
+  year   = {2006},
+}
+
+@InProceedings{padiyar_2004,
+  author       = {Padiyar, KR and Prabhu, Nagesh},
+  title        = {Modelling, control design and analysis of VSC based HVDC transmission systems},
+  booktitle    = {2004 International Conference on Power System Technology, 2004. PowerCon 2004.},
+  year         = {2004},
+  volume       = {1},
+  pages        = {774--779},
+  organization = {IEEE},
+}
+
+@Article{clarke_1951,
+  author    = {Duesterhoeft, WC and Schulz, Max W and Clarke, Edith},
+  title     = {Determination of instantaneous currents and voltages by means of alpha, beta, and zero components},
+  journal   = {Transactions of the American Institute of Electrical Engineers},
+  year      = {1951},
+  volume    = {70},
+  number    = {2},
+  pages     = {1248--1255},
+  publisher = {IEEE},
+}
+
+@Article{park_1929,
+  author    = {Park, Robert H},
+  title     = {Two-reaction theory of synchronous machines generalized method of analysis-part I},
+  journal   = {Transactions of the American Institute of Electrical Engineers},
+  year      = {1929},
+  volume    = {48},
+  number    = {3},
+  pages     = {716--727},
+  publisher = {IEEE},
+}
+
+@Article{chung_2000,
+  author        = {S.-. {Chung}},
+  title         = {Phase-locked loop for grid-connected three-phase power conversion systems},
+  journal       = {IEE Proceedings-Electric Power Applications},
+  year          = {2000},
+  volume        = {147},
+  number        = {3},
+  pages         = {213--219},
+  month         = may,
+  issn          = {1350-2352},
+  __markedentry = {[alvar:6]},
+  doi           = {10.1049/ip-epa:20000328},
+  keywords      = {power system interconnection, grid-connected three-phase power conversion systems, phase-locked loop, power factor control, dynamic characteristics, closed loop PLL system, continuous-time domain, discrete-time domain, optimisation method, phase unbalancing harmonics, nonlinear loads, measurement errors, current-controlled PWM inverter, phase tracking capability},
+}
+
+@Book{svensson_1998,
+  title     = {Grid-connected voltage source converter-control principles and wind energy applications},
+  publisher = {Chalmers University of Technology},
+  year      = {1998},
+  author    = {Svensson, Jan},
+}
+
+@InProceedings{abbas_2009,
+  author       = {Abbas, AM and Lehn, PW},
+  title        = {PWM based VSC-HVDC systems—a review},
+  booktitle    = {2009 Ieee Power \& Energy Society General Meeting},
+  year         = {2009},
+  pages        = {1--9},
+  organization = {IEEE},
+}
+
+@Article{nieradzinska_2013,
+  author  = {Nieradzinska, Kamila and Nambo, J.C. and Adam, Grain and Kalcon, Giddani and Peña, Rafael and Anaya-Lara, O and Leithead, W.E.},
+  title   = {North Sea Offshore Modelling Schemes with VSC-HVDC Technology: Control and Dynamic Performance Assessment},
+  journal = {Energy Procedia},
+  year    = {2013},
+  volume  = {35},
+  pages   = {91 - 101},
+  month   = {12},
+  doi     = {10.1016/j.egypro.2013.07.162},
+}
+
+@Article{hannan_2018,
+  author  = {Hannan, M. A. and Hussin, I and Ker, Pin Jern and Hoque, Md. Murshadul and Hossain Lipu, M S and Hussain, Aini and Abd Rahman, Muhamad and W. M. Faizal, C and Blaabjerg, F},
+  title   = {Advanced Control Strategies of VSC Based HVDC Transmission System: Issues and Potential Recommendations},
+  journal = {IEEE Access},
+  year    = {2018},
+  volume  = {PP},
+  pages   = {1-1},
+  month   = {12},
+  doi     = {10.1109/ACCESS.2018.2885010},
+}
+
+@InProceedings{kalcon_2010,
+  author = {Kalcon, Giddani and Adam, Grain and Anaya-Lara, O and Burt, G.M. and Lo, K.L.},
+  title  = {Control strategies of VSC-HVDC transmission system for wind power integration to meet GB grid code requirements},
+  year   = {2010},
+  pages  = {385 - 390},
+  month  = {07},
+  doi    = {10.1109/SPEEDAM.2010.5542237},
+}
+
+@InProceedings{ruihua_2005,
+  author    = {{Song Ruihua} and {Zheng Chao} and {Li Ruomei} and {Zhou Xiaoxin}},
+  title     = {VSCs based HVDC and its control strategy},
+  booktitle = {2005 IEEE/PES Transmission Distribution Conference Exposition: Asia and Pacific},
+  year      = {2005},
+  pages     = {1-6},
+  month     = {Aug},
+  doi       = {10.1109/TDC.2005.1546800},
+  issn      = {2160-8636},
+  keywords  = {electric current control;HVDC power convertors;HVDC power transmission;power semiconductor devices;power system CAD;power transmission control;PWM power convertors;reactive power control;voltage control;voltage source converter;VSC-HVDC;power transmission technology;turn-off power semiconductors;pulse width modulation technology;PWM technology;feed-forward-decoupled current-control;active power control;reactive power control;DC voltage control;PSCAD-EMTDC;AC single phase fault;HVDC transmission;Converters;Power conversion;Pulse width modulation;Power transmission;Space vector pulse width modulation;Reactive power control;Voltage control;PSCAD;EMTDC;voltage source converters;VSC-HVDC;feed-forward-decoupled control},
+}
+
+@InProceedings{Kalitjuka_2011,
+  author = {Tatjana Kalitjuka},
+  title  = {Control of Voltage Source Converters for Power System Applications},
+  year   = {2011},
+}
+
+@Electronic{simulinkPI,
+  author       = {The Mathworks, Inc.},
+  year         = {2019},
+  title        = {PI Section Line},
+  howpublished = {Online},
+  url          = {https://de.mathworks.com/help/physmod/sps/powersys/ref/pisectionline.html?searchHighlight=pi%20section&s_tid=doc_srchtitle},
+  booktitle    = {Mathworks Simulink R2019a Documentation},
+}
+
+@Article{fan_2018,
+  author   = {X. {Fan} and L. {Du} and D. {Duan}},
+  title    = {Synchrophasor Data Correction Under GPS Spoofing Attack: A State Estimation-Based Approach},
+  journal  = {IEEE Transactions on Smart Grid},
+  year     = {2018},
+  volume   = {9},
+  number   = {5},
+  pages    = {4538-4546},
+  month    = {Sep.},
+  issn     = {1949-3053},
+  doi      = {10.1109/TSG.2017.2662688},
+  keywords = {cyber-physical systems;Global Positioning System;least squares approximations;phasor measurement;power grids;power system security;power system state estimation;signal processing;synchrophasor data correction;GPS spoofing attack;state estimation-based approach;global positioning system spoofing attack;cyber-physical systems;power grid;signal processing techniques;synchrophasor-based power system state estimation;spoofing-matched algorithms;GSA detection;GPS signal;phasor measurement units;Genie-aided method;Phasor measurement units;Global Positioning System;Synchronization;State estimation;Current measurement;Power grids;Voltage measurement;State estimation;global positioning system;phasor measurement units},
+}
+
+@Article{fu_2017,
+  author    = {Fu, Rong and Huang, Xiaojuan and Sun, Jun and Zhou, Zhenkai and Chen, Decheng and Wu, Yingjun},
+  title     = {Stability analysis of the cyber physical microgrid system under the intermittent DoS attacks},
+  journal   = {Energies},
+  year      = {2017},
+  volume    = {10},
+  number    = {5},
+  pages     = {680},
+  publisher = {Multidisciplinary Digital Publishing Institute},
+}
+
+@InProceedings{mo_2009,
+  author       = {Mo, Yilin and Sinopoli, Bruno},
+  title        = {Secure control against replay attacks},
+  booktitle    = {2009 47th annual Allerton conference on communication, control, and computing (Allerton)},
+  year         = {2009},
+  pages        = {911--918},
+  organization = {IEEE},
+}
+
+@Article{lee_2006,
+  author = {Lee, Seungwoo},
+  title  = {An interleaved hop-by-hop authentication scheme for filtering of injected false data in sensor networks},
+  year   = {2006},
+}
+
+@Article{fan_2018impact,
+  author    = {Fan, Rui and Lian, Jianming and Kalsi, Karanjit and Elizondo, Marcelo},
+  title     = {Impact of Cyber Attacks on High Voltage DC Transmission Damping Control},
+  journal   = {Energies},
+  year      = {2018},
+  volume    = {11},
+  number    = {5},
+  pages     = {1046},
+  publisher = {Multidisciplinary Digital Publishing Institute},
+}
+
+@InProceedings{sridhar_2012,
+  author       = {Sridhar, Siddharth and Hahn, Adam and Govindarasu, Manimaran},
+  title        = {Cyber attack-resilient control for smart grid},
+  booktitle    = {2012 IEEE PES Innovative Smart Grid Technologies (ISGT)},
+  year         = {2012},
+  pages        = {1--3},
+  organization = {IEEE},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
