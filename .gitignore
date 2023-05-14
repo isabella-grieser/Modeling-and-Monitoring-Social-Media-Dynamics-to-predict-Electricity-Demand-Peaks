@@ -1,5 +1,6 @@
 # custom ignores
 .idea
+*.csv
 
 
 # Byte-compiled / optimized / DLL files
