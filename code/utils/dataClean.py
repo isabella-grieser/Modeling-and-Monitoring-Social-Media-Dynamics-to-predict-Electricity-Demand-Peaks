@@ -37,8 +37,14 @@ def clean_time_series_data(path, save):
     df = df.dropna()
     df.to_csv(save)
 
+def clear_detailed_data(path, save):
+    df = pd.read_csv(path)
+    df['mean'] = df.drop('index', axis=1).mean(axis=1)
+    df.to_csv(save)
 
 if __name__ == "__main__":
 
     # clean_household_data("../data/household_data_1min_opsd.csv", "../data/opsd_1min.csv")
-    clean_time_series_data("../data/time_series_15min_opsd.csv", "../data/time_15min.csv")
+    # clean_time_series_data("../data/time_series_15min_opsd.csv", "../data/time_15min.csv")
+
+    clear_detailed_data("../data/household_2019_15min.csv", "../data/household_15min.csv")

@@ -1,8 +1,8 @@
 from enum import Enum
 
-INFECTION_ATTR = "infection_status"
-
-POWER_USAGE_ATTR = "power_usage"
+INFECTION_STATUS = "infection_status"
+POWER_USAGE = "power_usage"
+HOUSEHOLD_INDEX = "h_index"
 
 
 class InfectionStatus(Enum):

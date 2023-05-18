@@ -15,10 +15,6 @@ def create_social_network_graph(n, type, args):
 
 def initialize_node_attributes(G):
     for n in G.nodes():
-        G.nodes[n][const.INFECTION_ATTR] = const.InfectionStatus.SUSCEPTIBLE
-        G.nodes[n][const.POWER_USAGE_ATTR] = 0.0
+        G.nodes[n][const.INFECTION_STATUS] = const.InfectionStatus.SUSCEPTIBLE
+        G.nodes[n][const.POWER_USAGE] = 0.0
     return G
-
-
-def propagate():
-    pass
