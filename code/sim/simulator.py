@@ -186,7 +186,8 @@ class Simulator:
             plt.show()
 
         else:
-            y_true, y_ref, x_all = [], [], []
+            x_all = self.x[:self.timespan]
+            y_true, y_ref = self.__calculate_power__(x_all, [y_s[:self.timespan] for y_s in self.y])
             for i in range(iterations):
                 x_new, y_new_true, y_new_ref = None, None, None
                 n = (i * self.steps + self.timespan) % len(self.x)

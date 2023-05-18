@@ -23,10 +23,11 @@ def plot_from_date(x, y_true, y_ref, start_date, end_date, spread_start=None, po
 
     ax.plot(x_plot, y_true_plot, lw=2, color='blue', label="true consumption")
     ax.plot(x_plot, y_ref_plot, lw=2, color='red', label="ref consumption")
-    #if spread_start is not None:
-    #    ax.plot(([spread_start, spread_start], [0, y_max]), lw=2, color="yellow", ls=':', label="spread")
-    #if power_start is not None:
-    #    ax.plot(([power_start, power_start], [0, y_max]), lw=2, color="red", ls=':', label="action")
+    if spread_start is not None:
+        ax.plot([spread_start, spread_start], [0, y_max], lw=2, color="yellow", ls=':', label="spread")
+    if power_start is not None:
+        ax.plot([power_start, power_start], [0, y_max], lw=2, color="red", ls=':', label="action")
+
 
     ax.legend()
     plt.show()
