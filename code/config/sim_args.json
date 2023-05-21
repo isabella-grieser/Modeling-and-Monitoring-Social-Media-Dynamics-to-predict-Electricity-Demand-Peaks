@@ -7,9 +7,9 @@
     "m": 3
   },
   "sim": {
-    "beta": 0.2,
-    "nu": 0.2,
-    "gamma": 0.1,
+    "p_verify": 0.05,
+    "alpha": 0.3,
+    "beta": 0.5,
     "check": 0.05
   }
 }

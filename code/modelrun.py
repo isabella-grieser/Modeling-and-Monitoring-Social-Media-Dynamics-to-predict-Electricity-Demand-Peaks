@@ -53,12 +53,12 @@ if __name__ == "__main__":
                           si="MW"
                           )
 
-    # simulator.iterate(1000, plot=True, save=False, intervall_time=50)
+    simulator.iterate(1000, plot=True, save=False, intervall_time=50)
     x_all, y_true, y_ref = simulator.iterate(1000)
 
     start_date = datetime(2019, 1, 1, 10, 0, 0, tzinfo=dt.timezone.utc)
     end_date = datetime(2019, 1, 2, 10, 0, 0, tzinfo=dt.timezone.utc)
 
-    plots.plot_from_date(x, y_true, y_ref, start_date, end_date,
-                         spread_start=start_spread, power_start=start_power, y_max=300)
+    # plots.plot_from_date(x, y_true, y_ref, start_date, end_date,
+    #                    spread_start=start_spread, power_start=start_power, y_max=300)
 

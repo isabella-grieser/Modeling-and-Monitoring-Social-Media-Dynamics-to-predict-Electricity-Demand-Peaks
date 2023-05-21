@@ -1,4 +1,0 @@
-Die meisten haben schon davon gehört, seit kurzem gibt hat die TU eine neue Latex-Vorlage. Diese ist im Gegensatz zur früheren Version nun einfach ein tex-Paket (tuda-ci), das installiert werden kann und Schriftarten und ähnliches direkt beinhaltet. Damit funktioniert das sehr viel besser als vorher. 
-Diese hier abgelegte Version ist eine unsere Farbgebung und Institutslogo angepasst. Das Unilogo (tuda_logo.pdf) befindet sich ebenfalls in der Vorlage. Das ist immer dann nötig, wenn es nicht im lokalen Latex-Baum abgelegt ist.
-Weitere Infos zum Paket findet ihr unter https://www.ce.tu-darmstadt.de/ce/latex_tuda/index.de.jsp und natürlich https://ctan.org/pkg/tuda-ci?lang=de
-Neben Abschlussarbeiten können mit dem Paket auch Poster, Präsentationen und Briefe erstellt werden. 

@@ -4,7 +4,7 @@
 	class=report,% Basisdokumentenklasse. Wählt die Korrespondierende KOMA-Script Klasse
 	thesis={type=master},% Dokumententyp Thesis, für Dissertationen siehe die Demo-Datei DEMO-TUDaPhd
 	accentcolor=3c,% Auswahl der Akzentfarbe
-	custommargins=true,% Ränder werden mithilfe von typearea automatisch berechnet
+	custommargins=false,% Ränder werden mithilfe von typearea automatisch berechnet
 	marginpar=false,% Kopfzeile und Fußzeile erstrecken sich nicht über die Randnotizspalte
 	%BCOR=5mm,%Bindekorrektur, falls notwendig
 	parskip=half-,%Absatzkennzeichnung durch Abstand vgl. KOMA-Sript
@@ -122,21 +122,23 @@ Verhaltens auf Energienetze während Krisensituationen}
 %	\dedication{Für alle, die \TeX{} nutzen.}
 
 \maketitle
-
 \affidavit
+
+\input{inc/abstract-en.tex}
+\input{inc/abstract-de.tex}
 
 \tableofcontents
 
 
-\listoftables
-\listoffigures
+%\listoftables
+%\listoffigures
 \printglossary %[type = \acronymtype]
 
-\input{inc/Introduction.tex}
-\input{inc/Theory.tex}
-\input{inc/Experiments.tex}
-\input{inc/Results.tex}
-\input{inc/Outlook.tex}
+\input{inc/introduction.tex}
+\input{inc/background.tex}
+%\input{inc/implementation.tex}
+\input{inc/results.tex}
+\input{inc/conclusion.tex}
 
 %\appendix
 

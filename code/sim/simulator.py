@@ -12,10 +12,11 @@ import utils.utils as util
 
 matplotlib.use("TkAgg")
 
+
 class Simulator:
     def __init__(self, G, x, y, args, spread_start=None,
                  power_start=None,
-                 mu=1, sigma=0.005, seed=42, days=2,
+                 mu=1, sigma=0.005, seed=42, days=1,
                  steps=1, si="MW", reduce_factor=1,
                  y_max=50000):
         self.graph = G
@@ -48,11 +49,11 @@ class Simulator:
         for n in self.graph.nodes:
             self.graph.nodes[n][const.POWER_USAGE] = np.random.normal(self.mu, self.sigma) * self.y[n][0]
             # select random household profile for the node
-            self.graph.nodes[n][const.HOUSEHOLD_INDEX] = random.randint(0, length-1)
+            self.graph.nodes[n][const.HOUSEHOLD_INDEX] = random.randint(0, length - 1)
 
         # infect a random node
         node = sample(list(self.graph.nodes()), 1)
-        self.graph.nodes[node[0]][const.INFECTION_STATUS] = const.InfectionStatus.INFECTED
+        self.graph.nodes[node[0]][const.INFECTION_STATUS] = const.InfectionStatus.BELIEVER
 
     def iterate(self, iterations=1000, intervall_time=50, plot=False, save=False):
 
@@ -79,9 +80,9 @@ class Simulator:
                 s_nodes = [n_n for n_n, y in self.graph.nodes(data=True) if
                            y[const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE]
                 i_nodes = [n_n for n_n, y in self.graph.nodes(data=True) if
-                           y[const.INFECTION_STATUS] == const.InfectionStatus.INFECTED]
+                           y[const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER]
                 r_nodes = [n_n for n_n, y in self.graph.nodes(data=True) if
-                           y[const.INFECTION_STATUS] == const.InfectionStatus.REMOVED]
+                           y[const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER]
                 drawn_s_nodes = nx.draw_networkx_nodes(self.graph,
                                                        pos=pos,
                                                        nodelist=set(s_nodes),
@@ -211,9 +212,41 @@ class Simulator:
         if self.spread_start is not None and x < self.spread_start:
             return
 
+        states = [const.InfectionStatus.BELIEVER,
+                  const.InfectionStatus.FACT_CHECKER,
+                  const.InfectionStatus.SUSCEPTIBLE]
+
         # after conditions are filled: implement SIR Model
-        beta, gamma, check = self.args["sim"]["beta"], self.args["sim"]["gamma"], self.args["sim"]["check"]
+        # given the paper "Fact-checking Effect on Viral Hoaxes:
+        # A Model of Misinformation Spread in Social Networks"
+        p_verify, alpha, beta, check = self.args["sim"]["p_verify"], self.args["sim"]["alpha"], \
+            self.args["sim"]["beta"], self.args["sim"]["check"]
         for n in self.graph.nodes:
+            if self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER:
+                # status of node cannot be changed
+                continue
+            n_b = sum(1 for x in self.graph.neighbors(n) if
+                      self.graph.nodes[x][const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER)
+            n_f = sum(1 for x in self.graph.neighbors(n) if
+                      self.graph.nodes[x][const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER)
+            if n_b == 0:
+                f_i = 0
+            else:
+                f_i = beta * ((n_b * (1 + alpha)) / (n_b * (1 + alpha) + n_f * (1 - alpha)))
+            if n_f == 0:
+                g_i = 0
+            else:
+                g_i = beta * ((n_f * (1 - alpha)) / (n_b * (1 + alpha) + n_f * (1 - alpha)))
+
+            s_i_s = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE)
+            s_i_b = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER)
+
+            p_b = f_i * s_i_s + (1 - p_verify) * s_i_b
+            p_f = g_i * s_i_s + p_verify * s_i_b
+            p_s = (1 - f_i - g_i) * s_i_s
+
+            self.graph.nodes[n][const.INFECTION_STATUS] = np.random.choice(states, p=[p_b, p_f, p_s])
+            '''
             if self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE:
                 for neighbor in self.graph.neighbors(n):
                     if self.graph.nodes[neighbor][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED \
@@ -228,6 +261,7 @@ class Simulator:
                         continue
                 if random.random() < check:
                     self.graph.nodes[n][const.INFECTION_STATUS] = const.InfectionStatus.REMOVED
+            '''
 
     def __calculate_power__(self, x_s, y_lists):
         # algorithm to calculate the new demand for each node
@@ -237,7 +271,7 @@ class Simulator:
             for n in self.graph.nodes:
                 ref_power = np.random.normal(self.mu, self.sigma) * y_lists[n][i]
                 self.graph.nodes[n][const.POWER_USAGE] = ref_power * self.__power_consumption_factor__(x, n) \
-                                                              + self.__power_consumption_offset__(x, n)
+                                                         + self.__power_consumption_offset__(x, n)
                 original_power_usage += ref_power
             y_true.append(util.sum_demand(self.graph) / self.reduce_factor)
             y_ref.append(original_power_usage / self.reduce_factor)
@@ -248,9 +282,9 @@ class Simulator:
             return 1
         if self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE:
             return 1
-        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED:
+        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER:
             return 5
-        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.REMOVED:
+        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER:
             return 1
         else:
             return 1
