@@ -16,22 +16,23 @@ matplotlib.use("TkAgg")
 class Simulator:
     def __init__(self, G, x, y, args, spread_start=None,
                  power_start=None,
-                 mu=1, sigma=0.005, seed=42, days=1,
-                 steps=1, si="MW", reduce_factor=1,
-                 y_max=50000):
+                 seed=42, days=1,
+                 steps=1, si="MW",
+                 reduce_factor=1,
+                 y_max=50000,
+                 y_thresh_factor=2):
         self.graph = G
         self.x = x
         self.y = y
         self.args = args
         self.spread_start = spread_start
         self.power_start = power_start
-        self.mu = mu
-        self.sigma = sigma
         self.seed = seed
         self.steps = steps
         self.y_max = y_max
         self.si = si
         self.reduce_factor = reduce_factor
+
         np.random.seed(self.seed)
         random.seed(self.seed)
 
@@ -42,14 +43,19 @@ class Simulator:
             if d.hour == first_date.hour and d.minute == first_date.minute:
                 break
         self.timespan *= days
+        self.power_thresh = 0
         self.__initialize__()
+        self.power_thresh *= y_thresh_factor
 
     def __initialize__(self):
         length = len(self.y)
+        vector_sum = np.zeros(len(self.y[0]))
         for n in self.graph.nodes:
-            self.graph.nodes[n][const.POWER_USAGE] = np.random.normal(self.mu, self.sigma) * self.y[n][0]
             # select random household profile for the node
             self.graph.nodes[n][const.HOUSEHOLD_INDEX] = random.randint(0, length - 1)
+            self.graph.nodes[n][const.POWER_USAGE] = self.y[self.graph.nodes[n][const.HOUSEHOLD_INDEX]][0]
+            vector_sum += np.array(self.y[self.graph.nodes[n][const.HOUSEHOLD_INDEX]])
+        self.power_thresh = np.max(vector_sum)
 
         # infect a random node
         node = sample(list(self.graph.nodes()), 1)
@@ -60,7 +66,8 @@ class Simulator:
         if plot:
             fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
             line1, = ax1.plot([], [], lw=2, color='blue', label="true consumption")
-            line2, = ax1.plot([], [], lw=2, color='red', label="ref consumption")
+            line2, = ax1.plot([], [], lw=2, color='black', label="ref consumption")
+            power_thresh, = ax1.plot([], [], lw=2, color="red", label="power threshold")
             if self.spread_start is not None:
                 spread_starting, = ax1.plot([], [], lw=2, color="yellow", ls=':', label="spread")
             if self.power_start is not None:
@@ -129,6 +136,7 @@ class Simulator:
             def plot_init():
                 line1.set_data(x_plot, y_true)
                 line2.set_data(x_plot, y_ref)
+                power_thresh.set_data([x_plot[0], x_plot[-1]], [self.power_thresh, self.power_thresh])
                 action_starting.set_data([], [])
                 spread_starting.set_data([], [])
                 return [line1, line2, action_starting, spread_starting]
@@ -165,6 +173,7 @@ class Simulator:
                     action_starting.set_data([self.power_start, self.power_start], [0, self.y_max])
 
                 ax1.set(xlim=(x_min, x_max), ylim=(0, self.y_max))
+                power_thresh.set_data([x_min, x_max], [self.power_thresh, self.power_thresh])
                 line1.set_data(x_plot, y_true)
                 line2.set_data(x_plot, y_ref)
                 ax1.legend(loc="upper left")
@@ -219,8 +228,8 @@ class Simulator:
         # after conditions are filled: implement SIR Model
         # given the paper "Fact-checking Effect on Viral Hoaxes:
         # A Model of Misinformation Spread in Social Networks"
-        p_verify, alpha, beta, check = self.args["sim"]["p_verify"], self.args["sim"]["alpha"], \
-            self.args["sim"]["beta"], self.args["sim"]["check"]
+        p_verify, alpha, beta, check = self.args["p_verify"], self.args["alpha"], \
+            self.args["beta"], self.args["check"]
         for n in self.graph.nodes:
             if self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER:
                 # status of node cannot be changed
@@ -246,30 +255,18 @@ class Simulator:
             p_s = (1 - f_i - g_i) * s_i_s
 
             self.graph.nodes[n][const.INFECTION_STATUS] = np.random.choice(states, p=[p_b, p_f, p_s])
-            '''
-            if self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE:
-                for neighbor in self.graph.neighbors(n):
-                    if self.graph.nodes[neighbor][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED \
-                            and random.random() < beta:
-                        self.graph.nodes[n][const.INFECTION_STATUS] = const.InfectionStatus.INFECTED
-                        continue
-            if self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED:
-                for neighbor in self.graph.neighbors(n):
-                    if self.graph.nodes[neighbor][const.INFECTION_STATUS] == const.InfectionStatus.REMOVED \
-                            and random.random() < gamma:
-                        self.graph.nodes[n][const.INFECTION_STATUS] = const.InfectionStatus.REMOVED
-                        continue
-                if random.random() < check:
-                    self.graph.nodes[n][const.INFECTION_STATUS] = const.InfectionStatus.REMOVED
-            '''
 
+            if self.power_start is not None and x > self.power_start:
+                # check if the node will start using more power
+                if not self.graph.nodes[n][const.ACTIVATED]:
+                    self.graph.nodes[n][const.ACTIVATED] = random.random() < self.args["power_usage_prob"]
     def __calculate_power__(self, x_s, y_lists):
         # algorithm to calculate the new demand for each node
         y_true, y_ref = [], []
         for i, x in enumerate(x_s):
             original_power_usage = 0
             for n in self.graph.nodes:
-                ref_power = np.random.normal(self.mu, self.sigma) * y_lists[n][i]
+                ref_power = y_lists[self.graph.nodes[n][const.HOUSEHOLD_INDEX]][i]
                 self.graph.nodes[n][const.POWER_USAGE] = ref_power * self.__power_consumption_factor__(x, n) \
                                                          + self.__power_consumption_offset__(x, n)
                 original_power_usage += ref_power
@@ -283,13 +280,20 @@ class Simulator:
         if self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE:
             return 1
         elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER:
-            return 5
+            if self.graph.nodes[node][const.ACTIVATED]:
+                return 1
         elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER:
             return 1
-        else:
-            return 1
+        return 1
 
     def __power_consumption_offset__(self, x, node):
         if self.power_start is not None and x < self.power_start:
             return 0
+        if self.graph.nodes[node][const.ACTIVATED]:
+            total_power = 0
+            for appliance in self.graph.nodes[node][const.HOUSEHOLD_APPLIANCE]:
+                if appliance[1] >= 0:
+                    total_power += appliance[0]
+                    appliance[1] -= 1
+            return total_power
         return 0
