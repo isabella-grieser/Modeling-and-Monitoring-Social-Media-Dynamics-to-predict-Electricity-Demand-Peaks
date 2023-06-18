@@ -5,25 +5,20 @@ In this chapter, the fundamental concepts necessary for this thesis are explaine
 
 \section{The Electrical Power Grid as a Critical Infrastructure}
 
-\section{Misinformation in the Social Media Age}
+\subsection{Power Load as a Power Outage Risk}
 
-In recent years, there has been widespread concern that 
-misinformation on social media is creating real-life damage in 
-many different sectors of society and reducing the trust in govermental
-institutions. Thus, the topic of online misinformation has become an 
-important research field in the academic community.
-
-
+\subsection{Social Network-based Attacks on the Electrical Power Grid}
 
 \section{Graph as a Representation of Real-World Systems}
-
+\label{graphbasics}
 A graph is an abstract structure that represents a set of objects and the relationship 
 between the objects. Graphs can be used to model a variety of real-world systems.
 Notable examples of systems that can be modelled as graphs that are of 
 interest in this thesis are social networks 
 \cite{socialgraphexample} and power grids \cite{powergraphexample}, but graphs can 
-also be applied to other real life systems, such as economic systems \cite{economicsgraph} 
-or traffic .
+also be applied to other real life systems, such as economic 
+or transportation systems \cite{economicsgraph}. %TODO: cite for transportation
+
 
 Per definition, a graph $G(V, E)$ consists of a set of vertices $V$ and a 
 set of edges $E$. Each edge connects two vertices. This means that for all $E$, the 
@@ -55,6 +50,9 @@ Relevant attributes are:
     of the network is defined %TODO: verbessern
 \end{itemize}
 
+\subsection{Modelling Social Networks as Graph Systems}
+
+
 \subsection{Random Graphs}
 
 Graphs do not need to be based on real systems. They can also be generated. 
@@ -62,8 +60,224 @@ These randomly generated graphs are called random graphs \cite{randomgraphs}.
 
 
 
+\section{Misinformation in the Social Media Age}
+
+In recent years, there has been widespread concern that 
+misinformation on social media is creating real-life damage in 
+many different sectors of society and reducing the trust in govermental
+institutions. Thus, the topic of online misinformation has become an 
+important research field in the academic community.
+
 \subsection{Information Diffusion in Social Networks}
 
+One method to research the consequences of misinformation over social media
+is to understand how the information spreads over
+social networks and analyse occuring patterns in the propagation process. 
+The spread of information over a given network is called
+information diffusion. 
+The modelling of information diffusion can be divided into three components
+\cite{reviewinformationdiffusion}: 
+
+\begin{itemize}
+    \item State: Entities in a system may be grouped together in a class which
+    defines their behavior in the system. In the context of information diffusion,
+    an entity can for example belong to the  \glqq Spreader \grqq{} class which spreads the information
+    to specific other entities in the system. An entity could also belong to a
+    \glqq Susceptible \grqq{} class that did not receive the information, 
+    but would possibly be able to receive it.
+    \item Model: The model defines how the entities interact which each other
+    given their states. A model is often represented by a graph with the entities
+    as nodes and connections between the entities as edges 
+    (See section \ref{graphbasics}).
+    \item Transition rates: The transition rates are the parameters used
+    do define how the information is diffused in the model dynamically. 
+\end{itemize}
+
+The first two components are independent of specific simulation scenarios,
+unlike the third component, thus the first two components should be further
+analysed. Furthermore, there are a multitude of different ways 
+to model information diffusion in social networks. Therefore, the most common
+modelling methods will be further analysed in this chapter.
+
+\subsubsection{Epidemiological Models}
+
+Due to their similarity to the spread of infectious diseases, 
+the spread of misinformation is often modelled the same as epidemiological models.
+The simplest epidemiological model is the SI model, where entities in a system
+can either belong to the state \glqq Susceptible\grqq{} ($S$) or 
+\glqq Infected\grqq{} ($I$) and where the amount of total entities of a 
+system can be calculated as $N=S+I$. The SI model is the basis for many
+more specialised models where the states are more detailed to capture more 
+aspects of real life behavior. A few models based on the SI model and their 
+specific state are shown in Table \ref{SI-table}.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c | c |} 
+     \hline
+     Acronym & Classes  \\ 
+     \hline
+     SIR & Susceptible - Infected - Recovered  \\ 
+     \hline
+     SIS & Susceptible - Infected - Susceptible \\
+     \hline
+     SEI & Susceptible - Exposed - Infected \\
+     \hline
+     SIRS & Susceptible - Infected - Recovered - Susceptible \\
+     \hline
+     SHIR & Susceptible - Hesitant - Infected - Recovered \\
+     \hline
+     SCIR & Susceptible - Contacted - Infected - Recovered \\
+     \hline
+    \end{tabular}
+    \caption{Example models building on the SI 
+    model for the spread of misinformation \cite{reviewinformationdiffusion}}
+    \label{SI-table}
+\end{table}
+
+Of specific interest for this thesis are the SIS and SIR models. 
+For the SIR model, it is assumed that at the beginning, all entities in the 
+system are in the state $S$, thus susceptible to an infection. In the context of 
+misinformation diffusion this means that an entity does not know about the
+misinformation that is being spread and is neutral towards it. A susceptible
+entity may become infected and thus may change its state $S\to I$.
+An infected entity knows and believes in the misinformation and it may
+spread the misinformation to other entities in the system. After being infected,
+an entity may learn that the information is fake. Therefore, it recovers 
+from being infected and it changes its state $I\to R$. An entity in a 
+recovered state cannot be infected again by misinformation and is thus immune.
+The SIS model differs from the SIR model in that in the last state change,
+the entity does not become immune, but \glqq forgets\grqq{} about the fact
+that the information is fake, and becomes susceptible to misinformation again.
+%TODO: finde Grundlagenbuch für states und modellchanges
+
+The amount of entities belonging to each state may change 
+after a time duration $\Delta t$. The equations to calculate the 
+state changes, and thus the progress of the information diffusion, 
+can be seen in Table \ref{SI-table-equations}.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c | c |} 
+     \hline
+     SIR & SIS  \\ 
+     \hline
+     & \\
+     $\begin{aligned}
+          \frac{dS}{dt} &= -\beta I S \\
+          \frac{dI}{dt} &= \beta I S - \gamma I \\
+          \frac{dR}{dt} &= \gamma I  
+        \end{aligned}$
+      &
+      $\begin{aligned}
+          \frac{dS}{dt} &= -\beta I S + \gamma I\\
+          \frac{dI}{dt} &= \beta I S - \gamma I
+        \end{aligned}$
+       \\ 
+       & \\
+     \hline
+    \end{tabular}
+    \caption{Model equations for SIR and SIS model \cite{sirequation}}
+    \label{SI-table-equations}
+\end{table}
+
+$\beta$ and $\gamma$ are the transition rates parameters of the model, where 
+$\beta$ is the transmission rate and $\gamma$ the 
+recovery rate. Moreover, the equations in Table \ref{SI-table-equations}
+are ordinary differential equation that are used to calculate the amount
+of entities for each state in the system, not to calculate in which state
+each entity in the system is in. To analyse the information diffusion on 
+an entity level, graph based diffusion models are needed.
+There is no exact definition for the algorithm for the state changes in the
+graph model, but generally, the probability, that an entity changes
+its state from susceptible to infected $S \to I$, increases depending on
+how many connected entities are already infected. In its simplest form, a
+propagation algorithm may be defined as in Equation \ref{eqbasicpropagation} 
+\cite{easypropagation}.
+
+\begin{equation}
+    I(a) = 1 (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
+    1(f^{rand}\geq \beta)>0) 
+    \label{eqbasicpropagation}
+\end{equation}
+
+In the equation, the infection status $I(a)$ of each node $a$
+in the graph is defined by if any neighboring node $b$ that is connected 
+to $a$ and is part of the infection node set $I$, 
+and thus infected, fullfills the condition $f^{rand}\geq \beta$,
+where $f^{rand}$ is the random probability generation function and $1$ 
+is a function that equals one if the specific condition is fulfilled and 
+zero otherwise.
+
+%TODO: more stuff to write
+
+\subsubsection{Information Cascade Models}
+
+Another way to model information diffusion in graphs is by viewing it as a 
+sequential information propagation process. This assumption is made in
+information cascade models. In this type of model, any node $n$ infected in the
+iteration step $i$ may infect its connected neighbor $a$ with a probability $P_n(a)$
+\cite{reviewinformationdiffusion}. All nodes infected by node $n$
+can then infect their neighboring node in the next iteration step $i+1$
+and the node $n$ becomes inactive and does not infect any neighbors anymore.
+The equation for the propagation step can be seen in Equation 
+\ref{eqbasicpropagationcascading}.
+Information cascade models are mostly used for prediction and influence 
+analysis purposes, and not to explain the collective behavior
+of the system during the information diffusion process.
+
+\begin{equation}
+    I(a) = 1 (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
+    1(f^{rand}\geq P_n(a))>0) 
+    \label{eqbasicpropagationcascading}
+\end{equation}
+
+There are several different subtypes of cascading models.
+Some subtypes are described in \cite{diffusionbasics}:
+
+\begin{itemize}
+    \item Independent Cascading Model: In this type of model, the 
+    probability $P_n(a)=p$ ist constant for each node $a$ and neighbor $n$.
+    Thus, the probability function does not depend on the history 
+    of the system and its information diffusion status.
+    \item Decreasing Cascading Model: In this type of model, the probability
+    function to activate the node $a$ decreases with each attempts of its 
+    neighbors. This means that if a neighbor $n$ unsuccessfully tries to infect
+    $a$ at iteration step $i$, then the probability that the neighbor $m$
+    can sucessfully infect $a$ at step $i+t$ is smaller, thus $P_n(a)>P_m(a)$.
+\end{itemize}
+
+\subsubsection{Threshold Models}
+A different method to analyse the diffusion process in graphs is by seeing the
+propagation step as a process where each entity needs to overcome a 
+specific threshold $\theta$ to become infected. More specifically, 
+a certain amount of neighbors need to be infected for the node $a$ to become 
+infected, too. Furthermore, contrary to the cascade models, a node can always 
+infect its neighbors as long as the conditions are fulfilled in the threshold 
+model. The general equation for the threshold model can be seen in Equation
+\ref{eq:threshold}.
+
+\begin{equation}
+    I(a) = \sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
+    1 > \theta    
+    \label{eq:threshold}
+\end{equation}
+
+Subtypes of this kind of diffusion model differ by the threshold parameter.
+Some subtypes are described in \cite{diffusionbasics}:
+
+\begin{itemize}
+    \item Majority Threshold Model: In this type of model, a node $a$ becomes
+    infected if the majority of its neighbors are infected, thus 
+    $\theta = \frac{1}{2}deg(a)$
+    \item Small Threshold Model: In this type of model, the threshold for that
+    $a$ becomes infected is small. The advantage of this model is that 
+    certain algorithms may be calculated faster with this type of model 
+    \cite{diffusionbasics} 
+    \item Unanimous Threshold Model: In this type of model, all neighbors 
+    of a node $a$ need to be infected for $a$ to become infected, thus
+    $\theta = deg(a)$.
+\end{itemize}
 
 \section{Variable Dependencies in the Context of Power Usage}
 
@@ -102,23 +316,26 @@ Power load prediction models for residential buildings may benefit from
 building and occupancy related variables, but for a prediction model on a 
 macroeconomic scale, socio-economic variables are more important.
 
+\subsection{Exogenous Variables based on Human Behaviour}
+
 Exogenous variables that are explicitly linked to human behaviour, 
-such as traffic information, ICT location, IoT information (such if
-a device is turned on or off), satellite image data (to check luminosity
-of household regions) or 
-internet or social media usage, are not often used. 
+such as social media usage ,traffic information, 
+% ICT location, IoT information (such if a device is turned on or off), 
+satellite image data or internet usage, are not often 
+used for power load forecasting. 
 But these are the variables that would be affected the most in a change of 
-human behavior.
+human behavior. Thus, these variables should be analysed in more detail 
+for this thesis.
 
 Social media data does not directly correlate with power demand, but it is
 possible to extract information relevant for power demand prediction
 from the content generated by it:
 First, it is possible to analyse the spacial density of people by 
-counting the amount of tweets tagged in a location of interest. 
+counting the amount of tweets tagged in a specific location of interest. 
 In the work of \textit{Deng et al.},
 it was shown that there is a significant
-correlation of 0.8 between the amount of geotagged tweets
-and the power consumption in the specific region \cite{twittergeoloccorr}.
+correlation between the amount of geotagged tweets
+and the power consumption in a specific region \cite{twittergeoloccorr}.
 As a possible explanation for this correlation, the paper assumes that 
 an increased amount of human activity in a specific region leads a greater 
 use of facilities such as heating or air conditioning in buildings or 
@@ -170,14 +387,66 @@ may contribute to increased peak electricity demand
 Therefore, internet traffic data can be used as input data for 
 power demand forecasting models \cite{electricityinternetforecast}. 
 
-Traffic data may correlate with power load in two ways: First, with the
-increased adoption of electric vehicles (EV), the total power demand increases 
-since these types of vehicles need to be charged often. 
-%TODO: talk about works in this field
-Second, with the traffic movement, it is possible to follow the
+Studies show that with the increased adoption of electric vehicles (EV), 
+there is an increased interdependency between the electric and 
+transportation infrastructure \cite{interdependnytrafficenergy}. 
+Therefore, traffic data may correlate with power load 
+in two ways:
+First, with the traffic movement in general, it is possible to follow the
 movement patterns of larger group. As an example, in the morning,
 traffic intensity increases since larger part of the population needs
 to go to their workplace. Subsequently, this population group
 returns back to their residences after finishing their work in the afternoon.
-Thus, there is also an increased traffic intensity in the afternoon 
-%TODO:CITATION
+Thus, there is also an increased traffic intensity in the afternoon.
+This traffic movement can be analysed by measuring the 
+incoming and outgoing traffic volume at the main roads of the 
+region of interest. The usage of this variable in power load
+forecasting models gained more interest during the COVID-19 pandemic, 
+where drastically changing mobility and power consumption 
+patterns meant that new model inputs were necessary to consider changing
+behavior patterns in the population 
+\cite{covidtrafficpower} \cite{covidtrafficpower2}.
+But this variable also correlates with the electricity consumption pattern
+outside of pandemic periods. One paper successfully showed that
+using traffic data as an input for power load
+forecasting models generally leads to more accurate predictions, even before
+the COVID-19 pandemic \cite{causalmodeltrafficelectricity}.
+Second, with the increasing EV usage in the future, 
+the total power demand increases since these types of vehicles 
+need to be charged often. Power load forecasting methods that consider this
+issue often focus on charging stations \cite{evcharchingstations}
+\cite{evcharchingstations2}, but changes in household power consumption 
+and the general charging behavior of households
+were also the objective of some studies. \textit{Gerossier et al.}
+analysed in their study the different charging patterns in households
+and found four different charging patters in which its members charged at 
+a similar time and duration \cite{gerossier2019modeling}.
+In addition, there are also studies that work on
+power load prediction models for individual household
+charging forecasts \cite{skala2023interval}. 
+A notable study was done by \textit{Arias et al.} that also considered the traffic patterns
+and analysed the differences in EV charging behaviors between
+commercial and residential districts when forecasting the power demand
+created by EV charging \cite{arias2016electric}.
+
+The last variable that depends on human behavior mentioned in this section are
+satellite images. These kind of images can be used to find a variety 
+of enviromental factors that are of relevance for the amount of power demand.
+Satellite images are mostly used to forecast power generation of 
+renewable resources such as solar power \cite{solarprediction}.
+But it can also be used to estimate household power consumption,
+specially during nighttime. This is specially of relevance for regions 
+where the electricity data is unreliable, such as in developing contries
+\cite{reviewnighttime}. There is a relation 
+between nighttime light intensity and power consumption.
+But this relation depends on the type of consumer 
+(households, industry, ...). Furthermore, the relation is not linear
+\cite{nighttimepowerestimation}. 
+A disadvantage of using nighttime images for power demand prediction is 
+the inherent noise in the data. Non-household light sources such as 
+streetlights and vehicles add noise to the image data \cite{reviewnighttime}.
+Another usage of nighttime satellite image is for power outage detection.
+If there is a power outage, the affected region will turn dark, which 
+consequently can be detected in satellite images. Thus, sattelite image data 
+was successfully used in multiple power outage detection models
+\cite{nightpoweroutage} \cite{twitterpoweroutagelighttime}.
