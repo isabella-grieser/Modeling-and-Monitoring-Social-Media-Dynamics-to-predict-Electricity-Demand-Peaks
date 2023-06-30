@@ -3,283 +3,10 @@
 
 In this chapter, the fundamental concepts necessary for this thesis are explained.
 
-\section{The Electrical Power Grid as a Critical Infrastructure}
+\section{Power Load Forecasting}
 
-\subsection{Power Load as a Power Outage Risk}
-
-\subsection{Social Network-based Attacks on the Electrical Power Grid}
-
-\section{Graph as a Representation of Real-World Systems}
-\label{graphbasics}
-A graph is an abstract structure that represents a set of objects and the relationship 
-between the objects. Graphs can be used to model a variety of real-world systems.
-Notable examples of systems that can be modelled as graphs that are of 
-interest in this thesis are social networks 
-\cite{socialgraphexample} and power grids \cite{powergraphexample}, but graphs can 
-also be applied to other real life systems, such as economic 
-or transportation systems \cite{economicsgraph}. %TODO: cite for transportation
-
-
-Per definition, a graph $G(V, E)$ consists of a set of vertices $V$ and a 
-set of edges $E$. Each edge connects two vertices. This means that for all $E$, the 
-condition  $E \subseteq\{ \{x, y\} \mid x, y \in V  \}$ 
-is valid.
-
-There are multiple different subtypes of graphs. A directional graph is a graph 
-whose edges have a source node $a$ and target node $b$, thus representing
-a direction going from $a$ to $b$. If the edges do not fulfill this 
-condition, thus if the edges do not show a direction, then a graph is unidirectional.
-In addition, a graph may have attributes, so-called weights, associated to its edges.
-These graphs are called weighted graphs.
-
-There are also multiple attributes that can be calculated in a graph. 
-Relevant attributes are:
-\begin{itemize}
-    \item The degree $deg(v)$ of a vertex $v \in V$ is the number of edges connected to the
-    vertex $v$. 
-    \item The average path length is the distance between two vertices is
-    defined as the number of edges along the shortest path
-    connecting them %TODO: verbessern
-    \item Clustering coefficient: The clustering coefficient, , CCi
-    of a vertex i
-     is the ratio between the actual number of edges
-    that exist between the vertex and its neighbors and the
-    maximum number of possible edges between these
-    neighbors. The
-    CC
-    of the network is defined %TODO: verbessern
-\end{itemize}
-
-\subsection{Modelling Social Networks as Graph Systems}
-
-
-\subsection{Random Graphs}
-
-Graphs do not need to be based on real systems. They can also be generated. 
-These randomly generated graphs are called random graphs \cite{randomgraphs}.
-
-
-
-\section{Misinformation in the Social Media Age}
-
-In recent years, there has been widespread concern that 
-misinformation on social media is creating real-life damage in 
-many different sectors of society and reducing the trust in govermental
-institutions. Thus, the topic of online misinformation has become an 
-important research field in the academic community.
-
-\subsection{Information Diffusion in Social Networks}
-
-One method to research the consequences of misinformation over social media
-is to understand how the information spreads over
-social networks and analyse occuring patterns in the propagation process. 
-The spread of information over a given network is called
-information diffusion. 
-The modelling of information diffusion can be divided into three components
-\cite{reviewinformationdiffusion}: 
-
-\begin{itemize}
-    \item State: Entities in a system may be grouped together in a class which
-    defines their behavior in the system. In the context of information diffusion,
-    an entity can for example belong to the  \glqq Spreader \grqq{} class which spreads the information
-    to specific other entities in the system. An entity could also belong to a
-    \glqq Susceptible \grqq{} class that did not receive the information, 
-    but would possibly be able to receive it.
-    \item Model: The model defines how the entities interact which each other
-    given their states. A model is often represented by a graph with the entities
-    as nodes and connections between the entities as edges 
-    (See section \ref{graphbasics}).
-    \item Transition rates: The transition rates are the parameters used
-    do define how the information is diffused in the model dynamically. 
-\end{itemize}
-
-The first two components are independent of specific simulation scenarios,
-unlike the third component, thus the first two components should be further
-analysed. Furthermore, there are a multitude of different ways 
-to model information diffusion in social networks. Therefore, the most common
-modelling methods will be further analysed in this chapter.
-
-\subsubsection{Epidemiological Models}
-
-Due to their similarity to the spread of infectious diseases, 
-the spread of misinformation is often modelled the same as epidemiological models.
-The simplest epidemiological model is the SI model, where entities in a system
-can either belong to the state \glqq Susceptible\grqq{} ($S$) or 
-\glqq Infected\grqq{} ($I$) and where the amount of total entities of a 
-system can be calculated as $N=S+I$. The SI model is the basis for many
-more specialised models where the states are more detailed to capture more 
-aspects of real life behavior. A few models based on the SI model and their 
-specific state are shown in Table \ref{SI-table}.
-
-\begin{table}[ht!]
-    \centering
-    \begin{tabular}{|c | c |} 
-     \hline
-     Acronym & Classes  \\ 
-     \hline
-     SIR & Susceptible - Infected - Recovered  \\ 
-     \hline
-     SIS & Susceptible - Infected - Susceptible \\
-     \hline
-     SEI & Susceptible - Exposed - Infected \\
-     \hline
-     SIRS & Susceptible - Infected - Recovered - Susceptible \\
-     \hline
-     SHIR & Susceptible - Hesitant - Infected - Recovered \\
-     \hline
-     SCIR & Susceptible - Contacted - Infected - Recovered \\
-     \hline
-    \end{tabular}
-    \caption{Example models building on the SI 
-    model for the spread of misinformation \cite{reviewinformationdiffusion}}
-    \label{SI-table}
-\end{table}
-
-Of specific interest for this thesis are the SIS and SIR models. 
-For the SIR model, it is assumed that at the beginning, all entities in the 
-system are in the state $S$, thus susceptible to an infection. In the context of 
-misinformation diffusion this means that an entity does not know about the
-misinformation that is being spread and is neutral towards it. A susceptible
-entity may become infected and thus may change its state $S\to I$.
-An infected entity knows and believes in the misinformation and it may
-spread the misinformation to other entities in the system. After being infected,
-an entity may learn that the information is fake. Therefore, it recovers 
-from being infected and it changes its state $I\to R$. An entity in a 
-recovered state cannot be infected again by misinformation and is thus immune.
-The SIS model differs from the SIR model in that in the last state change,
-the entity does not become immune, but \glqq forgets\grqq{} about the fact
-that the information is fake, and becomes susceptible to misinformation again.
-%TODO: finde Grundlagenbuch für states und modellchanges
-
-The amount of entities belonging to each state may change 
-after a time duration $\Delta t$. The equations to calculate the 
-state changes, and thus the progress of the information diffusion, 
-can be seen in Table \ref{SI-table-equations}.
-
-\begin{table}[ht!]
-    \centering
-    \begin{tabular}{|c | c |} 
-     \hline
-     SIR & SIS  \\ 
-     \hline
-     & \\
-     $\begin{aligned}
-          \frac{dS}{dt} &= -\beta I S \\
-          \frac{dI}{dt} &= \beta I S - \gamma I \\
-          \frac{dR}{dt} &= \gamma I  
-        \end{aligned}$
-      &
-      $\begin{aligned}
-          \frac{dS}{dt} &= -\beta I S + \gamma I\\
-          \frac{dI}{dt} &= \beta I S - \gamma I
-        \end{aligned}$
-       \\ 
-       & \\
-     \hline
-    \end{tabular}
-    \caption{Model equations for SIR and SIS model \cite{sirequation}}
-    \label{SI-table-equations}
-\end{table}
-
-$\beta$ and $\gamma$ are the transition rates parameters of the model, where 
-$\beta$ is the transmission rate and $\gamma$ the 
-recovery rate. Moreover, the equations in Table \ref{SI-table-equations}
-are ordinary differential equation that are used to calculate the amount
-of entities for each state in the system, not to calculate in which state
-each entity in the system is in. To analyse the information diffusion on 
-an entity level, graph based diffusion models are needed.
-There is no exact definition for the algorithm for the state changes in the
-graph model, but generally, the probability, that an entity changes
-its state from susceptible to infected $S \to I$, increases depending on
-how many connected entities are already infected. In its simplest form, a
-propagation algorithm may be defined as in Equation \ref{eqbasicpropagation} 
-\cite{easypropagation}.
-
-\begin{equation}
-    I(a) = 1 (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
-    1(f^{rand}\geq \beta)>0) 
-    \label{eqbasicpropagation}
-\end{equation}
-
-In the equation, the infection status $I(a)$ of each node $a$
-in the graph is defined by if any neighboring node $b$ that is connected 
-to $a$ and is part of the infection node set $I$, 
-and thus infected, fullfills the condition $f^{rand}\geq \beta$,
-where $f^{rand}$ is the random probability generation function and $1$ 
-is a function that equals one if the specific condition is fulfilled and 
-zero otherwise.
-
-%TODO: more stuff to write
-
-\subsubsection{Information Cascade Models}
-
-Another way to model information diffusion in graphs is by viewing it as a 
-sequential information propagation process. This assumption is made in
-information cascade models. In this type of model, any node $n$ infected in the
-iteration step $i$ may infect its connected neighbor $a$ with a probability $P_n(a)$
-\cite{reviewinformationdiffusion}. All nodes infected by node $n$
-can then infect their neighboring node in the next iteration step $i+1$
-and the node $n$ becomes inactive and does not infect any neighbors anymore.
-The equation for the propagation step can be seen in Equation 
-\ref{eqbasicpropagationcascading}.
-Information cascade models are mostly used for prediction and influence 
-analysis purposes, and not to explain the collective behavior
-of the system during the information diffusion process.
-
-\begin{equation}
-    I(a) = 1 (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
-    1(f^{rand}\geq P_n(a))>0) 
-    \label{eqbasicpropagationcascading}
-\end{equation}
-
-There are several different subtypes of cascading models.
-Some subtypes are described in \cite{diffusionbasics}:
-
-\begin{itemize}
-    \item Independent Cascading Model: In this type of model, the 
-    probability $P_n(a)=p$ ist constant for each node $a$ and neighbor $n$.
-    Thus, the probability function does not depend on the history 
-    of the system and its information diffusion status.
-    \item Decreasing Cascading Model: In this type of model, the probability
-    function to activate the node $a$ decreases with each attempts of its 
-    neighbors. This means that if a neighbor $n$ unsuccessfully tries to infect
-    $a$ at iteration step $i$, then the probability that the neighbor $m$
-    can sucessfully infect $a$ at step $i+t$ is smaller, thus $P_n(a)>P_m(a)$.
-\end{itemize}
-
-\subsubsection{Threshold Models}
-A different method to analyse the diffusion process in graphs is by seeing the
-propagation step as a process where each entity needs to overcome a 
-specific threshold $\theta$ to become infected. More specifically, 
-a certain amount of neighbors need to be infected for the node $a$ to become 
-infected, too. Furthermore, contrary to the cascade models, a node can always 
-infect its neighbors as long as the conditions are fulfilled in the threshold 
-model. The general equation for the threshold model can be seen in Equation
-\ref{eq:threshold}.
-
-\begin{equation}
-    I(a) = \sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
-    1 > \theta    
-    \label{eq:threshold}
-\end{equation}
-
-Subtypes of this kind of diffusion model differ by the threshold parameter.
-Some subtypes are described in \cite{diffusionbasics}:
-
-\begin{itemize}
-    \item Majority Threshold Model: In this type of model, a node $a$ becomes
-    infected if the majority of its neighbors are infected, thus 
-    $\theta = \frac{1}{2}deg(a)$
-    \item Small Threshold Model: In this type of model, the threshold for that
-    $a$ becomes infected is small. The advantage of this model is that 
-    certain algorithms may be calculated faster with this type of model 
-    \cite{diffusionbasics} 
-    \item Unanimous Threshold Model: In this type of model, all neighbors 
-    of a node $a$ need to be infected for $a$ to become infected, thus
-    $\theta = deg(a)$.
-\end{itemize}
-
-\section{Variable Dependencies in the Context of Power Usage}
+% short introduction of power load forecasting 
+\subsection{Variable Dependencies in the Context of Power Demand}
 
 The power demand is always changing. The changes in demand depend on a multitude 
 of factors and variables and can change drastically over the day and over the year.
@@ -316,11 +43,8 @@ Power load prediction models for residential buildings may benefit from
 building and occupancy related variables, but for a prediction model on a 
 macroeconomic scale, socio-economic variables are more important.
 
-\subsection{Exogenous Variables based on Human Behaviour}
-
 Exogenous variables that are explicitly linked to human behaviour, 
-such as social media usage ,traffic information, 
-% ICT location, IoT information (such if a device is turned on or off), 
+such as social media usage ,traffic information,  
 satellite image data or internet usage, are not often 
 used for power load forecasting. 
 But these are the variables that would be affected the most in a change of 
@@ -381,9 +105,6 @@ In the study of \textit{Morleya et al.}, they conclude that
 electricity consumed by information and communication devices
 may contribute to increased peak electricity demand 
 \cite{internettrafficenergycorrelation}.
-%TODO: describe how much ICT uses
-%TODO: find corellation between internet traffic and people 
-%staying at home
 Therefore, internet traffic data can be used as input data for 
 power demand forecasting models \cite{electricityinternetforecast}. 
 
@@ -450,3 +171,550 @@ If there is a power outage, the affected region will turn dark, which
 consequently can be detected in satellite images. Thus, sattelite image data 
 was successfully used in multiple power outage detection models
 \cite{nightpoweroutage} \cite{twitterpoweroutagelighttime}.
+
+
+\section{Graph as a Representation of Real-World Systems}
+\label{graphbasics}
+A graph is an abstract structure that represents a set of objects and the relationship 
+between the objects. Graphs can be used to model a variety of real-world systems.
+Notable examples of systems that can be modelled as graphs that are of 
+interest in this thesis are social networks 
+\cite{socialgraphexample} and power grids \cite{powergraphexample}, but graphs can 
+also be applied to other real life systems, such as economic 
+or transportation systems \cite{economicsgraph}. %TODO: cite for transportation
+
+
+Per definition, a graph $G(V, E)$ consists of a set of vertices, or nodes, $V$ and a 
+set of edges $E$. Each edge connects two nodes $x, y \in V$ and is 
+written as $e=(x, y)$. This means that for all $E$, the 
+condition  $E \subseteq\{ (x, y) \mid x, y \in V  \}$ 
+is valid.
+
+There are multiple different subtypes of graphs. A directional graph is a graph 
+whose edges have a source node $a$ and target node $b$, thus representing
+a direction going from $a$ to $b$. If the edges do not fulfill this 
+condition, thus if the edges do not show a direction, then a graph is unidirectional.
+In addition, a graph may have attributes, so-called weights, associated to its edges.
+These graphs are called weighted graphs.
+
+There are also multiple attributes that can be calculated in a graph
+and that show its characteristics. Relevant attributes are 
+explained below \cite{basicnetwork}:
+\begin{itemize}
+    \item The degree $c_v$ of a node $v \in V$ is the number of edges connected to the
+    node $v$. 
+    \item The degree distribution $P_k$ is the probability distribution 
+    of the node degrees $k$ over all vertices $V$ in the graph $G$
+    \item The average path length $l$ is the average number of steps between
+    the shortest path for all possible node combinations in a graph.
+    \item The clustering coefficient $C$ describes how densely connected
+    the vertices in the graph $G$ are. There are two types of
+    clustering coefficient. The global clustering
+    coefficient is calculated as 
+    $C=\frac{(3 \cdot\text{number of triangles})}{(\text{number of connected triples})}$,
+    where a connected triple means there are three vertices $a,b,c\in V$ with
+    the edges $(a,b), (b,c) \in E$ (and where the edge $(a,c)$ may 
+    possibly exist) and the number of triangles mean
+    that the three vertices $a,b,c\in V$ are fully connected to each other.
+    The local clustering coefficient is calculated for a single node $i$
+    and is defined as $C_i=\frac{\text{number of pairs of neighbors of }i 
+    \text{ that are connected to each other}}
+    {\text{number of pairs of neighbors of }i }$.
+\end{itemize}
+
+Furthermore, graphs, specially graphs that model networks, follow two special 
+characteristics that may differ from other types of models.
+First, network models are often scale-free networks.
+Scale-free networks are networks that follows the power law.
+This law says that the degree distribution of a network
+$P_k$ follows the exponential distribution.
+This means that the probability that a node has a certain degree $k$ 
+is proportional to a certain exponential function $k^{-\gamma}$, where
+$\gamma>1$.
+On the other hand, in a small-world network most nodes are not directly
+connected to one another, nonetheless they are connected to each other by
+having the same neighboring nodes. Thus, most nodes can reach another
+random node in the network by a small number of steps. For a network
+to be considered a small-world network, its average path lenght $l$ 
+needs to fullfil the condition $l\sim ln(n)$, where $n$ is the number
+of vertices in the graph \cite{wattsmodel}.
+
+One specific type of network of interest in this thesis are social networks.
+Social Networks describe humans and 
+how these are connected to each other socially. Social networks
+may model friendship, scientific co-authorship or online social media networks, 
+for example \cite{basicnetwork}. 
+These kinds of networks can be modelled as graphs, where the vertices are the
+people in the system and the edges model the relationship between the 
+different people.
+Social Networks often share similar characteristics. The study of 
+\textit{Mislove et al.}, that focuses on online social media networks,
+shows that social networks fulfill the small world characteristic,
+are scale-free networks, and
+are highly clustered networks with a high clustering coefficient
+\cite{mislovesocialnetworkcharacteristics}. Thus, to accurately represent 
+a social  network, specially an  online social media network, 
+a graph should ideally fulfill all characteristics that were mentioned.
+
+\subsection{Random Graphs}
+
+Graphs do not need to be based on real systems. They can also be generated. 
+These randomly generated graphs are called random graphs \cite{randomgraphs}.
+Usually, certain characteristics, like the number of nodes or the number 
+of edges in a random graph, are of a fixed value
+and known in advance and other characteristics, such as the connections between 
+the nodes, are randomly generated with algorithms.
+
+There are a number of algorithms used to generate random graphs.
+The most commonly used algorithms are introduced in this chapter.
+
+\subsubsection{Erdős–Rényi Model}
+
+The oldest random graph algorithm is the 
+Erdős–Rényi (ER) random graph. For this type of random model, the
+number of vertices $n$ and the probability $p$ that an 
+edge exists between two vertices are of fixed value \cite{basicnetwork}. 
+To generate an ER random graph, the algorithm goes through 
+every possible node combination $a, b$ and it creates an edge 
+$(a, b)$ between the two vertices given the probability $p$. 
+Thus, the number of edges $|E|$ is random.
+
+Generally, the characteristics besides the number of vertices and the
+probability of the ER graph are not known.
+Nonetheless, it is possible to calculate the mean value of the other
+characteristics to analyse the specific type of random graph.
+The graph characteristics of this type of random graph are shown in Table 
+\ref{erdos-model}.
+An important observation given the values in the table, is that 
+the average degree distribution $P_k$ follows the Poisson distribution
+$P_\lambda (k) = \frac{\lambda^k}{k!}\, \mathrm{e}^{-\lambda}$. Thus,
+ER graphs do not follow the power law distribution and are consequently
+not scale-free. 
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c | c |} 
+     \hline
+     Mean Number of Edges & 
+     $\overline{m} = \binom{n}{2}p$  \\ 
+     \hline
+     Mean Degree & 
+     $\overline{c} = (n-1)p$ \\ 
+     \hline
+     Degree Distribution & 
+     $P_k = e^{-\overline{c}} \frac{\overline{c}^k}{k!}$ \\ 
+     \hline
+     Clustering Coefficient & 
+     $C=\frac{\overline{c}}{n-1}=p$ \\ 
+     \hline
+     Average Path Length \cite{averagepath}& 
+     $l = \frac{\ln{n} - \gamma}{\ln(\overline{c}))} + \frac{1}{2}, 
+     \gamma=0.57722$ \\ 
+     \hline
+    \end{tabular}
+    \caption{Mean characteristics of the ER random graph \cite{basicnetwork}}
+    \label{erdos-model}
+\end{table}
+
+\subsubsection{Barabási–Albert Model}
+
+Another well known random graph algorithm is the Barabási–Albert (BA) model 
+\cite{barabasimodel}. 
+This type of model uses the concept of preferential attachement, 
+where vertices that are being added to a random graph have a higher 
+probability to connect to vertices that are already well-connected. 
+Thus, the probability $p_i$ that a new node forms an edge with an
+existing node $i$ depends on its degree $c_i$. This means that the
+probability can be calculated as $p_i= \frac{c_i}{\sum_{k}c_k}$.
+This concept of preferential attachement leads to the degree distribution
+following the form $P_k\sim k^{-3}$, thus the BA model is a graph 
+that fulfills the power law characteristic.
+This can be seen in the graph characteristics of the random graph
+in Table \ref{ba-model}, when defining $n$ as the number
+of vertices and $m$ as the number of edges that a node
+will create when entering the random graph.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c | c |} 
+     \hline
+     Degree & $c\geq m$ \\ 
+     \hline
+     Degree Distribution & 
+     $P_k = \frac{2c_k(c_k+1)}{k(k+1)(k+2)}$ \\ 
+     \hline
+     Clustering Coefficient \cite{ba_cluster_coeff} & 
+     $C=\frac{m}{8}\frac{ln(n)^2}{n}$ \\ 
+     \hline
+     Average Path Length \cite{averagepath}& 
+     $l = \frac{\ln{n}- \ln{m/2} - 1 - \gamma}{\ln(\ln(n))+\ln{(m/2)}} + \frac{3}{2}, 
+     \gamma=0.57722$ \\ 
+     \hline
+    \end{tabular}
+    \caption{mean characteristics of the BA random graph \cite{basicnetwork}}
+    \label{ba-model}
+\end{table}
+
+\subsection{Watts–Strogatz Model}
+The last random graph algorithm mentioned in this thesis 
+is the Watts–Strogatz (WS) random graph \cite{wattsmodel}.
+Contrary to BA random graphs, the focus of the WS graph is not to 
+form highly clustered graphs based on the power law, but creating graphs
+that follow the small world characteristic more realistically.
+
+The WS random graph model starts with a ring lattice graph, a graph 
+with $n$ nodes where each node has the same degree $c$ and 
+is connected to its $c$ nearest neighbors. Then, each edge $(a, b)$
+may be rewired given the probability $p$, thus reconnecting the edge to  $(a, b')$
+instead and creating a shortcut between the two non-neighboring vertices.
+Furthermore, the new edge may only be created as long as it does not create
+a loop $(a, a)$ and as long as an equal link $(a, b')$ does not exist.
+Another version of this algorithm does not rewire existing edges,
+but creates new random edges as shortcuts given the probability $p$.
+The second version creates a graph that can be considered more 
+\glqq random\grqq{} as the graph generated in the first algorithm and is
+thus favored over the former algorithm \cite{basicnetwork}.
+
+The graph characteristics of the model can be seen
+in Table \ref{ws-model}. Given the degree distribution $P_k$, it can be seen
+that the distribution does not follow the power law, since it is more similar
+to the Poisson distribution than an exponential distribution. Thus, the WS model
+is not scale-free.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c | c |} 
+     \hline
+     Degree Distribution & 
+     $P_k = e^{-cp}\frac{(cp)^{k-c}}{(k-c)!}$ \\ 
+     \hline
+     Clustering Coefficient & 
+     $C=\frac{3(c-2)}{4(c-1) + 8cp +4cp^2}$ \\ 
+     \hline
+     Average Path Length & $l = \frac{ln(ncp)}{c^2p}$ \\ 
+     \hline
+    \end{tabular}
+    \caption{mean characteristics of the WA random graph \cite{basicnetwork}}
+    \label{ws-model}
+\end{table}
+
+
+
+\subsubsection{Comparison between the Random Graph Algorithms}
+
+Analysing the average characteristics of all random graph algorithms introduced in
+this chapter, it can be seen that they differ in their graph characteristics.
+The comparison of the different characteristics of all three models can be 
+seen in Table \ref{summary-graph-model}.
+The ER model has comparatively low clustering coefficient compared to the 
+other random graph models. Given a fixed average degree by defining 
+the probability $p$ as $p=\frac{c}{n-1}$, then the graph becomes less clustered
+as the size of the graph increases. Both BA and WA model have higher clustering
+coefficients compared to the ER model. Furthermore, for big graphs with a 
+high amount of nodes $n$, the clustering coefficient of the BA model 
+decreases. This is in contrast to the WA model, whose clustering coefficient 
+is independent of its graph size. Nonetheless, both models do not achieve
+the clustering coefficients that can be seen in real social media networks
+such as WhatsApp \cite{whatsappgraphmodels}.
+Lastly, all three models fulfill the small-world characteristic $l\sim ln(n)$ 
+and all models show similar values for the average path length
+\cite{whatsappgraphmodels}.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c | c | c | c |} 
+    \hline
+     Characteristic & ER model & BA model & WA model \\
+     \hline
+     Scale-Free & \xmark & \cmark & \xmark \\ 
+     \hline
+     Clustering & Low & Middle & Middle \\ 
+     \hline
+     Small-World & \cmark & \cmark & \cmark \\ 
+     \hline
+    \end{tabular}
+    \caption{Comparison of the three model types}
+    \label{summary-graph-model}
+\end{table}
+
+\section{Information Propagation in the Social Media Age}
+
+Through the development of the internet, 
+people are receiving increasing amounts of information.
+This information is mostly being spread through social media.
+Furthermore, both true and false information can be spread through 
+these channels.
+Thus, the topic of information propagation over social media has become an 
+important research field in the academic community.
+
+\subsection{Information Diffusion in Social Networks}
+
+The main way to analyse the spreading of information over a social network 
+is by modelling the propagation process. The spread of information over 
+a given network is called information diffusion. 
+The modelling of information diffusion can be divided into three components
+\cite{reviewinformationdiffusion}: 
+
+\begin{itemize}
+    \item State: Entities in a system may be grouped together in a class which
+    defines their behavior in the system. In the context of information diffusion,
+    an entity can for example belong to the  \glqq Spreader \grqq{} class which spreads the information
+    to specific other entities in the system. An entity could also belong to a
+    \glqq Susceptible \grqq{} class that did not receive the information, 
+    but would possibly be able to receive it.
+    \item Model: The model defines how the entities interact which each other
+    given their states. A model is often represented by a graph with the entities
+    as nodes and connections between the entities as edges 
+    (See Section \ref{graphbasics}).
+    \item Transition rates: The transition rates are the parameters used
+    do define how the information is diffused in the model dynamically. 
+\end{itemize}
+
+The first two components are independent of specific simulation scenarios,
+unlike the third component, thus the first two components should be further
+analysed. Furthermore, there are a multitude of different ways 
+to model information diffusion in social networks. Therefore, the most common
+modelling methods will be further analysed in this chapter.
+
+\subsubsection{Epidemiological Models}
+
+Due to their similarity to the spread of infectious diseases, 
+the spread of misinformation is often modelled the same as epidemiological models.
+The simplest epidemiological model is the SI model, where entities in a system
+can either belong to the state \glqq Susceptible\grqq{} ($S$) or 
+\glqq Infected\grqq{} ($I$) and where the amount of total entities of a 
+system can be calculated as $N=S+I$. The SI model is the basis for many
+more specialised models where the states are more detailed to capture more 
+aspects of real life behavior. A few models based on the SI model and their 
+specific state are shown in Table \ref{SI-table}.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c | c |} 
+     \hline
+     Acronym & Classes  \\ 
+     \hline
+     SIR & Susceptible - Infected - Recovered  \\ 
+     \hline
+     SIS & Susceptible - Infected - Susceptible \\
+     \hline
+     SEI & Susceptible - Exposed - Infected \\
+     \hline
+     SIRS & Susceptible - Infected - Recovered - Susceptible \\
+     \hline
+     SEIR & Susceptible - Exposed - Infected - Recovered \\
+     \hline
+    \end{tabular}
+    \caption{Example models building on the SI 
+    model for the spread of misinformation \cite{reviewinformationdiffusion}}
+    \label{SI-table}
+\end{table}
+
+Of specific interest for this thesis are the SIR and SIS models. 
+For the SIR model, it is assumed that at the beginning, all entities in the 
+system are in the state $S$, thus susceptible to an infection. In the context of 
+misinformation diffusion this means that an entity does not know about the
+misinformation that is being spread and is neutral towards it. A susceptible
+entity may become infected and thus may change its state $S\to I$.
+An infected entity knows and believes in the misinformation and it may
+spread the misinformation to other entities in the system. After being infected,
+an entity may learn that the information is fake. Therefore, it recovers 
+from being infected and it changes its state $I\to R$. An entity in a 
+recovered state cannot be infected again by misinformation and is thus immune.
+The SIS model differs from the SIR model in that the entity does not recover,
+but it \glqq forgets\grqq{} about the fact that the information is fake, 
+and becomes susceptible to misinformation again.
+
+The amount of entities belonging to each state may change 
+after a time duration $\Delta t$. The equations to calculate the 
+state changes, and thus the progress of the information diffusion, 
+can be seen in Table \ref{SI-table-equations}.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c | c |} 
+     \hline
+     SIR & SIS  \\ 
+     \hline
+     & \\
+     $\begin{aligned}
+          \frac{dS}{dt} &= -\beta I S \\
+          \frac{dI}{dt} &= \beta I S - \gamma I \\
+          \frac{dR}{dt} &= \gamma I  
+        \end{aligned}$
+      &
+      $\begin{aligned}
+          \frac{dS}{dt} &= -\beta I S + \gamma I\\
+          \frac{dI}{dt} &= \beta I S - \gamma I
+        \end{aligned}$
+       \\ 
+       & \\
+     \hline
+    \end{tabular}
+    \caption{Model equations for SIR and SIS model \cite{sirequation}}
+    \label{SI-table-equations}
+\end{table}
+
+$\beta$ and $\gamma$ are the transition rates parameters of the model, where 
+$\beta$ is the transmission rate and $\gamma$ the 
+recovery rate. Moreover, the equations in Table \ref{SI-table-equations}
+are ordinary differential equation that are used to calculate the amount
+of entities for each state in the system, not to calculate in which state
+each entity in the system is in. To analyse the information diffusion on 
+an entity level, graph based diffusion models are needed.
+There is no exact definition for the algorithm for the state changes in the
+graph model, but generally, the probability, that an entity changes
+its state from susceptible to infected $S \to I$, increases depending on
+how many connected entities are already infected. In its simplest form, a
+propagation algorithm may be defined as in Equation \ref{eqbasicpropagation} 
+\cite{easypropagation}.
+
+\begin{equation}
+    I(a) = 1 (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
+    1(f^{rand}\geq \beta)>0) 
+    \label{eqbasicpropagation}
+\end{equation}
+
+In the equation, the infection status $I(a)$ of each node $a$
+in the graph is defined by if any neighboring node $b$ that is connected 
+to $a$ and is part of the infection vertices $I$, 
+and thus infected, fullfills the condition $f^{rand}\geq \beta$,
+where $f^{rand}$ is the random probability generation function and $1$ 
+is a function that equals one if the specific condition is fulfilled and 
+zero otherwise. Then, a node can recover given the independent probability
+$\gamma$.
+
+Another method to model the information diffusion, specially the propagation of 
+fake news and its debunking, in an epidemiological model
+is described by \textit{Tambuscio et al.} \cite{sirsmodel}. In their work, they
+define a type of SIS model where entities in the \glqq Infected\grqq{} state 
+can either believe in the fake news that is being distributed or they believe 
+in the true news that is also being spread. Thus, the \glqq Infected\grqq{}
+state is divided into the two subgroups \glqq Believer\grqq{} and
+\glqq Fact Checker\grqq{}. The probabilities of all states in this
+model are described in Table \ref{SIS-table-equations} and the state chart 
+for the model is described in Figure \ref{originalmodelstatechart}. 
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.15]{figs/Tambuscio.png}
+    \caption{state chart for the model described
+    in \textit{Tambuscio et al.} \cite{sirsmodel}}
+    \label{originalmodelstatechart}
+\end{figure}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c  c |} 
+     \hline
+     & \\
+     $\begin{aligned}
+          p_i^B(t+1) &= f_is_i^S(t) + (1-p_{forget}-p_{verify})s_i^B(t) \\
+          p_i^F(t+1) &= g_is_i^S(t) + p_{verify}s_i^B(t)+(1-p_{forget})s_i^F(t) \\
+          p_i^S(t+1) &= p_{forget}(s_i^B(t)+s_i^F(t)) + (1-f_i-g_i)s_i^S(t)
+        \end{aligned}$
+      &
+      $\begin{aligned}
+          f_i(t) &= \beta \frac{n_i^B(t)(1+\alpha)}{n_i^B(t)(1+\alpha)+n_i^F(t)(1-\alpha)} \\
+          g_i(t) &= \beta \frac{n_i^F(t)(1-\alpha)}{n_i^B(t)(1+\alpha)+n_i^F(t)(1-\alpha)} \\
+        \end{aligned}$
+       \\ 
+       & \\
+     \hline
+    \end{tabular}
+    \caption{probability functions for the states described 
+    in \textit{Tambuscio et al.} \cite{sirsmodel}}
+    \label{SIS-table-equations}
+\end{table}
+
+In Figure \ref{originalmodelstatechart}, the states and the general probability
+for transitions of the model are being shown.
+In Table \ref{SIS-table-equations}, the probability functions 
+$p_i^B,  p_i^F,  p_i^S$ that a node $i$ will belong to each state  
+\glqq Believer\grqq{}(B), \glqq Fact Checker\grqq{}(F) and 
+\glqq Susceptible\grqq{}(S) at the iteration step $t+1$ are defined more clearly. 
+These probability functions 
+are dependent on the current state of the node $s_i=[s_i^B,  s_i^F,  s_i^S]$,
+where $s_i^S$ is $1$ if the node $i$ has the state $S$ and else $0$.
+Furthermore, the probability functions also depend on the constant system 
+probabilities $p_{verify}, p_{forget}$. Lastly, the functions are also 
+dependent on the propagation functions $f_i, g_i$, where $g_i$ describes 
+the propagation of the fake news and $f_i$ the propagation of its debunking
+near the node $i$. The two functions  $f_i, g_i$ are dependent on
+the amount of neighbors $n_i^B, n_i^F$ that belong to the states
+\glqq Believer\grqq{} or \glqq Fact Checker\grqq{} and the two 
+system parameters $\beta$ and $\alpha$, where $\beta$ is the transmission rate
+and $\alpha$ defines the credibility of the hoax. Thus, with this model it
+is possible to model both the fake news spreading process and 
+the fact-checking propagation process at the same time and it is possible to
+consider the plausibility of the fake news in the propagation process.
+
+\subsubsection{Information Cascade Models}
+
+Another way to model information diffusion in graphs is by viewing it as a 
+sequential information propagation process. This assumption is made in
+information cascade models. In this type of model, any node $n$ infected in the
+iteration step $i$ may infect its connected neighbor $a$ with a probability $P_n(a)$
+\cite{reviewinformationdiffusion}. All nodes infected by node $n$
+can then infect their neighboring node in the next iteration step $i+1$
+and the node $n$ becomes inactive and does not infect any neighbors anymore.
+The equation for the propagation step can be seen in Equation 
+\ref{eqbasicpropagationcascading}.
+Information cascade models are mostly used for prediction and influence 
+analysis purposes, and not to explain the collective behavior
+of the system during the information diffusion process.
+
+\begin{equation}
+    I(a) = 1 (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
+    1(f^{rand}\geq P_n(a))>0) 
+    \label{eqbasicpropagationcascading}
+\end{equation}
+
+There are several different subtypes of cascading models.
+Some subtypes are described in \cite{diffusionbasics}:
+
+\begin{itemize}
+    \item Independent Cascading Model: In this type of model, the 
+    probability $P_n(a)=p$ ist constant for each node $a$ and neighbor $n$.
+    Thus, the probability function does not depend on the history 
+    of the system and its information diffusion status.
+    \item Decreasing Cascading Model: In this type of model, the probability
+    function to activate the node $a$ decreases with each attempts of its 
+    neighbors. This means that if a neighbor $n$ unsuccessfully tries to infect
+    $a$ at iteration step $i$, then the probability that the neighbor $m$
+    can sucessfully infect $a$ at step $i+t$ is smaller, thus $P_n(a)>P_m(a)$.
+\end{itemize}
+
+\subsubsection{Threshold Models}
+A different method to analyse the diffusion process in graphs is by seeing the
+propagation step as a process where each entity needs to overcome a 
+specific threshold $\theta$ to become infected. More specifically, 
+a certain amount of neighbors need to be infected for the node $a$ to become 
+infected, too. Furthermore, contrary to the cascade models, a node can always 
+infect its neighbors as long as the conditions are fulfilled in the threshold 
+model. The general equation for the threshold model can be seen in Equation
+\ref{eq:threshold}.
+
+\begin{equation}
+    I(a) = \sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
+    1 > \theta    
+    \label{eq:threshold}
+\end{equation}
+
+Subtypes of this kind of diffusion model differ by the threshold parameter.
+Some subtypes are described in \cite{diffusionbasics}. These are:
+
+\begin{itemize}
+    \item Majority Threshold Model: In this type of model, a node $a$ becomes
+    infected if the majority of its neighbors are infected, thus 
+    $\theta = \frac{1}{2}deg(a)$
+    \item Small Threshold Model: In this type of model, the threshold for that
+    $a$ becomes infected is small. The advantage of this model is that 
+    certain algorithms may be calculated faster with this type of model 
+    \cite{diffusionbasics} 
+    \item Unanimous Threshold Model: In this type of model, all neighbors 
+    of a node $a$ need to be infected for $a$ to become infected, thus
+    $\theta = deg(a)$.
+\end{itemize}
+
+

@@ -10,6 +10,7 @@
 	parskip=half-,%Absatzkennzeichnung durch Abstand vgl. KOMA-Sript
 	fontsize=11pt,%Basisschriftgröße laut Corporate Design ist mit 9pt häufig zu klein
 %	logofile=example-image, %Falls die Logo Dateien nicht vorliegen
+	IMRAD=false,%Abschalten von IMRAD-Warnings wegen fehlender Labels
 ]{tudapub}
 
 \usepackage[acronym,nonumberlist,nopostdot,shortcuts]{glossaries}
@@ -70,7 +71,14 @@
 \usepackage{amssymb}   % erweiterter Zeichensatz
 \usepackage{siunitx}   % Einheiten
 
-
+%%%%%%%%%%%%%%%%%%%
+%Eigene Importe
+%%%%%%%%%%%%%%%%%%%
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\usepackage{svg}
 
 %Formatierungen für Beispiele in diesem Dokument. Im Allgemeinen nicht notwendig!
 \let\file\texttt
@@ -136,7 +144,7 @@ Verhaltens auf Energienetze während Krisensituationen}
 
 \input{inc/introduction.tex}
 \input{inc/background.tex}
-%\input{inc/related-works.tex}
+\input{inc/related-works.tex}
 \input{inc/model-implementation.tex}
 \input{inc/results.tex}
 \input{inc/conclusion.tex}

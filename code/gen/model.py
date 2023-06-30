@@ -11,9 +11,6 @@ def create_social_network_graph(n, type, args):
         return initialize_node_attributes(nx.barabasi_albert_graph(n, args["edges"], args["seed"]))
     if type == "erdos_renyi":
         return initialize_node_attributes(nx.erdos_renyi_graph(n, args["p"], args["seed"]))
-    if type == "newmann_watts":
-        return initialize_node_attributes(nx.newman_watts_strogatz_graph(n, args["edges"], args["p"], args["seed"]))
-
 
 def initialize_node_attributes(G):
     for n in G.nodes():
