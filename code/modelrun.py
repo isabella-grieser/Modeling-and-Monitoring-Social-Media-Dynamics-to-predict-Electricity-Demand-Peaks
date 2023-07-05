@@ -25,21 +25,16 @@ if __name__ == "__main__":
     )
     # https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Equipment-Consumer-Durables/Tables/equipment-household-appliances-lwr-d.html
     network_model = mb.define_appliance_use(network_model, config["model_args"])
-    path = "data/household_15min.csv"
-    start_index = 8450
-    df = pd.read_csv(path)
-    start_spread = datetime(2019, 3, 31, 7, 30, 0, tzinfo=dt.timezone.utc)
-    start_power = datetime(2019, 3, 31, 8, 30, 0, tzinfo=dt.timezone.utc)
+    path = "data/lastprofil_h0i_2023.xls"
+    start_index = 1100
+    df = pd.read_excel(path, header=None, names=["time", "power"])
+    start_spread = datetime(2023, 1, 14, 8, 30, 0, tzinfo=dt.timezone.utc)
+    start_power = datetime(2023, 1, 14, 10, 30, 0, tzinfo=dt.timezone.utc)
 
     zone = 'Europe/Berlin'
-    x = pd.to_datetime(df["index"], utc=True).dt.to_pydatetime().tolist()[start_index:]
-    y = []
-    # households considered in sim
-    households = ['HH3', 'HH4', 'HH5', 'HH7', 'HH8', 'HH9', 'HH10', 'HH11', 'HH12', 'HH14',
-                  'HH16', 'HH18', 'HH19', 'HH20', 'HH21', 'HH22', 'HH23', 'HH27', 'HH28',
-                  'HH29', 'HH30', 'HH32', 'HH35', 'HH36', 'HH38', 'HH39']
-    for h in households:
-        y.append(df[h].to_list()[start_index:])
+    x = pd.to_datetime(df["time"
+                          ""], utc=True).dt.to_pydatetime().tolist()[start_index:]
+    y = [df["power"].to_list()[start_index:]]
 
     simulator = Simulator(network_model,
                           x,
@@ -48,9 +43,9 @@ if __name__ == "__main__":
                           power_start=start_power,
                           days=1,
                           args=config["sim"],
-                          y_max=500000,
+                          y_max=300000,
                           reduce_factor=1,
-                          y_thresh_factor=1.5,
+                          y_thresh_factor=2,
                           si="kW"
                           )
 
