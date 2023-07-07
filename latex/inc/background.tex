@@ -2,6 +2,8 @@
 \label{background}
 
 In this chapter, the fundamental concepts necessary for this thesis are explained.
+First, in Section \ref{panicbuying}, the general concept of panic buying,
+its consequences and what may lead to panic buying is explained.
 In Section \ref{graphbasics}, the fundamental theory of graph systems are 
 introducted and multiple attributes to describe graphs are defined.
 Furthermore, the concept of random graphs and multiple random 
@@ -10,6 +12,17 @@ Next, in Section \ref{informationdiffsection}, the concept of information diffus
 and multiple algorithms to model information diffusion are introduced.
 Last, in Section \ref{powerloadsection}, different human-based variables that 
 correlate with the power consumption are introduced.
+
+
+\section{Panic Buying Behavior as a increasing Concern in modern Societies}
+\label{panicbuying}
+
+One consumer behavior that is of increasing concern, specially since the 
+COVID-19 pandemic, is the panic buying phenomenom.
+Panic buying occurs when there is an unusual increase in sales of specific
+goods because of an unusual situation, such as a natural disaster, a 
+pandemic or misinformation being propagated in the general population. 
+
 
 
 \section{Graph as a Representation of Real-World Systems}
@@ -194,7 +207,7 @@ will create when entering the random graph.
     \label{ba-model}
 \end{table}
 
-\subsection{Watts–Strogatz Model}
+\subsubsection{Watts–Strogatz Model}
 The last random graph algorithm mentioned in this thesis 
 is the Watts–Strogatz (WS) random graph \cite{wattsmodel}.
 Contrary to BA random graphs, the focus of the WS graph is not to 
@@ -561,11 +574,21 @@ Some subtypes are described in \cite{diffusionbasics}. These are:
 \label{powerloadsection}
 % short introduction of power load forecasting 
 % talk about 
-\subsection{Variable Dependencies in the Context of Power Demand}
+A very significant task in the modern power grid infrastructure is to forecast
+the future power demand, so that the power supply can be adjusted accordingly.
+The power demand forecasting methods can be categorized in three types:
+short-, medium and long-term power demand forecast. These differ in which
+timespan they forecast the power demand. Most forecasting models are 
+either statistical models or artifical intelligence-based models 
+\cite{raza2015review}. But for these models to be able to predict the power 
+demand, it is necessary to give them input data which correlate with the power 
+usage. Thus, relevant variables that correlate with the power demand will
+be further analysed in this Section.
 
-The changes in demand depend on a multitude of factors and variables and 
-can change drastically over the day and over the year.
-These variables can be classified as either endogenous or exogenous variables.
+\subsection{Relevant Variables for Power Load Forecasting}
+
+The variables that correlate with the power load 
+can be classified as either endogenous or exogenous variables.
 Exogenous variables can be considered as independent variables 
 whose values determined outside of the system. 
 Endogenous variables, on the other side, 

@@ -61,7 +61,7 @@ class Simulator:
         node = sample(list(self.graph.nodes()), 1)
         self.graph.nodes[node[0]][const.INFECTION_STATUS] = const.InfectionStatus.BELIEVER
 
-    def iterate(self, iterations=1000, intervall_time=50, plot=False, save=False):
+    def iterate(self, iterations=1000, intervall_time=50, plot=False, save=False, save_name="./output/video.mp4"):
 
         if plot:
             fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
@@ -191,9 +191,9 @@ class Simulator:
                                            interval=intervall_time)
 
             if save:
-                anim.save('simulation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
-
-            plt.show()
+                anim.save(save_name, fps=10)
+            else:
+                plt.show()
 
         else:
             x_all = self.x[:self.timespan]

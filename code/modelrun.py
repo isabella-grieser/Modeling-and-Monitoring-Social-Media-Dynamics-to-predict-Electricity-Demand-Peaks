@@ -26,7 +26,7 @@ if __name__ == "__main__":
     # https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Equipment-Consumer-Durables/Tables/equipment-household-appliances-lwr-d.html
     network_model = mb.define_appliance_use(network_model, config["model_args"])
     path = "data/lastprofil_h0i_2023.xls"
-    start_index = 1100
+    start_index = 1160
     df = pd.read_excel(path, header=None, names=["time", "power"])
     start_spread = datetime(2023, 1, 14, 8, 30, 0, tzinfo=dt.timezone.utc)
     start_power = datetime(2023, 1, 14, 10, 30, 0, tzinfo=dt.timezone.utc)
@@ -43,17 +43,18 @@ if __name__ == "__main__":
                           power_start=start_power,
                           days=1,
                           args=config["sim"],
-                          y_max=300000,
+                          seed=config["seed"],
+                          y_max=150000,
                           reduce_factor=1,
-                          y_thresh_factor=2,
+                          y_thresh_factor=3,
                           si="kW"
                           )
 
-    simulator.iterate(1000, plot=True, save=False, intervall_time=50)
+    simulator.iterate(200, plot=True, save=False, intervall_time=50)
     x_all, y_true, y_ref = simulator.iterate(1000)
 
-    start_date = datetime(2019, 1, 1, 10, 0, 0, tzinfo=dt.timezone.utc)
-    end_date = datetime(2019, 1, 2, 10, 0, 0, tzinfo=dt.timezone.utc)
+    start_date = datetime(2023, 1, 14, 3, 30, 0, tzinfo=dt.timezone.utc)
+    end_date = datetime(2023, 1, 14, 14, 30, 0, tzinfo=dt.timezone.utc)
 
-    # plots.plot_from_date(x, y_true, y_ref, start_date, end_date,
+    #plots.plot_from_date(x, y_true, y_ref, start_date, end_date,
     #                     spread_start=start_spread, power_start=start_power, y_max=100000)
