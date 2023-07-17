@@ -9,6 +9,7 @@ import matplotlib.animation as animation
 import matplotlib.dates as md
 import config.systemconstants as const
 import utils.utils as util
+from matplotlib.lines import Line2D
 
 matplotlib.use("TkAgg")
 
@@ -79,7 +80,12 @@ class Simulator:
             ax1.set_xlabel(f"Time")
             ax2.set_title("Propagation of misinformation")
 
-            legend = ax1.legend(loc="upper left")
+            ax1.legend(loc="upper left")
+
+            l1 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="white", label='susceptible')
+            l2 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="red", label='infected')
+            l3 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="grey", label='recovered')
+            ax2.legend(handles=[l1, l2, l3])
 
             pos = nx.nx_pydot.graphviz_layout(self.graph, prog="dot")
 
@@ -254,11 +260,19 @@ class Simulator:
             p_f = g_i * s_i_s + p_verify * s_i_b
             p_s = (1 - f_i - g_i) * s_i_s
 
+            prev_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
             self.graph.nodes[n][const.INFECTION_STATUS] = np.random.choice(states, p=[p_b, p_f, p_s])
+
+            current_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
+
+            if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE \
+                and current_infect_status == const.InfectionStatus.BELIEVER:
+                self.graph.nodes[n][const.WILL_ACT] = random.random() < self.args["infect_power_consumption_p"]
 
             if self.power_start is not None and x > self.power_start:
                 # check if the node will start using more power
-                if not self.graph.nodes[n][const.ACTIVATED]:
+                if not self.graph.nodes[n][const.ACTIVATED] \
+                        and current_infect_status == const.InfectionStatus.BELIEVER:
                     self.graph.nodes[n][const.ACTIVATED] = random.random() < self.args["power_usage_prob"]
     def __calculate_power__(self, x_s, y_lists):
         # algorithm to calculate the new demand for each node
@@ -267,11 +281,14 @@ class Simulator:
             original_power_usage = 0
             for n in self.graph.nodes:
                 ref_power = y_lists[self.graph.nodes[n][const.HOUSEHOLD_INDEX]][i]
-                self.graph.nodes[n][const.POWER_USAGE] = ref_power * self.__power_consumption_factor__(x, n) \
+                node_val = ref_power * self.__power_consumption_factor__(x, n) \
                                                          + self.__power_consumption_offset__(x, n)
+                self.graph.nodes[n][const.POWER_USAGE] = node_val
                 original_power_usage += ref_power
-            y_true.append(util.sum_demand(self.graph) / self.reduce_factor)
-            y_ref.append(original_power_usage / self.reduce_factor)
+            new_y_true = util.sum_demand(self.graph) / self.reduce_factor
+            new_y_ref = original_power_usage / self.reduce_factor
+            y_true.append(new_y_true)
+            y_ref.append(new_y_ref)
         return y_true, y_ref
 
     def __power_consumption_factor__(self, x, node):
@@ -280,7 +297,7 @@ class Simulator:
         if self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE:
             return 1
         elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER:
-            if self.graph.nodes[node][const.ACTIVATED]:
+            if self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT]:
                 return 1
         elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER:
             return 1
@@ -289,7 +306,8 @@ class Simulator:
     def __power_consumption_offset__(self, x, node):
         if self.power_start is not None and x < self.power_start:
             return 0
-        if self.graph.nodes[node][const.ACTIVATED]:
+        if self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT] and \
+                self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER:
             total_power = 0
             for appliance in self.graph.nodes[node][const.HOUSEHOLD_APPLIANCE]:
                 if appliance[1] >= 0:

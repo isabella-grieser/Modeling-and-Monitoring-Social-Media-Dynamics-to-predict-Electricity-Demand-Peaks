@@ -3,6 +3,9 @@
 **.csv
 **.pdf
 **.mp4
+**.hdf5
+**.txt
+**.arff
 
 
 # Byte-compiled / optimized / DLL files
