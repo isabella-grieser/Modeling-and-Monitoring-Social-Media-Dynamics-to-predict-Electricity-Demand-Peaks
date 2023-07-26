@@ -1,36 +1,44 @@
 \chapter{Background}
 \label{background}
 
-In this chapter, the fundamental concepts necessary for this thesis are explained.
-First, in Section \ref{panicbuying}, the general concept of panic buying,
-its consequences and what may lead to panic buying is explained.
-In Section \ref{graphbasics}, the fundamental theory of graph systems are 
-introducted and multiple attributes to describe graphs are defined.
+In this chapter, the fundamental concepts necessary to understand 
+this thesis are explained.
+First, the general concept of panic buying,
+its consequences and what may lead to panic buying is explained 
+(see section \ref{panicbuying}).
+Then, the fundamental theory of graph systems are 
+introducted and multiple attributes to describe graphs are defined 
+(see section \ref{graphbasics}).
 Furthermore, the concept of random graphs and multiple random 
-graph algorithms are described in Section \ref{randomgraphssection}.
-Next, in Section \ref{informationdiffsection}, the concept of information diffusion
-and multiple algorithms to model information diffusion are introduced.
-Last, in Section \ref{powerloadsection}, different human-based variables that 
-correlate with the power consumption are described.
+graph algorithms are described.
+Next, the concept of information diffusion
+and multiple algorithms to model information diffusion are introduced
+(see section \ref{informationdiffsection}).
+Finally, different human-based variables that 
+correlate with the power consumption are described
+(see section \ref{powerloadsection},).
 
 
 \section{Panic Buying as a Result from Social Media Influence}
 \label{panicbuying}
 
-One consumer behavior of increasing concern is the panic buying phenomenom.
-Panic buying occurs when there is an unusual increase in sales of specific
-goods because of an unusual situation, such as a natural disaster, a 
-pandemic or misinformation being propagated in the general population. 
+Among consumer behaviors that have become increasingly concerning in modern times, 
+one that stands out is the phenomenon of panic buying.
+It occurs when there is an unusual surge in sales of 
+specific goods due to extraordinary situations, such as natural disasters, 
+pandemics, or the spread of misinformation among the general population.
 Currently, this phenomeon has gained interest during the COVID-19 pandemic,
 where the demand for disinfectants, soap and toilet paper increased significantly
 \cite{covidpanicbuying}. Nonetheless, panic buying is not a new behavior.
-Another historical examples for panic buying behavior include the Spanish Flu
+But there are other historical examples for panic buying behavior.
+These include the Spanish Flu
 in 1918, where there was an increasing demand for medications 
-\cite{honigsbaum2013regulating}, the Cuban Missile Crisis in 1962, where the sales
-of canned foods increased significantly \cite{george2004awaiting}, 
-and during hurricane Irma in 2017, where the affected population bought
+\cite{honigsbaum2013regulating}. Another example is the Cuban Missile Crisis 
+in 1962, where the sales of canned foods increased significantly \cite{george2004awaiting}, 
+Lastly, during hurricane Irma in 2017, the affected population bought
 significantly more fuel, bottled water 
-and other essential goods in anticipation of the hurricane \cite{irmahurricane}.
+and other essential goods in anticipation of the hurricane \cite{irmahurricane},
+leading to shortages.
 
 There are multiple possible reasons for panic buying behavior. These reasons 
 are described in the work of \textit{Prentice et al.}
@@ -39,48 +47,41 @@ are described in the work of \textit{Prentice et al.}
 \begin{itemize}
     \item Peer Pressure: The knowledge that other people fear shortages and 
     stock-outs leads to people being influenced by their peers' fears and thus leads
-    to them fearing shortages themselves, thus forcing them to buy excessively
-    themselves.
-    \item Sense of Security: Given the increasing uncertainty that is felt 
-    during a crisis, people want to secure their own future. This is also
-    the case for then people anticipate shortages due to their peers' fears 
+    to them fearing shortages themselves, thus forcing them to also buy excessively.
+    \item Sense of Security: Given the uncertainty that the general population
+    feels during a crisis, people want to secure their own future. This is also
+    the case for when people anticipate shortages due to their peers' fears 
     and behaviors. Thus, they participate in panic buying to the secure their
     own stockpile.
     \item Media Influence: The stories of shortages on the media
     lead to a distorted view that there exists a shortage, thus increasing 
-    the peoples' fears that a shortage exists or is drawing near, thus increasing
-    their desire to participate in panic buying.
+    the people's fears that a shortage exists or is drawing near and consequently
+    leading them to participate in panic buying.
 \end{itemize}
 
-One cause of special interest for this Thesis is the influence of 
-media on the panic buying phenomenom. Multiple issues that are reinforced
-by social media, specifically in the case of the COVID-19 pandemic,
+One cause of special interest for this thesis is the influence of 
+media on the panic buying phenomenom. 
+Multiple reasons for why social media influences consumer demand, 
+specifically in the case of the COVID-19 pandemic,
 are discussed in the work of \textit{Naeem} \cite{naeem2021social}.
 In his work, he noticed that since people are spreading their 
 own experiences on social media, the messages generated from their peers feel
 more personal and lead to a stronger reaction by increasing the will to 
-socially distance and to stockpile supplies. Another finding was that people are 
-influenced by their friends' posts and advices on social media, thus further
-increasing reactions. Moreover, since friend circles became more 
+socially distance and to stockpile supplies. Additionally, people are generally
+influenced more easily by their friends' posts and advices on social media.
+Moreover, since friend circles became more 
 internationalized through the global nature of social media networks,
-developments that are happening in other countries and 
+events in other countries and its
 possible consequences for one's own country can be analysed, thus
 leading to a reaction. As an example,
 shortage of a specific good in one country can lead to people in other countries
 assuming that the shortage may happen in one's own country, thus leading to 
-panic buying in one's own country. An additional discovery was that people saw
-the posts about empty shelves in the supermarkets as proof that the supply 
-chain issues were real,
-thus leading to further panic buying. The next discovery was that politicians,
-goverments and organizations can use social media to increase 
+panic buying in one's own country. 
+The next discovery was that people in positions of authority and with expertise,
+such as politicians, organizations and experts, can use social media to increase 
 the outreach of their messages, leading to people talking about their 
-recommenations and policies. Next, experts and industry insiders such as 
-store managers can also post their own experiences and opinions on social media,
-such as posting about an increased demand of specific goods in their own stores,
-thus adding a \glqq reliable\grqq{} source of information about 
-a panic buying event, and therefore further proving the notion that there are 
-shortages.
-Last, one work also shows that social media may increase rumor spreading,
+recommendations and policies.
+Last, it was also proven that social media may increase rumor spreading,
 thus leading to panic buying \cite{naeem2022understanding}.
 In conclusion, social media can both amplify the messages and rumors that lead to 
 panic buying and it can amplify the messages of governments and organizations 
@@ -88,19 +89,18 @@ that may inhibit the panic buying phenomenom.
 
 
 
-\section{Graph as a Representation of Real-World Systems}
+\section{Graph as a Representation of Social Media Networks}
 \label{graphbasics}
-One method to model real-world systems are graph models.
+Graph models are a valuable approach for modeling real-world systems.
 A graph is an abstract structure that represents a set of objects and the 
 relationship between the objects. 
-Notable examples of systems that can be modelled as graphs that are of 
-interest in this Thesis are social media networks 
-\cite{socialgraphexample}, but graphs can 
-also be applied to other real life systems, such as economic systems 
+This Thesis primarily focuses on social media networks
+\cite{socialgraphexample}. Nonetheless, graphs can 
+also be applied to other real-world systems, such as economic systems 
 \cite{economicsgraph} or power grids \cite{powergraphexample}.
 
 
-Per definition, a graph $G(V, E)$ consists of a set of vertices, or nodes, $V$ and a 
+Per definition, a graph $G(V, E)$ consists of a set of vertices (or nodes) $V$ and a 
 set of edges $E$. Each edge connects two nodes $x, y \in V$ and is 
 written as $e=(x, y)$. This means that for all $e\in E$, the 
 condition  $e \subseteq\{ (x, y) \mid x, y \in V  \}$ 
@@ -108,13 +108,13 @@ is valid.
 
 There are multiple different subtypes of graphs. A directional graph is a graph 
 whose edges have a source node $a$ and target node $b$, thus representing
-a direction going from $a$ to $b$. If the edges do not fulfill this 
-condition, thus if the edges do not show a direction, then a graph is unidirectional.
+a direction from $a$ to $b$. If the edges do not fulfill this 
+condition, i.e. if the edges do not show a direction, a graph is unidirectional.
 In addition, a graph may have attributes, also called weights, 
 associated to its edges. These graphs are called weighted graphs.
 
-There are also multiple attributes that can be calculated in a graph
-and that show its characteristics. Relevant attributes are 
+There are also multiple metrics that can be calculated in a graph
+and that show its characteristics. Relevant metrics are 
 explained below \cite{basicnetwork}.
 \begin{itemize}
     \item The degree $c_v$ of a node $v \in V$ is the number of edges connected to the
@@ -143,47 +143,45 @@ characteristics that may differ from other types of graphs.
 First, network models are often scale-free networks.
 Scale-free networks are networks that follow the power law distribution.
 This law says that the degree distribution of a network
-$P_k$ follows the exponential distribution.
+$P_k$ follows the power distribution.
 This means that the probability that a node has a certain degree $k$ 
-is proportional to the exponential function $k^{-\gamma}$ where
+is proportional to the function $k^{-\gamma}$, where
 $\gamma>1$.
-On the other hand, in a small-world network most nodes are not directly
-connected to one another, nonetheless they are connected to each other by
-having the same neighboring nodes. Thus, most nodes can reach most other
+On the other hand, most nodes are not directly
+connected to one another in a small-world network.
+Nonetheless, it is likely that they share the same neighbors or that their
+neighbors share the same neighbors. 
+Thus, most nodes can reach most other
 nodes in the network by a small number of steps. For a network
 to be considered a small-world network, its average path length $l$ 
 needs to fullfil the condition $l\sim ln(n)$, where $n$ is the number
 of nodes in the graph \cite{wattsmodel}.
 
-One of network that is of special interest in this Thesis are social networks.
-Social networks describe humans and 
-how these are connected to each other socially. These networks
-may for example model friendship, scientific co-authorship or online 
-social media networks \cite{basicnetwork}. 
-These kinds of networks can be modelled as graphs, where the nodes 
-is the general population modelled in the system
+One network that is of special interest in this thesis are social networks.
+Social networks describe how humans are socially connected. 
+These networks may for example model friendship, scientific co-authorship 
+or online social media networks \cite{basicnetwork}. 
+These kinds of networks can be modeled as graphs, where the nodes 
+are the general population modeled in the system
 and the edges model the relationship between the 
 different people.
 Social networks often share similar characteristics. The study of 
 \textit{Mislove et al.} that focuses on online social media networks
-shows that social networks fulfill the small world characteristic,
-are scale-free networks, and
-are highly clustered networks with a high clustering coefficient
+shows, that social networks fulfill the small world characteristic,
+have a high clustering coefficient and are scale-free networks
 \cite{mislovesocialnetworkcharacteristics}. Thus, to accurately represent 
-a social network, specially an  online social media network, 
-a graph should ideally fulfill all characteristics that were mentioned.
+social networks, a graph should ideally fulfill all three characteristics.
 
 \subsection{Random Graphs}
 \label{randomgraphssection}
 Graphs do not need to be based on real systems. They can also be generated. 
 These randomly generated graphs are called random graphs \cite{randomgraphs}.
-Usually, certain characteristics, like the number of nodes or the number 
-of edges in a random graph, are of a fixed value
-and known in advance and other characteristics, such as the connections between 
-the nodes, are randomly generated with specific algorithms.
+Typically, specific attributes in a random graph, such as the number of nodes 
+or the number of edges, are predetermined, 
+while other features are randomly generated using designated algorithms.
 
 There are a number of algorithms used to generate random graphs.
-The most commonly used algorithms are introduced in this chapter.
+The most commonly used algorithms are introduced in this section.
 
 \subsubsection{Erdős–Rényi Model}
 
@@ -193,16 +191,16 @@ number of nodes $n$ and the probability $p$ that an
 edge exists between two nodes are of fixed value \cite{basicnetwork}. 
 To generate an ER random graph, the algorithm goes through 
 every possible node combination $a, b$ and it creates an edge 
-$(a, b)$ between the two nodes given the probability $p$. 
-Thus, the number of edges $|E|$ is random.
+$(a, b)$ given the probability $p$. 
+Thus, the number of edges $|E|$ is not fixed.
 
-Generally, the characteristics besides the number of nodes and the
-probability of the ER graph are not known.
-Nonetheless, it is possible to calculate the average value of the other
-characteristics to analyse the random graph algorithm.
-The graph characteristics of this type of random graph are shown in Table 
+The characteristics besides the number of nodes and the
+probability of the ER graph are generally not known.
+Nonetheless, the average value of the other
+characteristics to analyse the random graph algorithm can be calculated.
+The graph characteristics of this type of random graph are shown in table 
 \ref{erdos-model}.
-An important observation given the values in the table is that 
+An important observation is that 
 the average degree distribution $P_k$ follows the Poisson distribution
 $P_\lambda (k) = \frac{\lambda^k}{k!}\, \mathrm{e}^{-\lambda}$. Thus,
 ER graphs do not follow the power law distribution and are consequently
@@ -237,19 +235,22 @@ not scale-free.
 
 Another well known random graph algorithm is the Barabási–Albert (BA) model 
 \cite{barabasimodel}. 
-This type of model uses the concept of preferential attachement, 
-where nodes that are being added to a random graph have a higher 
+This type of model uses the concept of preferential attachement.
+To generate a graph based on this concept, first a small \glqq core\grqq{}
+graph with $a$ nodes is created, where $a\ll n$ and $n$ is the final amount of nodes.
+Then, $n-a$ nodes are sequentially added to the graph.
+These nodes have a higher 
 probability to connect to vertices that are already well-connected. 
 Thus, the probability $p_i$ that a new node forms an edge with an
 existing node $i$ depends on its degree $c_i$. This means that the
 probability can be calculated as $p_i= \frac{c_i}{\sum_{k}c_k}$.
 This concept of preferential attachement leads to the degree distribution
-following the form $P_k\sim k^{-3}$, thus the BA model is a graph 
-that fulfills the power law characteristic.
+$P_k\sim k^{-3}$. Thus the BA graph 
+fulfills the power law characteristic.
 This can be seen in the graph characteristics of the random graph
-in Table \ref{ba-model}, when defining $n$ as the number
+in table \ref{ba-model}. For this table, $n$ is defined as the number
 of nodes and $m$ as the number of edges that a node
-will create when entering the random graph.
+will create when being added to the random graph.
 
 \begin{table}[ht!]
     \centering
@@ -273,10 +274,10 @@ will create when entering the random graph.
 \end{table}
 
 \subsubsection{Watts–Strogatz Model}
-The last random graph algorithm mentioned in this Section 
+The last random graph algorithm mentioned in this section 
 is the Watts–Strogatz (WS) random graph \cite{wattsmodel}.
 Contrary to BA random graphs, the focus of the WS graph is not to 
-form highly clustered graphs based on the power law, but creating graphs
+form graphs based on the power law, but to create graphs
 that follow the small world characteristic more realistically.
 
 The WS random graph model starts with a ring lattice graph, a graph 
@@ -285,7 +286,7 @@ is connected to its $c$ nearest neighbors. Then, each edge $(a, b)$
 may be rewired given the probability $p$, thus reconnecting the edge to  $(a, b')$
 instead and creating a shortcut between the two non-neighboring nodes.
 Furthermore, the new edge may only be created as long as it does not create
-a loop $(a, a)$ and as long as an equal link $(a, b')$ does not exist.
+a loop $(a, a)$ and as long as the link $(a, b')$ does not already exist.
 Another version of this algorithm does not rewire existing edges,
 but creates new random edges as shortcuts given the probability $p$.
 The second version creates a graph that can be considered more 
@@ -293,9 +294,9 @@ The second version creates a graph that can be considered more
 thus favored over the former algorithm \cite{basicnetwork}.
 
 The graph characteristics of the model can be seen
-in Table \ref{ws-model}. Given the degree distribution $P_k$, it can be seen
-that the distribution does not follow the power law, since it is more similar
-to the Poisson distribution than an exponential distribution. Thus, the WS model
+in table \ref{ws-model}. Given the degree distribution $P_k$, it can be seen
+that the distribution does not follow the power law since it is more similar
+to the Poisson distribution than a power distribution. Thus, the WS model
 is not scale-free.
 
 \begin{table}[ht!]
@@ -320,19 +321,19 @@ is not scale-free.
 \subsubsection{Comparison between the Random Graph Algorithms}
 
 Analysing the average characteristics of all random graph algorithms introduced in
-this chapter, it can be seen that they differ in their graph characteristics.
-The comparison of the different characteristics of all three models can be 
-seen in Table \ref{summary-graph-model}.
+this chapter, it can be seen that they differ in their average graph characteristics.
+The comparison of the different characteristics of all three models are shown 
+in table \ref{summary-graph-model}.
 First, the ER model has comparatively low clustering coefficient compared to the 
 other random graph models. Given a fixed average degree by defining 
-the probability $p$ as $p=\frac{c}{n-1}$, then the graph becomes less clustered
-as the size of the graph increases. Both BA and WA model have higher clustering
-coefficients compared to the ER model. Furthermore, for big graphs with a 
-high amount of nodes $n$, the clustering coefficient of the BA model 
+the probability $p$ as $p=\frac{c}{n-1}$, the graph becomes less clustered
+as the number of nodes of the graph increases. Both BA and WA model have higher clustering
+coefficients compared to the ER model. Furthermore, for graphs with a 
+high number of nodes $n$, the clustering coefficient of the BA model 
 decreases. This is in contrast to the WA model, whose clustering coefficient 
-is independent of its graph size. Nonetheless, both models do not achieve
-the clustering coefficients that can be seen in real social media networks
-such as WhatsApp \cite{whatsappgraphmodels}.
+does not depend on its graph size. Nonetheless, both models do not reach
+the clustering coefficient metrics that can be seen in real social networks
+ \cite{whatsappgraphmodels}.
 Last, all three models fulfill the small-world characteristic $l\sim ln(n)$ 
 and all models show similar values for the average path length
 \cite{whatsappgraphmodels}.
@@ -354,53 +355,54 @@ and all models show similar values for the average path length
     \label{summary-graph-model}
 \end{table}
 
-\section{Information Propagation in the Social Media Age}
+\section{Information Propagation in Social Networks}
 \label{informationdiffsection}
 Since the creation of the internet, 
 people are receiving increasing amounts of information.
-This information is mostly being spread through social media.
-Furthermore, both true and false information can be spread through 
+This information is spread through social media.
+Furthermore, both true and false information can spread through 
 these channels.
 Thus, the topic of information propagation over social media has become an 
 important research field in the academic community.
 The main way to analyse the spreading of information over a social network 
-is by modelling the propagation process. The spread of information over 
-a given network is called information diffusion. 
-The modelling of information diffusion can be divided into three components
+is by modeling the propagation process. The spread of information over 
+a network is called information diffusion. 
+The modeling of information diffusion can be divided into three components
 \cite{reviewinformationdiffusion}: 
 
 \begin{itemize}
     \item State: Entities in a system may be grouped together in a class which
-    defines their behavior in the system. In the context of information diffusion,
-    an entity can for example belong to the  \glqq Spreader \grqq{} class which spreads the information
-    to specific other entities in the system. An entity could also belong to a
-    \glqq Susceptible \grqq{} class that did not receive the information, 
-    but would possibly be able to receive it.
+    defines their behavior in the system. For example, 
+    an entity can belong to the  \glqq Spreader \grqq{} class which 
+    spreads the information
+    to other entities in the system. An entity could also belong to a
+    \glqq Susceptible \grqq{} class that did not receive the information yet, 
+    but is able to receive it.
     \item Model: The model defines how the entities interact which each other
     given their states. A model is often represented by a graph with the entities
     as nodes and connections between the entities as edges 
-    (See Section \ref{graphbasics}).
+    (see Section \ref{graphbasics}).
     \item Transition rates: The transition rates are the parameters used
-    do define how the information is diffused in the model in a specific simulation. 
+    do define how the information is diffused in the model in a simulation. 
 \end{itemize}
 
 The first two components are independent of specific simulation scenarios,
-unlike the third component, thus the first two components should be further
-analysed. Furthermore, there are a multitude of different ways 
+unlike the third component. Thus the first two components should be further
+analysed. Furthermore, there is a multitude of different ways 
 to model information diffusion in social networks. Therefore, the most common
-modelling methods will be further analysed in this chapter.
+modeling methods will be further analysed in this chapter.
 
 \subsubsection{Epidemiological Models}
 
 Due to their similarity to the spread of infectious diseases, 
-the spread of misinformation is often modelled the same as epidemiological models.
+the spread of misinformation is often modeled in the same way as epidemiological models.
 The simplest epidemiological model is the SI model, where entities in a system
 can either belong to the state \glqq Susceptible\grqq{} ($S$) or 
-\glqq Infected\grqq{} ($I$) and where the amount of total entities of a 
+\glqq Infected\grqq{} ($I$). Moreover, the number of total entities of a 
 system can be calculated as $N=S+I$. The SI model is the basis for many
 more specialised models where the states are more detailed to capture more 
 aspects of real life behavior. A few models based on the SI model and their 
-specific state are shown in Table \ref{SI-table}.
+specific state are shown in table \ref{SI-table}.
 
 \begin{table}[ht!]
     \centering
@@ -424,25 +426,25 @@ specific state are shown in Table \ref{SI-table}.
     \label{SI-table}
 \end{table}
 
-Of specific interest for this Thesis are the SIR and SIS models. 
+Two models that shall be further analysed in this section are the SIR and SIS models. 
 For the SIR model, it is assumed that at the beginning, all entities in the 
 system are in the state $S$, thus susceptible to an infection. In the context of 
 misinformation diffusion this means that an entity does not know about the
 misinformation that is being spread and is neutral towards it. A susceptible
-entity may become infected and thus may change its state $S\to I$.
+entity may become infected and thus may change its state to $S\to I$.
 An infected entity knows and believes in the misinformation and may
 spread the misinformation to other entities in the system. After being infected,
 an entity may learn that the information is fake. Therefore, it recovers 
-from being infected and changes its state $I\to R$. An entity in a 
-recovered state cannot be infected again by misinformation and is thus immune.
+from being infected and changes its state to $I\to R$. An entity in a 
+recovered state cannot be infected again by misinformation and thus is immune.
 The SIS model differs from the SIR model in that the entity does not recover,
-but it \glqq forgets\grqq{} about the fact that the information is fake, 
+but it \glqq forgets\grqq{} about the fact that the information is fake 
 and becomes susceptible to misinformation again.
 
 The amount of entities belonging to each state may change 
 after a time duration $\Delta t$. The equations to calculate the 
-state changes, and thus the progress of the information diffusion, 
-can be seen in Table \ref{SI-table-equations}.
+changes in number of entities in each state, and thus the progress 
+of the information diffusion, can be seen in table \ref{SI-table-equations}.
 
 \begin{table}[ht!]
     \centering
@@ -471,43 +473,46 @@ can be seen in Table \ref{SI-table-equations}.
 
 $\beta$ and $\gamma$ are the transition rates parameters of the model, where 
 $\beta$ is the transmission rate and $\gamma$ the 
-recovery rate. Moreover, the equations in Table \ref{SI-table-equations}
-are differential equation that are used to calculate the amount
+recovery rate. Moreover, the equations in table \ref{SI-table-equations}
+are differential equations that are used to calculate the amount
 of entities for each state in the system, not to calculate in which state
-each entity in the system is in. To analyse the information diffusion on 
-an entity level, graph based diffusion models are needed.
+each entity in the system is in. Thus, the differential equations are 
+only useful if a system-level view on the propagation is required.
+If an entity-level view is necessary, i.e. if it is required to know which 
+specific entities are in which state, then graph based diffusion models are needed.
 There is no exact definition for an algorithm to calculate the state changes in the
-graph model, but generally, the probability that an entity changes
-its state from susceptible to infected $S \to I$ increases depending on
-how many connected entities are already infected. In its simplest form, a
-propagation algorithm may be defined as in Equation \ref{eqbasicpropagation} 
+graph model. Nonetheless, the probability that an entity changes
+its state from susceptible to infected $S \to I$ generally increases depending on
+how many neighbors are already infected. In its simplest form, a
+propagation algorithm may be defined as in equation \ref{eqbasicpropagation} 
 \cite{easypropagation}.
 
 \begin{equation}
     I(a) = 1 (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
-    1(f^{rand}\geq \beta)>0) 
+    1(f^{\mathrm{rand}}\geq \beta)>0) 
     \label{eqbasicpropagation}
 \end{equation}
 
-In the equation, the infection status $I(a)$ of each node $a$
-in a graph is defined by if any neighboring node $b$ that is connected 
-to $a$ and is part of the infection node set $I$, 
-and thus infected, fullfills the condition $f^{rand}\geq \beta$,
-where $f^{rand}$ is the random probability generation function and $1$ 
+In the equation, the infection status $I(a)$ of each node $a$ is defined 
+by whether any neighboring node $b$ connected to $a$ is infected 
+and fulfills the condition $f^{\mathrm{rand}}\geq \beta$.
+The condition $f^{\mathrm{rand}}$ is the random probability generation function and $1$ 
 is a function that equals one if the specific condition is fulfilled and 
-zero otherwise. Thus, this means if any neighbor $b$ is infected and the 
+zero otherwise. This means if any neighbor $b$ is infected and the 
 condition $f^{rand}\geq \beta$ is fulfilled for $b$, then $a$ becomes infected. 
-Afterwards, a node can recover given the independent probability
-$\gamma$.
+Afterwards, a node can recover given the probability $\gamma$.
 
 Another method to model the information diffusion in an epidemiological model, 
 specially the propagation of fake news and its debunking,
 is described by \textit{Tambuscio et al.} \cite{sirsmodel}. In their work, they
 define a modified type of SIS model where entities in the \glqq Infected\grqq{} 
-state can either believe in the fake news that is being distributed or they believe 
-in the true news that is also being spread. Thus, the \glqq Infected\grqq{}
-state is divided into the two subgroups \glqq Believer\grqq{} and
+are divided into two subgroups \glqq Believer\grqq{} and
 \glqq Fact Checker\grqq{}.
+The \glqq Believer\grqq{} subgroup believes in the fake news and spreads it 
+to its neighbors.
+The \glqq Fact Checker\grqq{} subgroup knows that the fake news is not 
+true and only believes in the facts that are being spread. Furthermore, it
+also spreads the factual information to its neighbors.
 
 \begin{figure}[!ht]
     \center
@@ -541,9 +546,9 @@ state is divided into the two subgroups \glqq Believer\grqq{} and
     \label{SIS-table-equations}
 \end{table}
 
-In Figure \ref{originalmodelstatechart}, the states and the general probability
+In figure \ref{originalmodelstatechart}, the states and the general probability
 for transitions of the model are shown.
-In Table \ref{SIS-table-equations}, the probability functions 
+In table \ref{SIS-table-equations}, the probability functions 
 $p_i^B,  p_i^F,  p_i^S$ that a node $i$ will belong to each state  
 \glqq Believer\grqq{}(B), \glqq Fact Checker\grqq{}(F) and 
 \glqq Susceptible\grqq{}(S) at the iteration step $t+1$ are defined more clearly. 
@@ -551,7 +556,7 @@ These probability functions
 are dependent on the current state of the node $s_i=[s_i^B,  s_i^F,  s_i^S]$,
 where $s_i^S$ is $1$ if the node $i$ has the state $S$ and else $0$.
 Furthermore, the probability functions also depend on the constant system 
-probabilities $p_{verify}, p_{forget}$. Last, the functions are also 
+probabilities $p_{\mathrm{verify}}, p_{\mathrm{forget}}$. Last, the functions are also 
 dependent on the propagation functions $f_i, g_i$, where $g_i$ describes 
 the propagation of the fake news and $f_i$ the propagation of its debunking
 for the node $i$. The two functions  $f_i, g_i$ are dependent on
@@ -560,8 +565,8 @@ the amount of neighbors $n_i^B, n_i^F$ that belong to the states
 system parameters $\beta$ and $\alpha$, where $\beta$ is the transmission rate
 and $\alpha$ defines the credibility of the hoax. Thus, with this model it
 is possible to model both the fake news spreading process and 
-the fact-checking propagation process at the same time and
-moreover it is possible to consider the plausibility of the fake 
+the fact-checking propagation process at the same time. 
+Moreover, it is possible to consider the plausibility of the fake 
 news in the propagation process.
 
 \subsubsection{Information Cascade Models}
@@ -574,7 +579,7 @@ iteration step $i$ may infect its connected neighbor $a$ with a probability $P_n
 can then infect their neighboring node in the next iteration step $i+1$
 and the node $n$ becomes inactive and does not infect any neighbors in any future
 iterations.
-The equation for the propagation step can be seen in Equation 
+The equation for the propagation step can be seen in equation 
 \ref{eqbasicpropagationcascading}.
 Information cascade models are mostly used for prediction and influence 
 analysis purposes, and not to explain the collective behavior
@@ -608,7 +613,7 @@ specific threshold $\theta$ to become infected. More specifically,
 a certain amount of neighbors need to be infected for node $a$ to become 
 infected too. Furthermore, contrary to the cascade models, a node can always 
 infect its neighbors as long as the conditions are fulfilled in the threshold 
-model. The general equation for the threshold model can be seen in Equation
+model. The general equation for the threshold model can be seen in equation
 \ref{eq:threshold}.
 
 \begin{equation}

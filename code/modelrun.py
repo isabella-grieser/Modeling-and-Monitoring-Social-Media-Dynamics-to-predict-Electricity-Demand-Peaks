@@ -25,7 +25,7 @@ if __name__ == "__main__":
     )
     # https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Equipment-Consumer-Durables/Tables/equipment-household-appliances-lwr-d.html
     network_model = mb.define_appliance_use(network_model, config["model_args"])
-    path = "data/lastprofil_h0i_2023.xls"
+    path = "data/energy/lastprofil_h0i_2023.xls"
     start_index = 1160
     df = pd.read_excel(path, header=None, names=["time", "power"])
     start_spread = datetime(2023, 1, 14, 8, 30, 0, tzinfo=dt.timezone.utc)

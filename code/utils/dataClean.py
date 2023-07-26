@@ -47,4 +47,4 @@ if __name__ == "__main__":
     # clean_household_data("../data/household_data_1min_opsd.csv", "../data/opsd_1min.csv")
     # clean_time_series_data("../data/time_series_15min_opsd.csv", "../data/time_15min.csv")
 
-    clear_detailed_data("../data/household_2019_15min.csv", "../data/household_15min.csv")
+    clear_detailed_data("../data/energy/household_2019_15min.csv", "../data/household_15min.csv")

@@ -6,7 +6,8 @@
 **.hdf5
 **.txt
 **.arff
-
+**.sqlite
+**.xls
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
