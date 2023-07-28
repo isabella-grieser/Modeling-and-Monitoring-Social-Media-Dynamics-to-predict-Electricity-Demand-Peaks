@@ -4,11 +4,7 @@ from datetime import datetime
 import datetime as dt
 import matplotlib
 import gen.model as mb
-import utils.plots as plots
-import networkx as nx
-import gen.model as mb
 from sim.simulator import Simulator
-import sys
 
 matplotlib.use("TkAgg")
 
@@ -31,9 +27,7 @@ if __name__ == "__main__":
     start_spread = datetime(2023, 1, 14, 8, 30, 0, tzinfo=dt.timezone.utc)
     start_power = datetime(2023, 1, 14, 10, 30, 0, tzinfo=dt.timezone.utc)
 
-    zone = 'Europe/Berlin'
-    x = pd.to_datetime(df["time"
-                          ""], utc=True).dt.to_pydatetime().tolist()[start_index:]
+    x = pd.to_datetime(df["time"], utc=True).dt.to_pydatetime().tolist()[start_index:]
     y = [df["power"].to_list()[start_index:]]
 
     simulator = Simulator(network_model,

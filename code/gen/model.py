@@ -18,6 +18,10 @@ def initialize_node_attributes(G):
         G.nodes[n][const.POWER_USAGE] = 0.0
         G.nodes[n][const.ACTIVATED] = False
         G.nodes[n][const.HOUSEHOLD_APPLIANCE] = []
+        G.nodes[n][const.WILL_ACT] = True
+        G.nodes[n][const.P_S] = 0.0
+        G.nodes[n][const.P_I] = 0.0
+        G.nodes[n][const.P_R] = 0.0
     return G
 
 

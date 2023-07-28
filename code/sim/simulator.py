@@ -10,6 +10,7 @@ import matplotlib.dates as md
 import config.systemconstants as const
 import utils.utils as util
 from matplotlib.lines import Line2D
+from multiprocessing import Pool
 
 matplotlib.use("TkAgg")
 
@@ -140,13 +141,24 @@ class Simulator:
                 y_ref = y_ref.to_numpy().tolist()
 
             def plot_init():
+                returns = []
                 line1.set_data(x_plot, y_true)
+                returns.append(line1)
                 line2.set_data(x_plot, y_ref)
+                returns.append(line2)
                 power_thresh.set_data([x_plot[0], x_plot[-1]], [self.power_thresh, self.power_thresh])
-                action_starting.set_data([], [])
-                spread_starting.set_data([], [])
-                return [line1, line2, action_starting, spread_starting]
+                if self.spread_start is not None:
+                    spread_starting.set_data([], [])
+                    returns.append(spread_starting)
+                if self.power_start is not None:
+                    action_starting.set_data([], [])
+                    returns.append(action_starting)
+                return returns
 
+            #to return values: save old vals
+            x_total = x_plot
+            y_ref_total = y_true
+            y_true_total = y_ref
             def animate(frame):
                 x_new, y_new_true, y_new_ref = None, None, None
                 # append new steps
@@ -166,6 +178,10 @@ class Simulator:
                 x_plot.extend(x_new)
                 y_true.extend(y_new_true)
                 y_ref.extend(y_new_ref)
+
+                x_total.extend(x_new)
+                y_ref_total.extend(y_new_true)
+                y_true_total.extend(y_new_ref)
 
                 del x_plot[:self.steps]
                 del y_true[:self.steps]
@@ -200,7 +216,7 @@ class Simulator:
                 anim.save(save_name, fps=10)
             else:
                 plt.show()
-
+            return x_total, y_ref_total, y_true_total
         else:
             x_all = self.x[:self.timespan]
             y_true, y_ref = self.__calculate_power__(x_all, [y_s[:self.timespan] for y_s in self.y])
@@ -234,8 +250,8 @@ class Simulator:
         # after conditions are filled: implement SIR Model
         # given the paper "Fact-checking Effect on Viral Hoaxes:
         # A Model of Misinformation Spread in Social Networks"
-        p_verify, alpha, beta, check = self.args["p_verify"], self.args["alpha"], \
-            self.args["beta"], self.args["check"]
+        p_verify, alpha, beta = self.args["p_verify"], self.args["alpha"], self.args["beta"]
+        
         for n in self.graph.nodes:
             if self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER:
                 # status of node cannot be changed
@@ -265,11 +281,10 @@ class Simulator:
 
             current_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
 
-            if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE \
-                and current_infect_status == const.InfectionStatus.BELIEVER:
+            if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE and current_infect_status == const.InfectionStatus.BELIEVER:
                 self.graph.nodes[n][const.WILL_ACT] = random.random() < self.args["infect_power_consumption_p"]
 
-            if self.power_start is not None and x > self.power_start:
+            if self.power_start is None or self.power_start is not None and x > self.power_start:
                 # check if the node will start using more power
                 if not self.graph.nodes[n][const.ACTIVATED] \
                         and current_infect_status == const.InfectionStatus.BELIEVER:

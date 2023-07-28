@@ -1,0 +1,58 @@
+{
+  "seed": 523,
+  "network":{
+    "n": 1000
+  },
+  "reference" : [
+      "https://www.daftlogic.com/information-appliance-power-consumption.htm",
+      "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Equipment-Consumer-Durables/Tables/liste-equipment-households-electrical--household-appliance-others-germany.html#55702",
+      ""
+  ],
+    "sim": {
+    "mu": 1,
+    "sigma": 1,
+    "power_usage_prob": 0.6,
+    "p_verify": 0.07,
+    "alpha": 0.4,
+    "beta": 0.6,
+    "infect_power_consumption_p": 0.8,
+    "power_threshold": 1.5
+  },
+  "model_args":{
+    "electric_car": {
+      "power": 1125,
+      "p": 0.1,
+      "duration": 10000
+    },
+    "washing_machine": {
+      "power": 100,
+      "p": 95.8,
+      "duration": 4
+    },
+    "washer_dryer": {
+      "power": 500,
+      "p": 42.6,
+      "duration": 3
+    },
+    "dishwasher": {
+      "power": 300,
+      "p": 71.7,
+      "duration": 8
+    },
+    "oven": {
+      "power": 540,
+      "p": 80,
+      "duration": 4
+    },
+    "electric_stove": {
+      "power": 500,
+      "p": 94,
+      "duration": 2
+    },
+    "hometrainer": {
+      "power": 100,
+      "p": 26.4,
+      "duration": 4
+    }
+  }
+}
