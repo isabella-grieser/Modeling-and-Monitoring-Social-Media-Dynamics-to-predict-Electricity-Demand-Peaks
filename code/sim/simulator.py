@@ -61,7 +61,7 @@ class Simulator:
 
         # infect a random node
         node = sample(list(self.graph.nodes()), 1)
-        self.graph.nodes[node[0]][const.INFECTION_STATUS] = const.InfectionStatus.BELIEVER
+        self.graph.nodes[node[0]][const.INFECTION_STATUS] = const.InfectionStatus.INFECTED
 
     def iterate(self, iterations=1000, intervall_time=50, plot=False, save=False, save_name="./output/video.mp4"):
 
@@ -94,9 +94,9 @@ class Simulator:
                 s_nodes = [n_n for n_n, y in self.graph.nodes(data=True) if
                            y[const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE]
                 i_nodes = [n_n for n_n, y in self.graph.nodes(data=True) if
-                           y[const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER]
+                           y[const.INFECTION_STATUS] == const.InfectionStatus.INFECTED]
                 r_nodes = [n_n for n_n, y in self.graph.nodes(data=True) if
-                           y[const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER]
+                           y[const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED]
                 drawn_s_nodes = nx.draw_networkx_nodes(self.graph,
                                                        pos=pos,
                                                        nodelist=set(s_nodes),
@@ -243,51 +243,55 @@ class Simulator:
         if self.spread_start is not None and x < self.spread_start:
             return
 
-        states = [const.InfectionStatus.BELIEVER,
-                  const.InfectionStatus.FACT_CHECKER,
-                  const.InfectionStatus.SUSCEPTIBLE]
+        states = [const.InfectionStatus.SUSCEPTIBLE,
+                  const.InfectionStatus.INFECTED,
+                  const.InfectionStatus.RECOVERED]
 
         # after conditions are filled: implement SIR Model
         # given the paper "Fact-checking Effect on Viral Hoaxes:
         # A Model of Misinformation Spread in Social Networks"
         p_verify, alpha, beta = self.args["p_verify"], self.args["alpha"], self.args["beta"]
-        
+
         for n in self.graph.nodes:
-            if self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER:
+            if self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED:
                 # status of node cannot be changed
                 continue
-            n_b = sum(1 for x in self.graph.neighbors(n) if
-                      self.graph.nodes[x][const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER)
-            n_f = sum(1 for x in self.graph.neighbors(n) if
-                      self.graph.nodes[x][const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER)
-            if n_b == 0:
+            n_i = sum(1 for x in self.graph.neighbors(n) if
+                      self.graph.nodes[x][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
+            n_r = sum(1 for x in self.graph.neighbors(n) if
+                      self.graph.nodes[x][const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED)
+            if n_i == 0:
                 f_i = 0
             else:
-                f_i = beta * ((n_b * (1 + alpha)) / (n_b * (1 + alpha) + n_f * (1 - alpha)))
-            if n_f == 0:
+                f_i = beta * ((n_i * (1 + alpha)) / (n_i * (1 + alpha) + n_r * (1 - alpha)))
+            if n_r == 0:
                 g_i = 0
             else:
-                g_i = beta * ((n_f * (1 - alpha)) / (n_b * (1 + alpha) + n_f * (1 - alpha)))
+                g_i = beta * ((n_r * (1 - alpha)) / (n_i * (1 + alpha) + n_r * (1 - alpha)))
 
             s_i_s = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE)
-            s_i_b = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER)
+            s_i_i = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
 
-            p_b = f_i * s_i_s + (1 - p_verify) * s_i_b
-            p_f = g_i * s_i_s + p_verify * s_i_b
-            p_s = (1 - f_i - g_i) * s_i_s
+            self.graph.nodes[n][const.P_S] = (1 - f_i - g_i) * s_i_s
+            self.graph.nodes[n][const.P_I] = f_i * s_i_s + (1 - p_verify) * s_i_i
+            self.graph.nodes[n][const.P_R] = g_i * s_i_s + p_verify * s_i_i
 
             prev_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
-            self.graph.nodes[n][const.INFECTION_STATUS] = np.random.choice(states, p=[p_b, p_f, p_s])
+
+            p_s = self.graph.nodes[n][const.P_S]
+            p_i = self.graph.nodes[n][const.P_I]
+            p_r = self.graph.nodes[n][const.P_R]
+            self.graph.nodes[n][const.INFECTION_STATUS] = np.random.choice(states, p=[p_s, p_i, p_r])
 
             current_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
 
-            if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE and current_infect_status == const.InfectionStatus.BELIEVER:
+            if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE and current_infect_status == const.InfectionStatus.INFECTED:
                 self.graph.nodes[n][const.WILL_ACT] = random.random() < self.args["infect_power_consumption_p"]
 
             if self.power_start is None or self.power_start is not None and x > self.power_start:
                 # check if the node will start using more power
                 if not self.graph.nodes[n][const.ACTIVATED] \
-                        and current_infect_status == const.InfectionStatus.BELIEVER:
+                        and current_infect_status == const.InfectionStatus.INFECTED:
                     self.graph.nodes[n][const.ACTIVATED] = random.random() < self.args["power_usage_prob"]
     def __calculate_power__(self, x_s, y_lists):
         # algorithm to calculate the new demand for each node
@@ -311,10 +315,10 @@ class Simulator:
             return 1
         if self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE:
             return 1
-        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER:
+        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED:
             if self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT]:
                 return 1
-        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.FACT_CHECKER:
+        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED:
             return 1
         return 1
 
@@ -322,7 +326,7 @@ class Simulator:
         if self.power_start is not None and x < self.power_start:
             return 0
         if self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT] and \
-                self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.BELIEVER:
+                self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED:
             total_power = 0
             for appliance in self.graph.nodes[node][const.HOUSEHOLD_APPLIANCE]:
                 if appliance[1] >= 0:
