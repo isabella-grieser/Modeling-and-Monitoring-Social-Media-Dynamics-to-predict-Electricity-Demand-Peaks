@@ -9,8 +9,8 @@ import matplotlib.animation as animation
 import matplotlib.dates as md
 import config.systemconstants as const
 import utils.utils as util
+from joblib import Parallel, delayed
 from matplotlib.lines import Line2D
-from multiprocessing import Pool
 
 matplotlib.use("TkAgg")
 
@@ -83,7 +83,8 @@ class Simulator:
 
             ax1.legend(loc="upper left")
 
-            l1 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="white", label='susceptible')
+            l1 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="white",
+                        label='susceptible')
             l2 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="red", label='infected')
             l3 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="grey", label='recovered')
             ax2.legend(handles=[l1, l2, l3])
@@ -155,10 +156,11 @@ class Simulator:
                     returns.append(action_starting)
                 return returns
 
-            #to return values: save old vals
+            # to return values: save old vals
             x_total = x_plot
             y_ref_total = y_true
             y_true_total = y_ref
+
             def animate(frame):
                 x_new, y_new_true, y_new_ref = None, None, None
                 # append new steps
@@ -252,10 +254,10 @@ class Simulator:
         # A Model of Misinformation Spread in Social Networks"
         p_verify, alpha, beta = self.args["p_verify"], self.args["alpha"], self.args["beta"]
 
-        for n in self.graph.nodes:
+        def calc_state_probabilities(n):
             if self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED:
                 # status of node cannot be changed
-                continue
+                return
             n_i = sum(1 for x in self.graph.neighbors(n) if
                       self.graph.nodes[x][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
             n_r = sum(1 for x in self.graph.neighbors(n) if
@@ -276,6 +278,7 @@ class Simulator:
             self.graph.nodes[n][const.P_I] = f_i * s_i_s + (1 - p_verify) * s_i_i
             self.graph.nodes[n][const.P_R] = g_i * s_i_s + p_verify * s_i_i
 
+        def change_state(n):
             prev_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
 
             p_s = self.graph.nodes[n][const.P_S]
@@ -285,7 +288,8 @@ class Simulator:
 
             current_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
 
-            if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE and current_infect_status == const.InfectionStatus.INFECTED:
+            if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE \
+                    and current_infect_status == const.InfectionStatus.INFECTED:
                 self.graph.nodes[n][const.WILL_ACT] = random.random() < self.args["infect_power_consumption_p"]
 
             if self.power_start is None or self.power_start is not None and x > self.power_start:
@@ -293,6 +297,16 @@ class Simulator:
                 if not self.graph.nodes[n][const.ACTIVATED] \
                         and current_infect_status == const.InfectionStatus.INFECTED:
                     self.graph.nodes[n][const.ACTIVATED] = random.random() < self.args["power_usage_prob"]
+
+        n_jobs = 4
+        # Parallel(n_jobs=n_jobs)(delayed(calc_state_probabilities)(n) for n in self.graph.nodes)
+        # Parallel(n_jobs=n_jobs)(delayed(change_state)(n) for n in self.graph.nodes)
+        for n in self.graph.nodes:
+            calc_state_probabilities(n)
+        for n in self.graph.nodes:
+            change_state(n)
+        # Parallel(n_jobs=n_jobs)(delayed(change_state)(n) for n in self.graph.nodes)
+
     def __calculate_power__(self, x_s, y_lists):
         # algorithm to calculate the new demand for each node
         y_true, y_ref = [], []
@@ -301,7 +315,7 @@ class Simulator:
             for n in self.graph.nodes:
                 ref_power = y_lists[self.graph.nodes[n][const.HOUSEHOLD_INDEX]][i]
                 node_val = ref_power * self.__power_consumption_factor__(x, n) \
-                                                         + self.__power_consumption_offset__(x, n)
+                           + self.__power_consumption_offset__(x, n)
                 self.graph.nodes[n][const.POWER_USAGE] = node_val
                 original_power_usage += ref_power
             new_y_true = util.sum_demand(self.graph) / self.reduce_factor

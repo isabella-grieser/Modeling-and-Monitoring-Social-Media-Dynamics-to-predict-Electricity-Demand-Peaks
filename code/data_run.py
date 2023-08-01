@@ -26,7 +26,7 @@ if __name__ == "__main__":
     alpha = 0.4
     p_verify = 0.4
     degree = 10
-
+# 1451274.0167097864
     return_dict = solve_params(s, i, r, start_time, end_time, time_step, twitter_data, beta, alpha, degree, p_verify)
 
     plt.plot(values.index, return_dict["s"], label='susceptible')

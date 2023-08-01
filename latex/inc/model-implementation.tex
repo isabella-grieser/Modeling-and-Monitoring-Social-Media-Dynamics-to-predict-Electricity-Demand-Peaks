@@ -1,7 +1,7 @@
 \chapter{Implementation of a Framework to model the Effect
 of Information on Social Media on the Power Grid}
 
-In this chapter, a framework to analyse the effects of information on the 
+In this Chapter, a framework to analyse the effects of information on the 
 power grid will be introduced and the specific implementation of the 
 framework will be explained.
 First, in section \ref{simulationframeworksection}, 
@@ -26,6 +26,179 @@ need to be defined and a general simulation algorithm needs to be implemented.
 \section{Extending the Framework to estimate the System Parameters based on
 Domain Variables}
 
+In Section \ref{simulationframeworksection}, a framework to simulate the effects 
+of information on the power grid was introduced. However, the simulation results
+may differ significantly based on which parameters were chosen for the simulation.
+Furthermore, if the systems parameters are chosen without any real-life basis,
+the result of the simulation may be unrealistic. Thus, the simulation framework 
+may not be useful to predict possible crisis scenarios.
+As a consequence, if the framework should produce realistic results and if
+it should be used to possibly predict overconsumption trends, an 
+algorithm to estimate realistic values for the system parameters are necessary.
 
-\subsection{Usage of analogous Social Media Data to simulate the Effects of 
-Misinformation on the Power Grid}
+In Section \ref{powerloadsection}, different possible variables that 
+correlate with power load were introduced. These variables could be 
+used to estimate realistic system parameters. For this Thesis, social media data is 
+used to estimate the system parameters that control the 
+information propagation.
+To use social media data as a relevant input data source for the framework,
+a method is proposed in this Thesis. The steps in the proposed method are made of:
+
+\begin{enumerate}
+    \item Find all relevant posts and messages on social media websites.
+    This can be done with both natural language processing techniques and
+    by using keyword search queries.
+    \item Count the amount of relevant social media posts over a given 
+    timespan. This is done by counting the amount of posts in given intervals, 
+    such as e.g. the amount of posts each 15 minutes. This data shows the
+    engagement on the specific topic over time.
+    \item Filter the data graph to smoothen the data and to facilitate the
+    parameter extraction process.
+    \item Use the processed data to calculate the system parameters
+    for the SIR model.
+\end{enumerate}
+
+To estimate the system parameters with the processed data, 
+% HIER das konzept von minimize und solve diff equations erklären und
+% cooles Bild rein wäre nice
+
+
+
+
+To calculate the differential equations for the specific SIR model algorithm
+used in this Thesis, mean field theory 
+is used to generalize the equations %put here ref to equations and cite 
+% mean field theory shit
+
+
+First, it can be assumed that for a Barabási–Albert random graph
+that was defined in Section \ref{randomgraphssection}, 
+the median degree for a node in the graph will be equal to the amount 
+of edges generated when adding a new node to the random graph.
+This assumption can be made since the graph follows the power law distribution,
+which defines that few nodes have a high amount of connections to other nodes
+and a high amount of nodes have comparatively low amount of connections to 
+other nodes. Since the minimum amount of edges that a node can have 
+in the Barabási–Albert random graph generation algorithm is $k$, this 
+means that we can assume that $\forall i \to c_i=k$.
+Next, we define that $S(t), I(t), R(t)$, where $S(t)$ is the amount of
+entities in the system with the status \textit{Susceptible} at the time $t$, 
+$I(t)$ is the amount of entities with the status \textit{Infected} and
+$R(t)$ is the amount of entities with the status \textit{Recovered}. 
+We assume that the states of the neighbors of a node $i$ at the time $t$ are 
+randomly distributed given the probabilities $p^S(t), p^I(t), p^R(t)$,
+where $p^S(t) + p^I(t) + p^R(t) = 1$. We can calculate the values $S, I, R$
+with the Equations in \ref{SIR-system-amound-eqs:all-lines},
+with $N$ as the total amount of entities in the system.
+
+\begin{subequations}
+\begin{align}
+    S(t) &=p^S(t)\cdot N \label{SIR-system-amound-eqs:1}\\
+    I(t) &=p^I(t)\cdot N \label{SIR-system-amound-eqs:2}\\
+    R(t) &=p^R(t)\cdot N \label{SIR-system-amound-eqs:3}
+\end{align}
+\label{SIR-system-amound-eqs:all-lines}
+\end{subequations}
+
+Given the Equations in \ref{SIR-system-amound-eqs:all-lines}, it is also possible 
+to calculate the changes $\Delta S, \Delta I, \Delta R$ in the system.
+The changes can be calculated with the Equations defined in 
+\ref{SIR-diff-system-amount-eqs}.
+
+\begin{subequations}
+\begin{align}
+    \Delta S &=\Delta p^S(t)\cdot N \label{SIR-diff-system-amount-eqs:1}\\
+    \Delta I &=\Delta p^I(t)\cdot N \label{SIR-diff-system-amount-eqs:2}\\
+    \Delta R &=\Delta p^R(t)\cdot N \label{SIR-diff-system-amount-eqs:3}
+\end{align}
+\label{SIR-diff-system-amount-eqs}
+\end{subequations}
+
+Since we assume that the states are randomly distributed over the system, 
+we consequently assume that the state of the node $i$ is randomly distributed.
+Thus, the state $s_i$ of the node $i$ can be defined as in Equation 
+\ref{state-node-equation}.
+
+\begin{equation}
+    s_i = [s_i^S, s_i^I, s_i^R] = [p^S(t), p^I(t), p^R(t)]
+    \label{state-node-equation}
+\end{equation}
+
+Furthermore, the functions $g_i,f_i$ defined in Equations aaa and bbbb
+can be generalized by assuming that the average amount of neighbors 
+of a specific state $K$ can be calculated as $k\cdot p^K(t)$. For this
+assumption, $k$ is the median degree of all nodes and $p^K(t)$ is the 
+average probability that a node is in the state $K$.
+Thus, the functions $g_i,f_i$ can be generalized as in the
+Equations \ref{generalized-functions-g-f}.
+
+\begin{subequations}
+\begin{align}
+    f_i(t) &= \beta \frac{n_i^I(t)(1+\alpha)}{n_i^I(t)(1+\alpha)+n_i^R(t)(1-\alpha)} 
+    \nonumber\\
+    \to f(t) &= k\beta \frac{p^I(t)(1+\alpha)}{p^I(t)(1+\alpha)+p^R(t)(1-\alpha)}
+    \label{generalized-function-f} \\
+    g_i(t) &= \beta \frac{n_i^F(t)(1-\alpha)}{n_i^I(t)(1+\alpha)+n_i^R(t)(1-\alpha)} 
+    \nonumber \\
+    \to g(t) &= k\beta \frac{p^F(t)(1-\alpha)}{p^I(t)(1+\alpha)+p^R(t)(1-\alpha)}
+    \label{generalized-function-g}
+\end{align}
+\label{generalized-functions-g-f}
+\end{subequations}
+
+With these assumptions, the general equations for the SIR model can 
+be deduced. First, the function for $\Delta R(t)$ can be infered
+as shown in Equation \ref{delta-r-deduction-eqs}.
+
+\begin{align}
+    p^R(t+1) &= g \cdot p^S(t) + p_{verify}\cdot p^I(t) + p^R(t) \nonumber\\
+    p^R(t+1) - p^R(t) &= g \cdot p^S(t) + p_{verify}\cdot p^I(t) \nonumber\\
+    \Delta R(t) = (p^R(t+1) - p^R(t))\cdot N 
+    &= N(g \cdot p^S(t) + p_{verify}\cdot p^I(t)) \nonumber\\
+    &= N(g \cdot \frac{S(t)}{N} + p_{verify}\cdot \frac{I}{N} ) \nonumber\\
+    &= g \cdot S(t) + p_{verify}\cdot I(t) \nonumber\\
+    &= k\beta \frac{p^R(t)(1-\alpha)}{p^I(t)(1+\alpha)+p^R(t)(1-\alpha)} 
+    \cdot S(t) + p_{verify}\cdot I(t) \nonumber\\
+    &= k\beta \frac{\frac{R(t)}{N}(1-\alpha)}{\frac{I(t)}{N}(1+\alpha)+\frac{R(t)}{N}(1-\alpha)} 
+    \cdot S(t) + p_{verify}\cdot I(t) \nonumber\\
+    \Delta R(t) &= \frac{k\beta}{N} \frac{R(t)(1-\alpha)}{I(t)(1+\alpha)+R(t)(1-\alpha)} 
+    \cdot S(t) + p_{verify}\cdot I(t) \label{delta-r-deduction-eqs}
+\end{align}
+
+The equation for $\Delta I(t)$ can be infered in a similar manner to $\Delta R(t)$.
+The deduction steps for $\Delta I(t)$ are shown in Equation 
+\ref{delta-i-deduction-eqs}.
+
+\begin{align}
+    p^I(t+1) &= f \cdot p^S(t) + (1 - p_{verify})\cdot p^I(t) \nonumber\\
+     &= f \cdot p^S(t) + p^I(t) - p_{verify}\cdot p^I(t) \nonumber\\
+    p^I(t+1) - p^I(t) &= f \cdot p^S(t) - p_{verify}\cdot p^I(t) \nonumber\\
+    \Delta I(t) = (p^I(t+1) - p^I(t)) \cdot N 
+    &= N (f \cdot p^S(t) - p_{verify}\cdot p^I(t)) \nonumber\\
+    &= N (f \cdot \frac{S(t)}{N}  - p_{verify}\cdot \frac{I(t)}{N}) \nonumber\\
+    &= f \cdot S(t) - p_{verify}\cdot I(t) \nonumber\\
+    &=  k\beta \frac{p^I(t)(1+\alpha)}{p^I(t)(1+\alpha)+p^R(t)(1-\alpha)}
+     \cdot S(t) - p_{verify}\cdot I(t) \nonumber\\
+    &=  k\beta \frac{\frac{B(t)}{N}(1+\alpha)}{\frac{I(t)}{N}(1+\alpha)+\frac{R(t)}{N}(1-\alpha)}
+     \cdot S(t) - p_{verify}\cdot I(t) \nonumber\\
+     \Delta I(t) &=  \frac{k\beta}{N} \frac{I(t)(1+\alpha)}{I(t)(1+\alpha)+R(t)(1-\alpha)}
+     \cdot S(t) - p_{verify}\cdot I(t) \label{delta-i-deduction-eqs}
+\end{align}
+
+Last, given that there are no entities entering or leaving the system,
+it can be assumed that the state changes in the system all sum to zero,
+thus $\Delta S+ \Delta I+ \Delta R = 0$. With this, the equation for
+$\Delta S$ can be deduced as shown in Equation \ref{delta-s-deduction-eqs}.
+
+\begin{align}
+    \Delta S &= - \Delta I - \Delta R \nonumber\\
+     &= -\frac{k\beta}{N} \frac{I(t)(1+\alpha)}{B(t)(1+\alpha)+R(t)(1-\alpha)}
+     \cdot S(t) + p_{verify}\cdot I(t) \nonumber\\
+      & -\frac{k\beta}{N} \frac{R(t)(1-\alpha)}{B(t)(1+\alpha)+R(t)(1-\alpha)} 
+      \cdot S(t) - p_{verify}\cdot I(t) \nonumber\\
+      &= -\frac{k\beta}{N} \frac{I(t)(1+\alpha) + R(t)(1-\alpha)}{I(t)(1+\alpha)+R(t)(1-\alpha)}
+      \cdot S(t) + p_{verify}\cdot I(t) - p_{verify}\cdot I(t) \nonumber\\
+      &= -\frac{k\beta}{N} \frac{I(t)(1+\alpha) + R(t)(1-\alpha)}{I(t)(1+\alpha)+R(t)(1-\alpha)}
+      \cdot S(t) \nonumber\\
+      &= -\frac{k\beta}{N} \label{delta-s-deduction-eqs}
+\end{align}

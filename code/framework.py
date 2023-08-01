@@ -46,6 +46,8 @@ class EstimationFramework:
         config["sim"]["alpha"] = return_dict["alpha"]
         config["sim"]["beta"] = return_dict["beta"]
 
+        print(f"estimated params: p_verify: {return_dict['p_verify']}, alpha: {return_dict['alpha']}, beta: {return_dict['beta']}")
+
         social_network_model = define_appliance_use(social_network_model, config["model_args"])
         df = pd.read_excel(ref_energy_path, header=None, names=["time", "power"])
         x = pd.to_datetime(df["time"], utc=True).dt.to_pydatetime().tolist()
@@ -67,7 +69,6 @@ class EstimationFramework:
         # find first occurrence where value is true
         val = next(iter([y_i[0] for y_i in enumerate(y_ref) if y_i[1] > max_value]), -1)
 
-        print(val)
         if val == -1:
             return None
         else:

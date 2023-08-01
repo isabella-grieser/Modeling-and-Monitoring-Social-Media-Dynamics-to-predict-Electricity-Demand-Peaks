@@ -33,6 +33,7 @@ def solve_params(s, i, r, start_time, end_time, time_step, twitter_data, beta, a
     result = minimize(error_function, init_params, bounds=bounds)
     optimal_beta, optimal_alpha, optimal_p, optimal_d, optimal_s, optimal_i, optimal_r = result.x
 
+    print(result.fun)
     init = [optimal_s, optimal_i, optimal_r]
     #calculate the sir model progression
     solution = solve_ivp(lambda t, y: sir_model(t, y, optimal_beta, optimal_alpha, optimal_p, optimal_d),
