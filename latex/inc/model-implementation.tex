@@ -13,14 +13,83 @@ the implementation of the simulation framework will described.
 There are multiple components that are essential to model the effects of 
 both true and false information on critical infrastructures
 such as the power grid. The development of the simulation framework
-proposed in this work can be divided into three parts. First, it is necessary to model an 
-example social media network graph with characteristics similar to
+proposed in this work can be divided into three parts. First, it is 
+necessary to model a social media network graph with characteristics similar 
+or equal to
 real social media networks. Second, an algorithm to model the 
 propagation of information over the network needs to be defined and 
 implemented. Third, rules to estimate the changes in the power consumption 
 need to be defined and a general simulation algorithm needs to be implemented.
 
+\subsection{Modelling Social Networks}
 
+Two potential approaches exist to create social media network graphs 
+that can be used in the proposed framework.
+First, a real social media network can be used as an example social network
+for the purpose of our simulation. 
+It is difficult to precisely analyse which real life individuals
+control which accounts on social media networks due to privacy reasons.
+Thus, it is not possible to create a social network graph that 
+correctly shows the real state of the social media network.
+Thus, datasets need to be used to model real life networks without 
+dealing with privacy concerns. There are datasets available to analyse
+real social media networks. One example dataset collection that can 
+be used for such a task is the Stanford 
+Large Network Dataset Collection \cite{snapnets}.
+This collection is part of the Stanford Network Analysis Project (SNAP).
+In this collection, there are datasets which show the network structure
+of multiple well-known social networks such as Facebook and Twitter.
+The advantage of using real social networks as reference networks
+for the simulation framework is that real networks fulfill the 
+characteristics of social networks the most effectively, since they
+are based on real data and not randomly generated. The disadvantage
+is that using this approach leads to all simulations using either
+one single or few selected social network graph models. Since 
+few different graph models are used for consecutive simulations,
+it cannot be determined if the simulation results are based on the 
+specific structure of the specific social network graph or if the results 
+are seasonable for other social networks. Thus, the simulation results
+may not be robust. Moreover, the size of the social network graph 
+cannot be changed without changing its characteristics, such as 
+the clustering coefficient. Since real social network graphs tend to be 
+big (for example, the Twitter social network graph provided by SNAP
+contains 81306 nodes and the Facebook social network graph contains 
+4.039 nodes), it may not be computationally feasible to use such graphs
+as reference graphs.
+
+The other approach would be to generate a graph that is not based
+on any real social network, but can be used as a reference graph.
+For this, the generated graph needs to fulfill the common
+characteristics of social networks.
+Section \ref{randomgraphssection} introduces multiple random graph algorithms.
+Furthermore, in Section \ref{comparison-random-graphs},
+these algorithms are evaluated based on how well they fulfill the characteristics
+of social networks defined in Section \ref{graphbasics}. 
+From the information provided in that Section, it is visible that the 
+Barabási–Albert (BA) graph is the random graph algorithm that 
+fulfills the characteristics of social networks most effectively. 
+Using a random graph to model the social media network brings the advantage
+that a variety of different graph models can be generated to use for 
+the simulation. Thus, the simulation results can be considered as more 
+robust since every simulation can be done with a different underlying 
+social media network model. Furthermore, different graph sizes can be 
+used in the simulation by changing the amount of nodes to be generated.
+Thus, using random graph algorithms is computationally easier since 
+real social network graphs tend to be big.
+The disadvantage is that random graph models may not fully fulfill
+all characteristics of a social network. As mentioned in 
+Section \ref{comparison-random-graphs}, the BA graph
+does not create graphs with a clustering coefficient that is as 
+high as real social networks. Nonetheless is the BA graph 
+a graph that is often used to model social networks.
+As a conclusion, since the usage of random graphs allows the usage
+of unique graph models for the simulation and the size of the 
+graph can be changed without changing the graph characteristics, 
+the random graph generation approach was used to model social networks.
+
+\subsection{Implementation of the Information Propagation Algorithm}
+
+\subsection{Rule-based Calculation of the Power Consumption}
 
 
 \section{Extending the Framework to estimate the System Parameters based on
@@ -33,16 +102,30 @@ Furthermore, if the systems parameters are chosen without any real-life basis,
 the result of the simulation may be unrealistic. Thus, the simulation framework 
 may not be useful to predict possible crisis scenarios.
 As a consequence, if the framework should produce realistic results and if
-it should be used to possibly predict overconsumption trends, an 
-algorithm to estimate realistic values for the system parameters are necessary.
+it should be used to possibly predict excess power consumption, an 
+algorithm to estimate realistic values for the system parameters is necessary.
 
 In Section \ref{powerloadsection}, different possible variables that 
 correlate with power load were introduced. These variables could be 
 used to estimate realistic system parameters. For this Thesis, social media data is 
 used to estimate the system parameters that control the 
-information propagation.
-To use social media data as a relevant input data source for the framework,
-a method is proposed in this Thesis. The steps in the proposed method are made of:
+information propagation. Since it is difficult to get highly personalized 
+information of people on the internet because of data privacy reasons, the
+social media data is assumed to be as generalized as possible and the identity 
+of the users posting messages is assumed to be unknown. The only information
+that is being considered in this Thesis are the messages itself.
+One method to estimate the propagation parameters of the SIR model 
+is to view the problem as a minimization problem 
+\cite{jin2013epidemiological}. The idea is to iteratively solve the differential 
+equations of the SIR model, analyse the infection process and minimize 
+its difference of the true infection process that can be seen via the
+social media data. A simplified diagram with the steps of the algorithm
+can be seen in Figure \ref{paramestimationbasic}. The method that is proposed 
+in this Thesis contains five different steps. 
+The first three steps are used to gather and preprocess 
+the data that is of relevance for the parameter estimation process.
+The last two steps make up the parameter estimation algorithm.
+The steps in the proposed method are:
 
 \begin{enumerate}
     \item Find all relevant posts and messages on social media websites.
@@ -53,26 +136,52 @@ a method is proposed in this Thesis. The steps in the proposed method are made o
     such as e.g. the amount of posts each 15 minutes. This data shows the
     engagement on the specific topic over time.
     \item Filter the data graph to smoothen the data and to facilitate the
-    parameter extraction process.
-    \item Use the processed data to calculate the system parameters
-    for the SIR model.
+    parameter extraction process. The filtered data is $posts(t)$.
+    \item Initialize the minimization algorithm with predefined unknown
+    variables and their initial values. Optimize the variables
+    so that the difference of the curve progression of the SIR model
+    and the number of posts over time is minimized. For each minimization
+    step, the differential equations that define the infection progression
+    in the system need to be solved.
 \end{enumerate}
 
-To estimate the system parameters with the processed data, 
-% HIER das konzept von minimize und solve diff equations erklären und
-% cooles Bild rein wäre nice
 
 
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.65]{figs/parameter_estimation_process.png}
+    \caption{Steps of the parameter estimation algorithm}
+    \label{paramestimationbasic}
+\end{figure}
 
-
+To use the algorithm proposed in this Thesis, it is necessary to 
+know the specific differential equations that describe the propagation 
+process over time in the system. However, the propagation algorithm
+used in the simulation framework is not based on differential equations,
+but is a graph-based algorithm. Since it is graph-based, the propagation algorithm
+does not provide a system-wide view on the propagation process,
+it only considers the local status of the infection, i.e the neighbors
+of each node, to decide on the state of a specific node.
 To calculate the differential equations for the specific SIR model algorithm
-used in this Thesis, mean field theory 
-is used to generalize the equations %put here ref to equations and cite 
-% mean field theory shit
+used in this Thesis, mean-field theory is used to generalize the equations
+\cite{chaikin1995principles}.
+This is done by averaging certain variables in the system, making these
+variables constant over the whole system and thus 
+reducing the degrees of freedom that need to be considered.
+Thus, all unique interactions in a system are averaged into a simpler,
+higher-level or system-wide view.
+This approach originated from molecular analysis, where the method is used
+to average the behaviors of many molecules into the average behavior
+of the whole system,
+but it can also be used to analyse the characteristics of graphs
+\cite{barabasi1999mean}\cite{sirsmodel}.
+Thus, mean-field theory is used in this Thesis to 
+analyse the average interactions in the graph and thus to deduce 
+the average characteristics of the information 
+propagation process. 
 
-
-First, it can be assumed that for a Barabási–Albert random graph
-that was defined in Section \ref{randomgraphssection}, 
+To analyse the average information propagation process, 
+it can be assumed that for a Barabási–Albert random graph, 
 the median degree for a node in the graph will be equal to the amount 
 of edges generated when adding a new node to the random graph.
 This assumption can be made since the graph follows the power law distribution,
@@ -101,15 +210,16 @@ with $N$ as the total amount of entities in the system.
 \end{subequations}
 
 Given the Equations in \ref{SIR-system-amound-eqs:all-lines}, it is also possible 
-to calculate the changes $\Delta S, \Delta I, \Delta R$ in the system.
+to calculate the changes $\Delta S(t), \Delta I(t), \Delta R(t)$ between each 
+iteration step $t$ and $t+1$ in the system.
 The changes can be calculated with the Equations defined in 
 \ref{SIR-diff-system-amount-eqs}.
 
 \begin{subequations}
 \begin{align}
-    \Delta S &=\Delta p^S(t)\cdot N \label{SIR-diff-system-amount-eqs:1}\\
-    \Delta I &=\Delta p^I(t)\cdot N \label{SIR-diff-system-amount-eqs:2}\\
-    \Delta R &=\Delta p^R(t)\cdot N \label{SIR-diff-system-amount-eqs:3}
+    \frac{dS}{dt} \approx \frac{\Delta S(t)}{\Delta t} = \frac{\Delta S(t)}{1} = \Delta S(t) &=\Delta p^S(t)\cdot N \label{SIR-diff-system-amount-eqs:1}\\
+    \frac{dI}{dt} \approx \frac{\Delta I(t)}{\Delta t} = \frac{\Delta I(t)}{1} = \Delta I(t) &=\Delta p^I(t)\cdot N \label{SIR-diff-system-amount-eqs:2}\\
+    \frac{dR}{dt} \approx \frac{\Delta R(t)}{\Delta t} = \frac{\Delta R(t)}{1} = \Delta R(t) &=\Delta p^R(t)\cdot N \label{SIR-diff-system-amount-eqs:3}
 \end{align}
 \label{SIR-diff-system-amount-eqs}
 \end{subequations}
@@ -129,7 +239,7 @@ can be generalized by assuming that the average amount of neighbors
 of a specific state $K$ can be calculated as $k\cdot p^K(t)$. For this
 assumption, $k$ is the median degree of all nodes and $p^K(t)$ is the 
 average probability that a node is in the state $K$.
-Thus, the functions $g_i,f_i$ can be generalized as in the
+Thus, the functions $g_i,f_i$ can be generalized as in
 Equations \ref{generalized-functions-g-f}.
 
 \begin{subequations}
@@ -187,11 +297,11 @@ The deduction steps for $\Delta I(t)$ are shown in Equation
 
 Last, given that there are no entities entering or leaving the system,
 it can be assumed that the state changes in the system all sum to zero,
-thus $\Delta S+ \Delta I+ \Delta R = 0$. With this, the equation for
+thus $\Delta S(t)+ \Delta I(t)+ \Delta R(t) = 0$. With this, the equation for
 $\Delta S$ can be deduced as shown in Equation \ref{delta-s-deduction-eqs}.
 
 \begin{align}
-    \Delta S &= - \Delta I - \Delta R \nonumber\\
+    \Delta S(t) &= - \Delta I(t) - \Delta R(t) \nonumber\\
      &= -\frac{k\beta}{N} \frac{I(t)(1+\alpha)}{B(t)(1+\alpha)+R(t)(1-\alpha)}
      \cdot S(t) + p_{verify}\cdot I(t) \nonumber\\
       & -\frac{k\beta}{N} \frac{R(t)(1-\alpha)}{B(t)(1+\alpha)+R(t)(1-\alpha)} 
@@ -200,5 +310,76 @@ $\Delta S$ can be deduced as shown in Equation \ref{delta-s-deduction-eqs}.
       \cdot S(t) + p_{verify}\cdot I(t) - p_{verify}\cdot I(t) \nonumber\\
       &= -\frac{k\beta}{N} \frac{I(t)(1+\alpha) + R(t)(1-\alpha)}{I(t)(1+\alpha)+R(t)(1-\alpha)}
       \cdot S(t) \nonumber\\
-      &= -\frac{k\beta}{N} \label{delta-s-deduction-eqs}
+      \Delta S(t) &= -\frac{k\beta}{N} \cdot S(t) \label{delta-s-deduction-eqs}
 \end{align}
+
+
+Summarized, the differential equations that are used for the parameter estimation 
+algorithm can be seen in Equation \ref{all-deduced-diff-equations}.
+
+\begin{subequations}
+    \begin{align}
+        \frac{dS}{dt} \approx \Delta S(t) &= -\frac{k\beta}{N} \cdot S(t) \\
+        \frac{dI}{dt} \approx  \Delta I(t) &=  \frac{k\beta}{N} \frac{I(t)(1+\alpha)}{I(t)(1+\alpha)+R(t)(1-\alpha)}
+        \cdot S(t) - p_{verify}\cdot I(t) \\
+        \frac{dR}{dt} \approx \Delta R(t) &= \frac{k\beta}{N} \frac{R(t)(1-\alpha)}{I(t)(1+\alpha)+R(t)(1-\alpha)} 
+        \cdot S(t) + p_{verify}\cdot I(t)\\
+\end{align}
+\label{all-deduced-diff-equations}
+\end{subequations}
+
+
+The differential equations have multiple unknown variables that need
+to be optimized in the minimization process. One unknown variable is
+the true size of the system $N$ since $N$ does not need to correlate 
+with the size of the social media website $N_{website}$.
+Another unknown variable is the average degree $k$ of the social network,
+since we do not know the specific characteristics of the network of the
+subgroup infected or susceptible to the information.
+Next, the two propagation parameters $\alpha, \beta$ are not known
+and need to be optimized. 
+Last, the initial values $S(t_0), I(t_0), R(t_0)$ are also not known.
+Thus, there are seven variables $N, k, \alpha, \beta, S(t_0), I(t_0), R(t_0)$
+that need to be optimized.
+
+
+Next, in conjunction with the simulation framework described in 
+\ref{simulationframeworksection}, it should be possible to predict 
+a possible overconsumption scenario. For this, a framework
+to predict power demand surges started by information shared in 
+social media networks is proposed in this Thesis. The steps
+in the proposed framework are shown in Figure \ref{basicpredicitonframework}.
+First, the data used for the parameter estimation process is gathered and
+preprocessed. Then, this data is used for the parameter estimation process
+proposed in this Section. Afterwards, the simulation framework is configured
+with the parameter estimated in the previous step. For this, 
+$\alpha, \beta, S(t_0), I(t_0), R(t_0)$ are used to configure the 
+information propagation process implemented in the simulation framework.
+The variables $N, k$ are used to configure the random graph generation
+characteristics. The implementation of the 
+algorithm of the Barabási–Albert random graph in \textit{NetworkX}
+receives the total amount of nodes in the graph and the number of edges 
+for each incoming node as inputs. Since we assume that the median degree
+$k$ equals the number of edges generated for each incoming node, we can thus
+use $k$ as an input for the random graph algorithm. However, this assumption
+only works if the total amount of nodes in the random graph is $N$.
+Since social networks tend to be big, it can be assumed that 
+$N$ is of high value and that a graph of such a size may lead to technical 
+issues such as high computation time. Thus, smaller values such as $N'$
+can be used as long as the ration between the amount of nodes and the
+amount of edges for the incoming nodes are the same, thus the constraint
+$\frac{k}{N}=\frac{k'}{N'}$ needs to be fulfilled for a Barabási–Albert
+graph $G'(N',k')$. With the parameters for the information propagation and 
+for the random graph, the simulation can thus be run. 
+Last, given the results of the simulation and the power threshold
+that define the upper limit of the power grid infrastructure, it
+is checked whether the power demand exceeds the predefined threshold.
+
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.65]{figs/full_prediction_framework.png}
+    \caption{Steps of the proposed framework to predict power demand surges
+    started by information shared in social media networks}
+    \label{basicpredicitonframework}
+\end{figure}

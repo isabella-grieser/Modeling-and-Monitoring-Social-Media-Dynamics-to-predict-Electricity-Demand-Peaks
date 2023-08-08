@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     data = get_typhoon_data()
 
-    values = data.groupby(pd.Grouper(key="date", freq="45min"))["tweet"].count()
+    values = data.groupby(pd.Grouper(key="date", freq="15min"))["tweet"].count()
 
     values = values[93:]
     start = values.index[93]

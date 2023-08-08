@@ -198,7 +198,7 @@ The characteristics besides the number of nodes and the
 probability of the ER graph are generally not known.
 Nonetheless, the average value of the other
 characteristics to analyse the random graph algorithm can be calculated.
-The graph characteristics of this type of random graph are shown in table 
+The graph characteristics of this type of random graph are shown in Table 
 \ref{erdos-model}.
 An important observation is that 
 the average degree distribution $P_k$ follows the Poisson distribution
@@ -248,7 +248,7 @@ This concept of preferential attachement leads to the degree distribution
 $P_k\sim k^{-3}$. Thus the BA graph 
 fulfills the power law characteristic.
 This can be seen in the graph characteristics of the random graph
-in table \ref{ba-model}. For this table, $n$ is defined as the number
+in Table \ref{ba-model}. For this Table, $n$ is defined as the number
 of nodes and $m$ as the number of edges that a node
 will create when being added to the random graph.
 
@@ -294,7 +294,7 @@ The second version creates a graph that can be considered more
 thus favored over the former algorithm \cite{basicnetwork}.
 
 The graph characteristics of the model can be seen
-in table \ref{ws-model}. Given the degree distribution $P_k$, it can be seen
+in Table \ref{ws-model}. Given the degree distribution $P_k$, it can be seen
 that the distribution does not follow the power law since it is more similar
 to the Poisson distribution than a power distribution. Thus, the WS model
 is not scale-free.
@@ -319,11 +319,11 @@ is not scale-free.
 
 
 \subsubsection{Comparison between the Random Graph Algorithms}
-
+\label{comparison-random-graphs}
 Analysing the average characteristics of all random graph algorithms introduced in
 this chapter, it can be seen that they differ in their average graph characteristics.
 The comparison of the different characteristics of all three models are shown 
-in table \ref{summary-graph-model}.
+in Table \ref{summary-graph-model}.
 First, the ER model has comparatively low clustering coefficient compared to the 
 other random graph models. Given a fixed average degree by defining 
 the probability $p$ as $p=\frac{c}{n-1}$, the graph becomes less clustered
@@ -402,7 +402,7 @@ can either belong to the state \glqq Susceptible\grqq{} ($S$) or
 system can be calculated as $N=S+I$. The SI model is the basis for many
 more specialised models where the states are more detailed to capture more 
 aspects of real life behavior. A few models based on the SI model and their 
-specific state are shown in table \ref{SI-table}.
+specific state are shown in Table \ref{SI-table}.
 
 \begin{table}[ht!]
     \centering
@@ -444,7 +444,7 @@ and becomes susceptible to misinformation again.
 The amount of entities belonging to each state may change 
 after a time duration $\Delta t$. The equations to calculate the 
 changes in number of entities in each state, and thus the progress 
-of the information diffusion, can be seen in table \ref{SI-table-equations}.
+of the information diffusion, can be seen in Table \ref{SI-table-equations}.
 
 \begin{table}[ht!]
     \centering
@@ -473,7 +473,7 @@ of the information diffusion, can be seen in table \ref{SI-table-equations}.
 
 $\beta$ and $\gamma$ are the transition rates parameters of the model, where 
 $\beta$ is the transmission rate and $\gamma$ the 
-recovery rate. Moreover, the equations in table \ref{SI-table-equations}
+recovery rate. Moreover, the equations in Table \ref{SI-table-equations}
 are differential equations that are used to calculate the amount
 of entities for each state in the system, not to calculate in which state
 each entity in the system is in. Thus, the differential equations are 
@@ -546,9 +546,9 @@ also spreads the factual information to its neighbors.
     \label{SIS-table-equations}
 \end{table}
 
-In figure \ref{originalmodelstatechart}, the states and the general probability
+In Figure \ref{originalmodelstatechart}, the states and the general probability
 for transitions of the model are shown.
-In table \ref{SIS-table-equations}, the probability functions 
+In Table \ref{SIS-table-equations}, the probability functions 
 $p_i^B,  p_i^F,  p_i^S$ that a node $i$ will belong to each state  
 \glqq Believer\grqq{}(B), \glqq Fact Checker\grqq{}(F) and 
 \glqq Susceptible\grqq{}(S) at the iteration step $t+1$ are defined more clearly. 

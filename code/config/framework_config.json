@@ -1,7 +1,7 @@
 {
   "seed": 523,
   "network":{
-    "n": 1000
+    "n": 400
   },
   "reference" : [
       "https://www.daftlogic.com/information-appliance-power-consumption.htm",
