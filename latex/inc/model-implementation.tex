@@ -1,12 +1,22 @@
 \chapter{Implementation of a Framework to model the Effect
 of Information on Social Media on the Power Grid}
 
-In this Chapter, a framework to analyse the effects of information on the 
+In this Chapter, a framework to analyse and predict 
+the effects of information on the 
 power grid will be introduced and the specific implementation of the 
 framework will be explained.
-First, in section \ref{simulationframeworksection}, 
+First, in Section \ref{simulationframeworksection}, 
 the implementation of the simulation framework will described.
-
+In Section \ref{modelsocialnetwork}, the underlying social network model
+used in the simulation is described. Then, in Section 
+\ref{modelinformationdiffusion}, the algorithm used to model
+the information diffusion process in the social network is 
+defined. Next, in Section \ref{rulebasedpowerconsumption}, 
+the rules to model the additional power consumption is explained.
+In addition, in Section \ref{parameterestimationalgo},
+an parameter estimation algorithm to estimate realistic 
+values for the simulation parameters is introduced and 
+the different steps of the framework are described.
 
 \section{Implementation of the Simulation Framework}
 \label{simulationframeworksection}
@@ -22,9 +32,11 @@ implemented. Third, rules to estimate the changes in the power consumption
 need to be defined and a general simulation algorithm needs to be implemented.
 
 \subsection{Modelling Social Networks}
-
+\label{modelsocialnetwork}
 Two potential approaches exist to create social media network graphs 
 that can be used in the proposed framework.
+% make maybe pretty picture with example graphs for both
+
 First, a real social media network can be used as an example social network
 for the purpose of our simulation. 
 It is difficult to precisely analyse which real life individuals
@@ -80,7 +92,7 @@ The disadvantage is that random graph models may not fully fulfill
 all characteristics of a social network. As mentioned in 
 Section \ref{comparison-random-graphs}, the BA graph
 does not create graphs with a clustering coefficient that is as 
-high as real social networks. Nonetheless is the BA graph 
+high as real social networks. Nonetheless, the BA  graph is
 a graph that is often used to model social networks.
 As a conclusion, since the usage of random graphs allows the usage
 of unique graph models for the simulation and the size of the 
@@ -88,12 +100,96 @@ graph can be changed without changing the graph characteristics,
 the random graph generation approach was used to model social networks.
 
 \subsection{Implementation of the Information Propagation Algorithm}
+\label{modelinformationdiffusion}
+
+There are multiple methods to model information diffusion in graph models.
+In Section \ref{informationdiffsection}, three different information diffusion
+model algorithms were introduced.
+Both the information cascade model and the threshold model focus on the 
+information diffusion process itself and not on the change in behavior
+of the single entities in the system. Thus, in these two models,
+entities may have two states: 
+\textit{Informed} and \textit{Not Informed}.
+On the other hand, epidemiological models such as the SIR model
+focus on the changes of the states of the entities in the system.
+Thus, it is possible to define a variety of behaviors in the
+information diffusion progress with epidemiological models. 
+In this Thesis, we are interested in both how the information
+diffuses and how it could be combated by using fact-checking.
+This can be studied in more detail if entities can 
+show different behaviors depending on what kind of information
+they possess. This can only be done in epidemiological models.
+Thus, an epidemiological model was chosen to model the information 
+diffusion process.
+
+%say I want epidemological model
+
+Epidemiological models generally defined by differential equations.
+As an example, the differential equations for the SIR and SIS 
+model are shown in Table \ref{SI-table-equations}.
+Nonetheless, graph-based epidemological models are also used.
+In Section \ref{epidemologicalmodels}, an information 
+diffusion model based on the work of \textit{Tambuscio et al.} 
+\cite{sirsmodel} is introduced. It has the advantage of being 
+able to model both the misinformation and fact-checking 
+diffusion process in the same model. 
+For this Thesis, the the model of \textit{Tambuscio et al.} was
+modified to deal with a differing assumption.
+In this work, we only consider the short-term effects of the information 
+on the power grid. Recurring spread of the same misinformation
+is not considered in this Thesis. This is done because it can be 
+assumed that the initial spread of the information leads to the 
+greatest effect on the power grid since it is also assumed that this
+spread leads to the greatest amount of infected entities at
+the time $t_{max,I}$. Thus, we can declare $p_{\mathrm{forget}} = 0$.
+This assumption leads to a modified state chart and probability
+functions compared to \textit{Tambuscio et al.}. The modified
+state chart can be seen in Figure \ref{modifiedmodelstatechart}
+and the modified probability functions can be seen in Table
+\ref{modified-SIS-table-equations}. In Figure 
+\ref{modifiedmodelstatechart}, it can be observed that 
+$p_{\mathrm{forget}} = 0$. Thus, there is no transition back to 
+the state \textit{Susceptible} and all entities
+will inevitably transition to the \textit{Recovered} state. 
+In conclusion, the modified model can be categorized as a SIR model. 
+
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.9]{figs/Tambuscio_modified.png}
+    \caption{state chart for the modified model}
+    \label{modifiedmodelstatechart}
+\end{figure}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c  c |} 
+     \hline
+     & \\
+     $\begin{aligned}
+          p_i^S(t+1) &= (1-f_i-g_i)s_i^S(t) \\
+          p_i^I(t+1) &= f_is_i^S(t) + (1-p_{verify})s_i^I(t) \\
+          p_i^R(t+1) &= g_is_i^S(t) + p_{verify}s_i^I(t)+s_i^R(t)
+        \end{aligned}$
+      &
+      $\begin{aligned}
+          f_i(t) &= \beta \frac{n_i^I(t)(1+\alpha)}{n_i^I(t)(1+\alpha)+n_i^R(t)(1-\alpha)} \\
+          g_i(t) &= \beta \frac{n_i^R(t)(1-\alpha)}{n_i^I(t)(1+\alpha)+n_i^R(t)(1-\alpha)} \\
+        \end{aligned}$
+       \\ 
+       & \\
+     \hline
+    \end{tabular}
+    \caption{modified probability functions for the states}
+    \label{modified-SIS-table-equations}
+\end{table}
 
 \subsection{Rule-based Calculation of the Power Consumption}
-
+\label{rulebasedpowerconsumption}
 
 \section{Extending the Framework to estimate the System Parameters based on
 Domain Variables}
+\label{parameterestimationalgo}
 
 In Section \ref{simulationframeworksection}, a framework to simulate the effects 
 of information on the power grid was introduced. However, the simulation results
@@ -144,8 +240,6 @@ The steps in the proposed method are:
     step, the differential equations that define the infection progression
     in the system need to be solved.
 \end{enumerate}
-
-
 
 \begin{figure}[!ht]
     \center
@@ -234,7 +328,8 @@ Thus, the state $s_i$ of the node $i$ can be defined as in Equation
     \label{state-node-equation}
 \end{equation}
 
-Furthermore, the functions $g_i,f_i$ defined in Equations aaa and bbbb
+Furthermore, the functions $g_i,f_i$ defined in Table 
+\ref{modified-SIS-table-equations}
 can be generalized by assuming that the average amount of neighbors 
 of a specific state $K$ can be calculated as $k\cdot p^K(t)$. For this
 assumption, $k$ is the median degree of all nodes and $p^K(t)$ is the 
@@ -383,3 +478,7 @@ is checked whether the power demand exceeds the predefined threshold.
     started by information shared in social media networks}
     \label{basicpredicitonframework}
 \end{figure}
+
+
+% als letzte Idee: herleiten, ab welchen p_verify I_max unter 
+% ein bestimmtes threshhold ist

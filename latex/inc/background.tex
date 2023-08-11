@@ -392,13 +392,14 @@ analysed. Furthermore, there is a multitude of different ways
 to model information diffusion in social networks. Therefore, the most common
 modeling methods will be further analysed in this chapter.
 
-\subsubsection{Epidemiological Models}
+\subsection{Epidemiological Models}
+\label{epidemologicalmodels}
 
 Due to their similarity to the spread of infectious diseases, 
 the spread of misinformation is often modeled in the same way as epidemiological models.
 The simplest epidemiological model is the SI model, where entities in a system
-can either belong to the state \glqq Susceptible\grqq{} ($S$) or 
-\glqq Infected\grqq{} ($I$). Moreover, the number of total entities of a 
+can either belong to the state \textit{Susceptible}($S$) or 
+\textit{Infected} ($I$). Moreover, the number of total entities of a 
 system can be calculated as $N=S+I$. The SI model is the basis for many
 more specialised models where the states are more detailed to capture more 
 aspects of real life behavior. A few models based on the SI model and their 
@@ -505,18 +506,20 @@ Afterwards, a node can recover given the probability $\gamma$.
 Another method to model the information diffusion in an epidemiological model, 
 specially the propagation of fake news and its debunking,
 is described by \textit{Tambuscio et al.} \cite{sirsmodel}. In their work, they
-define a modified type of SIS model where entities in the \glqq Infected\grqq{} 
-are divided into two subgroups \glqq Believer\grqq{} and
-\glqq Fact Checker\grqq{}.
-The \glqq Believer\grqq{} subgroup believes in the fake news and spreads it 
+define a modified type of SIRS model where entities in the \textit{Susceptible}
+group can change their state to both the \textit{Infected} and
+\textit{Recovered} states.
+The entities in the \textit{Infected} believe in the fake news and spreads it 
 to its neighbors.
-The \glqq Fact Checker\grqq{} subgroup knows that the fake news is not 
+The entities in the \textit{Recovered} group know that the fake news is not 
 true and only believes in the facts that are being spread. Furthermore, it
 also spreads the factual information to its neighbors.
+Members of both the \textit{Infected} and the \textit{Recovered} can also forget
+the information that they received and thus return to the \textit{Susceptible} state.
 
 \begin{figure}[!ht]
     \center
-    \includegraphics[scale=.15]{figs/Tambuscio.png}
+    \includegraphics[scale=.9]{figs/Tambuscio.png}
     \caption{state chart for the model described
     in \textit{Tambuscio et al.} \cite{sirsmodel}}
     \label{originalmodelstatechart}
@@ -528,14 +531,14 @@ also spreads the factual information to its neighbors.
      \hline
      & \\
      $\begin{aligned}
-          p_i^B(t+1) &= f_is_i^S(t) + (1-p_{forget}-p_{verify})s_i^B(t) \\
-          p_i^F(t+1) &= g_is_i^S(t) + p_{verify}s_i^B(t)+(1-p_{forget})s_i^F(t) \\
-          p_i^S(t+1) &= p_{forget}(s_i^B(t)+s_i^F(t)) + (1-f_i-g_i)s_i^S(t)
+          p_i^S(t+1) &= p_{forget}(s_i^I(t)+s_i^R(t)) + (1-f_i-g_i)s_i^S(t) \\
+          p_i^I(t+1) &= f_is_i^S(t) + (1-p_{forget}-p_{verify})s_i^I(t) \\
+          p_i^R(t+1) &= g_is_i^S(t) + p_{verify}s_i^I(t)+(1-p_{forget})s_i^R(t)
         \end{aligned}$
       &
       $\begin{aligned}
-          f_i(t) &= \beta \frac{n_i^B(t)(1+\alpha)}{n_i^B(t)(1+\alpha)+n_i^F(t)(1-\alpha)} \\
-          g_i(t) &= \beta \frac{n_i^F(t)(1-\alpha)}{n_i^B(t)(1+\alpha)+n_i^F(t)(1-\alpha)} \\
+          f_i(t) &= \beta \frac{n_i^I(t)(1+\alpha)}{n_i^I(t)(1+\alpha)+n_i^R(t)(1-\alpha)} \\
+          g_i(t) &= \beta \frac{n_i^R(t)(1-\alpha)}{n_i^I(t)(1+\alpha)+n_i^R(t)(1-\alpha)} \\
         \end{aligned}$
        \\ 
        & \\
@@ -549,19 +552,19 @@ also spreads the factual information to its neighbors.
 In Figure \ref{originalmodelstatechart}, the states and the general probability
 for transitions of the model are shown.
 In Table \ref{SIS-table-equations}, the probability functions 
-$p_i^B,  p_i^F,  p_i^S$ that a node $i$ will belong to each state  
-\glqq Believer\grqq{}(B), \glqq Fact Checker\grqq{}(F) and 
-\glqq Susceptible\grqq{}(S) at the iteration step $t+1$ are defined more clearly. 
+$p_i^S, p_i^I, p_i^R$ that a node $i$ will belong to each state  
+\textit{Susceptible}($S$),  \textit{Infected}($I$) and 
+\textit{Recovered}($R$) at the iteration step $t+1$ are defined more clearly. 
 These probability functions 
-are dependent on the current state of the node $s_i=[s_i^B,  s_i^F,  s_i^S]$,
-where $s_i^S$ is $1$ if the node $i$ has the state $S$ and else $0$.
+are dependent on the current state of the node $s_i=[s_i^S,  s_i^I,  s_i^R]$,
+where $s_i^K$ is $1$ if the node $i$ has the state $K$ and else $0$.
 Furthermore, the probability functions also depend on the constant system 
 probabilities $p_{\mathrm{verify}}, p_{\mathrm{forget}}$. Last, the functions are also 
 dependent on the propagation functions $f_i, g_i$, where $g_i$ describes 
 the propagation of the fake news and $f_i$ the propagation of its debunking
 for the node $i$. The two functions  $f_i, g_i$ are dependent on
-the amount of neighbors $n_i^B, n_i^F$ that belong to the states
-\glqq Believer\grqq{} or \glqq Fact Checker\grqq{} and the two 
+the amount of neighbors $n_i^I, n_i^R$ that belong to the states
+\textit{Infected} or \textit{Recovered} and the two 
 system parameters $\beta$ and $\alpha$, where $\beta$ is the transmission rate
 and $\alpha$ defines the credibility of the hoax. Thus, with this model it
 is possible to model both the fake news spreading process and 
@@ -569,7 +572,7 @@ the fact-checking propagation process at the same time.
 Moreover, it is possible to consider the plausibility of the fake 
 news in the propagation process.
 
-\subsubsection{Information Cascade Models}
+\subsection{Information Cascade Models}
 
 Another way to model information diffusion in graphs is by viewing it as a 
 sequential information propagation process. This assumption is made in
@@ -606,7 +609,7 @@ Some subtypes are described in \cite{diffusionbasics}. These are:
     can sucessfully infect $a$ at step $i+t$ is smaller, thus $P_n(a)>P_m(a)$.
 \end{itemize}
 
-\subsubsection{Threshold Models}
+\subsection{Threshold Models}
 A different method to analyse the diffusion process in graphs is by viewing the
 propagation step as a process where each entity needs to overcome a 
 specific threshold $\theta$ to become infected. More specifically, 
