@@ -78,11 +78,10 @@ class Simulator:
                 ax2.legend(handles=[l1, l2, l3])
                 pos = nx.nx_pydot.graphviz_layout(self.graph, prog="dot")
             else:
-                fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
                 # add system view, not graph view
                 line_sir_s, = ax2.plot([], [], lw=2, color='green', label="susceptible")
-                line_sir_i, = ax2.plot([], [], lw=2, color='red', label="infected")
-                line_sir_r, = ax2.plot([], [], lw=2, color='blue', label="recovered")
+                # line_sir_i, = ax2.plot([], [], lw=2, color='red', label="infected")
+                # line_sir_r, = ax2.plot([], [], lw=2, color='blue', label="recovered")
 
                 n_size = self.graph.number_of_nodes()
                 s_true = [n_size for n in range(self.timespan)]
@@ -90,6 +89,7 @@ class Simulator:
                 r_true = [0 for n in range(self.timespan)]
                 ax2.set_ylabel(f"Infection Process")
                 ax2.set_xlabel(f"Time")
+                # ax2.set(xlim=(self.x[0], self.x[self.timespan + iterations]), ylim=(0, n_size))
                 ax2.legend(loc="upper left")
 
             line1, = ax1.plot([], [], lw=2, color='blue', label="true consumption")
@@ -99,23 +99,6 @@ class Simulator:
                 spread_starting, = ax1.plot([], [], lw=2, color="yellow", ls=':', label="spread")
             if self.power_start is not None:
                 action_starting, = ax1.plot([], [], lw=2, color="red", ls=':', label="action")
-
-
-            x_plot = self.x[:self.timespan]
-            y_true, y_ref = self.__calculate_power__(x_plot, [y_s[:self.timespan] for y_s in self.y])
-
-            # when initializing -> y_true == y_ref
-            y_true, y_ref = list(y_ref), list(y_ref)
-            if isinstance(x_plot, pd.Series):
-                x_plot = x_plot.to_numpy().tolist()
-            if isinstance(y_true, pd.Series):
-                y_true = y_true.to_numpy().tolist()
-            if isinstance(y_ref, pd.Series):
-                y_ref = y_ref.to_numpy().tolist()
-
-            if isinstance(y_ref, pd.Series):
-                y_ref = y_ref.to_numpy().tolist()
-
 
             xfmt = md.DateFormatter('%H:%M')
             ax1.xaxis.set_major_formatter(xfmt)
@@ -159,12 +142,30 @@ class Simulator:
                                        edge_color="gray")
                 sus_nodes, inf_nodes, rem_nodes = update_graph()
 
+            x_plot = self.x[:self.timespan]
+            y_true, y_ref = self.__calculate_power__(x_plot, [y_s[:self.timespan] for y_s in self.y])
+
+            # when initializing -> y_true == y_ref
+            y_true, y_ref = list(y_ref), list(y_ref)
+            if isinstance(x_plot, pd.Series):
+                x_plot = x_plot.to_numpy().tolist()
+            if isinstance(y_true, pd.Series):
+                y_true = y_true.to_numpy().tolist()
+            if isinstance(y_ref, pd.Series):
+                y_ref = y_ref.to_numpy().tolist()
+            if isinstance(y_ref, pd.Series):
+                y_ref = y_ref.to_numpy().tolist()
+
+            # to return values: save old vals
+            x_total = x_plot
+            y_ref_total = y_true
+            y_true_total = y_ref
+
             def plot_init():
                 returns = []
                 line1.set_data(x_plot, y_true)
-                returns.append(line1)
                 line2.set_data(x_plot, y_ref)
-                returns.append(line2)
+                returns.extend([line1, line2])
                 power_thresh.set_data([x_plot[0], x_plot[-1]], [self.power_thresh, self.power_thresh])
                 if self.spread_start is not None:
                     spread_starting.set_data([], [])
@@ -174,15 +175,10 @@ class Simulator:
                     returns.append(action_starting)
                 if not draw_graph:
                     line_sir_s.set_data(x_plot, s_true)
-                    line_sir_i.set_data(x_plot, i_true)
-                    line_sir_r.set_data(x_plot, r_true)
-                    returns.extend([line_sir_s, line_sir_i, line_sir_r])
+                #    line_sir_i.set_data(x_plot, i_true)
+                #    line_sir_r.set_data(x_plot, r_true)
+                    returns.extend([line_sir_s])
                 return returns
-
-            # to return values: save old vals
-            x_total = x_plot
-            y_ref_total = y_true
-            y_true_total = y_ref
 
             def animate(frame):
                 x_new, y_new_true, y_new_ref = None, None, None
@@ -208,9 +204,9 @@ class Simulator:
                 y_ref_total.extend(y_new_true)
                 y_true_total.extend(y_new_ref)
 
-                del x_plot[:1]
-                del y_true[:1]
-                del y_ref[:1]
+                x_plot = x_plot[1:]
+                y_true = y_true[1:]
+                y_ref = y_ref[1:]
 
                 x_min, x_max = x_plot[0], x_plot[-1]
 
@@ -240,13 +236,11 @@ class Simulator:
                     s_true.append(s_sum)
                     i_true.append(i_sum)
                     r_true.append(r_sum)
-                    del s_true[:1]
-                    del i_true[:1]
-                    del r_true[:1]
-                    line_sir_s.set_data(x_plot, s_true)
-                    line_sir_i.set_data(x_plot, i_true)
-                    line_sir_r.set_data(x_plot, r_true)
-                    return [line1, line2, line_sir_s, line_sir_i, line_sir_r]
+                    line_sir_s.set_data(x_total, s_true)
+                    #line_sir_i.set_data(x_total, i_true)
+                    #line_sir_r.set_data(x_total, r_true)
+                    #return [line1, line2, line_sir_s, line_sir_i, line_sir_r]
+                    return [line1, line2, line_sir_s]
 
             anim = animation.FuncAnimation(fig, animate,
                                            init_func=plot_init,
@@ -313,9 +307,9 @@ class Simulator:
             s_i_s = int(data[const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE)
             s_i_i = int(data[const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
 
-            data[const.P_S] = (1 - f_i - g_i) * s_i_s
-            data[const.P_I] = f_i * s_i_s + (1 - p_verify) * s_i_i
-            data[const.P_R] = g_i * s_i_s + p_verify * s_i_i
+            self.graph.nodes[n][const.P_S] = (1 - f_i - g_i) * s_i_s
+            self.graph.nodes[n][const.P_I] = f_i * s_i_s + (1 - p_verify) * s_i_i
+            self.graph.nodes[n][const.P_R] = g_i * s_i_s + p_verify * s_i_i
         for n in self.graph.nodes:
             prev_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
 
