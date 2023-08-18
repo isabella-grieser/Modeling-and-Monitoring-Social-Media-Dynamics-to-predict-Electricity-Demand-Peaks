@@ -122,8 +122,6 @@ they possess. This can only be done in epidemiological models.
 Thus, an epidemiological model was chosen to model the information 
 diffusion process.
 
-%say I want epidemological model
-
 Epidemiological models generally defined by differential equations.
 As an example, the differential equations for the SIR and SIS 
 model are shown in Table \ref{SI-table-equations}.
@@ -186,6 +184,86 @@ In conclusion, the modified model can be categorized as a SIR model.
 
 \subsection{Rule-based Calculation of the Power Consumption}
 \label{rulebasedpowerconsumption}
+
+Last, given the social network modelling components given in 
+Sections \ref{simulationframeworksection} and 
+\ref{modelinformationdiffusion}, the rules to model the
+power demand changes need to be defined.
+To model the demand changes in the simulation, multiple assumptions
+are made.
+First, it is assumed that only \textit{infected} entities in 
+the social network graph
+can have changes in their usual power demand pattern. The reason is 
+that only changes in power demand due to information on social media
+are considered. Moreover, since \textit{susceptible} entities
+do not know of the information being spread on social media and 
+\textit{recovered} entities do not believe in the information anymore,
+these entities do not act on the information, unlike infected
+entities.
+Next, it is assumed that every entity in the social network graph 
+models one individual household, and not a single human. There are 
+two reasons for this assumption. First, it is assumed that 
+members of a single household are highly connected and if one 
+member of a household receives the information, all other members
+will be informed as well. Next, it is easier to model power demand
+patterns on a household level than a person level. The reason
+is that usually
+there is only one of each appliances that consume a lot of electricity, 
+such as washing machines, ovens or dryers, in each household.
+Then, it is assumed that the time of infection of an entity may not
+always coincide with the time where the entity changes its 
+power consumption. This is due to the fact that in the information
+being spread on social media, there may be be points in time
+mentioned, such that it leads to a delayed action response by the
+infected entities. An example scenario that benefits
+from these assumption is a false pricing information scenario 
+mentioned in Section \ref{contextmotivation}, Chapter 
+\ref{relatedworks} and Section ???. %reference the eval chapter here later.
+In this assumption, an entity may receive the information 
+at 3PM that the electricity price will be reduced by a considerable
+amount between 5PM and 7PM. Thus, the entity already received the
+information and may be considered as infected in the social network
+graph, but it will not act on the information since changing
+its power demand would only benefit it starting 5PM. Thus, its 
+action will be delayed until 5PM. 
+
+Besides the fundamental assumptions, other assumptions are made 
+to provide more realistic simulation results. %talk about the will act etc
+First, it is assumed that there may not be an immediate change 
+in power demand even if an entity is both infected and the entity 
+is in the time window to take action. This means that even if
+both conditions are fulfilled, the entity may delay its action. 
+Thus, it is assumed that for each infected entity that can 
+take action, it first needs to fulfill the condition 
+the rule $p<p_{power\_usage}$, where $p_{power\_usage}$ is a system
+parameter that defines the probability where an entity
+starts changing its power demand when both other conditions are
+fulfilled. Furthermore, this condition is continuously checked 
+during the simulation until the condition is fulfilled.
+Another assumption is that even if both conditions that
+the entity is infected and the entity is in the time window 
+to take action the entity may not take any action.
+The underlying idea is that even if an entity knows and believes
+in the information that is being spread and may also spread
+the information to its friends, it may not have a 
+reason or the motivation to act on the information.
+This assumption is fulfilled by the condition $p<p_{will\_act}$,
+where $p_{will\_act}$ is the probability that the 
+entity will even change its behavior given the information.
+This condition, contrary to the former condition, is only
+checked once. If the condition is not fulfilled, the 
+entity will never act on the information, even if 
+it believes in the information.
+
+%other todos
+%simulation steps itself
+%with pseudocode?
+% the reference data is important
+%the args file with all important parameters
+
+
+
+
 
 \section{Extending the Framework to estimate the System Parameters based on
 Domain Variables}

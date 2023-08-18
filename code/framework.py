@@ -3,7 +3,6 @@ import pandas as pd
 from sim.parameterEstimator import *
 from gen.model import *
 from sim.simulator import Simulator
-from utils.plots import *
 
 class EstimationFramework:
 
