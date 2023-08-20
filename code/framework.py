@@ -28,7 +28,7 @@ class EstimationFramework:
                                    p_verify)
 
         # create dynamic config for model generation
-        nodes = config["network"]["n"]
+        nodes = config["network"]["nodes"]
         n = return_dict["s_init"] + return_dict["i_init"] + return_dict["r_init"]
 
         # find the ratio of nodes and edge degree
@@ -40,7 +40,7 @@ class EstimationFramework:
         }
 
         social_network_model = create_social_network_graph(nodes, "barabasi_albert", model_config)
-
+        social_network_model = define_appliance_use(social_network_model, config["model_args"])
         config["sim"]["p_verify"] = return_dict["p_verify"]
         config["sim"]["alpha"] = return_dict["alpha"]
         config["sim"]["beta"] = return_dict["beta"]

@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # create social media network model
 
     network_model = mb.create_social_network_graph(
-        config["network"]["n"],
+        config["network"]["nodes"],
         "watts_strogatz",
         config["network"]
     )

@@ -10,6 +10,7 @@ import matplotlib.dates as md
 import config.systemconstants as const
 import utils.utils as util
 from matplotlib.lines import Line2D
+import datetime
 
 matplotlib.use("TkAgg")
 
@@ -18,6 +19,7 @@ class Simulator:
     def __init__(self, G, x, y, args, spread_start=None,
                  power_start=None,
                  seed=42, days=1,
+                 minutes=15,
                  steps=1, si="MW",
                  reduce_factor=1,
                  y_max=50000,
@@ -33,7 +35,7 @@ class Simulator:
         self.y_max = y_max
         self.si = si
         self.reduce_factor = reduce_factor
-
+        self.minutes = minutes
         np.random.seed(self.seed)
         random.seed(self.seed)
 
@@ -85,8 +87,10 @@ class Simulator:
             if draw_graph:
                 l1 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="white",
                             label='susceptible')
-                l2 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="red", label='infected')
-                l3 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="grey", label='recovered')
+                l2 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="red",
+                            label='infected')
+                l3 = Line2D([], [], color="black", linestyle='none', marker='o', markerfacecolor="grey",
+                            label='recovered')
                 ax2.set_title("Propagation of misinformation")
                 ax2.legend(handles=[l1, l2, l3])
 
@@ -120,6 +124,9 @@ class Simulator:
 
             if isinstance(y_ref, pd.Series):
                 y_ref = y_ref.to_numpy().tolist()
+
+            # if it is necessary to use the ref data multiple times
+            times = 0
 
             def update_graph():
                 s_nodes = [n_n for n_n, y in self.graph.nodes(data=True) if
@@ -177,31 +184,42 @@ class Simulator:
                 return returns
 
             # to return values: save old vals
-            x_total = x_plot
-            y_ref_total = y_true
-            y_true_total = y_ref
+            x_total = x_plot.copy()
+            y_ref_total = y_true.copy()
+            y_true_total = y_ref.copy()
 
             def animate(frame):
                 x_new, y_new_true, y_new_ref = None, None, None
                 # append new steps
-                n = (frame * self.steps + self.timespan) % len(self.x)
+                times, n = divmod(frame * self.steps + self.timespan, len(self.x))
                 if n + self.steps >= len(self.x):
                     i = (n + self.steps) % len(self.x)
                     x_new = self.x[n:] + self.x[:i]
                     y_new_true, y_new_ref = self.__calculate_power__(x_new, [y_s[n:] + y_s[:i] for y_s in self.y])
+                    x_plot_new = [
+                        x_vals + len(self.x) * times * datetime.timedelta(minutes=self.minutes)
+                        for x_vals in self.x[n:]
+                    ]
+                    x_plot_new.extend([
+                        x_vals + len(self.x) * (times + 1) * datetime.timedelta(minutes=self.minutes)
+                        for x_vals in self.x[:i]
+                    ])
                 else:
                     i = n + self.steps
                     x_new = self.x[n:i]
                     y_new_true, y_new_ref = self.__calculate_power__(x_new, [y_s[n:i] for y_s in self.y])
-
+                    x_plot_new = [
+                        x_vals + len(self.x) * times * datetime.timedelta(minutes=self.minutes)
+                        for x_vals in self.x[n:i]
+                    ]
                 # propagate based on if the next x (after step size) fulfills the simulation condition
                 self.__propagate__(x_new[-1])
 
-                x_plot.extend(x_new)
+                x_plot.extend(x_plot_new)
                 y_true.extend(y_new_true)
                 y_ref.extend(y_new_ref)
 
-                x_total.extend(x_new)
+                x_total.extend(x_plot_new)
                 y_ref_total.extend(y_new_true)
                 y_true_total.extend(y_new_ref)
 
@@ -228,12 +246,17 @@ class Simulator:
                     sus_nodes, inf_nodes, rem_nodes = update_graph()
                     return [line1, line2, sus_nodes, inf_nodes, rem_nodes]
                 else:
-                    s_sum = sum(n_n for n_n, y in self.graph.nodes(data=True) if
-                                y[const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE)
-                    i_sum = sum(n_n for n_n, y in self.graph.nodes(data=True) if
-                                y[const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
-                    r_sum = sum(n_n for n_n, y in self.graph.nodes(data=True) if
-                                y[const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED)
+                    s_sum = 0
+                    i_sum = 0
+                    r_sum = 0
+                    for n_n, y in self.graph.nodes(data=True):
+                        if y[const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE:
+                            s_sum += 1
+                        if y[const.INFECTION_STATUS] == const.InfectionStatus.INFECTED:
+                            i_sum += 1
+                        if y[const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED:
+                            r_sum += 1
+
                     s_true.append(s_sum)
                     i_true.append(i_sum)
                     r_true.append(r_sum)
@@ -245,7 +268,8 @@ class Simulator:
             anim = animation.FuncAnimation(fig, animate,
                                            init_func=plot_init,
                                            frames=iterations,
-                                           interval=intervall_time)
+                                           interval=intervall_time,
+                                           repeat=False)
 
             if save:
                 anim.save(save_name, fps=10)
@@ -314,22 +338,24 @@ class Simulator:
         def change_state(n):
             prev_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
 
-            p_s = self.graph.nodes[n][const.P_S]
-            p_i = self.graph.nodes[n][const.P_I]
-            p_r = self.graph.nodes[n][const.P_R]
-            self.graph.nodes[n][const.INFECTION_STATUS] = np.random.choice(states, p=[p_s, p_i, p_r])
+
+            self.graph.nodes[n][const.INFECTION_STATUS] = np.random.choice(states,
+                                                                           p=[self.graph.nodes[n][const.P_S],
+                                                                              self.graph.nodes[n][const.P_I],
+                                                                              self.graph.nodes[n][const.P_R]
+                                                                              ])
 
             current_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
 
             if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE \
                     and current_infect_status == const.InfectionStatus.INFECTED:
-                self.graph.nodes[n][const.WILL_ACT] = random.random() < self.args["infect_power_consumption_p"]
+                self.graph.nodes[n][const.WILL_ACT] = random.random() < self.args["p_will_act"]
 
             if self.power_start is None or self.power_start is not None and x > self.power_start:
                 # check if the node will start using more power
                 if not self.graph.nodes[n][const.ACTIVATED] \
                         and current_infect_status == const.InfectionStatus.INFECTED:
-                    self.graph.nodes[n][const.ACTIVATED] = random.random() < self.args["power_usage_prob"]
+                    self.graph.nodes[n][const.ACTIVATED] = random.random() < self.args["power_usage"]
 
         n_jobs = 4
         for n in self.graph.nodes:
@@ -347,6 +373,9 @@ class Simulator:
                 node_val = ref_power * self.__power_consumption_factor__(x, n) \
                            + self.__power_consumption_offset__(x, n)
                 self.graph.nodes[n][const.POWER_USAGE] = node_val
+                if node_val != ref_power:
+                    node_val2 = ref_power * self.__power_consumption_factor__(x, n) \
+                               + self.__power_consumption_offset__(x, n)
                 original_power_usage += ref_power
             new_y_true = util.sum_demand(self.graph) / self.reduce_factor
             new_y_ref = original_power_usage / self.reduce_factor

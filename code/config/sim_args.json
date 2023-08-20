@@ -1,7 +1,7 @@
 {
   "seed": 523,
   "network":{
-    "n": 60,
+    "nodes": 60,
     "edges": 4,
     "p": 0.2,
     "seed": 50,

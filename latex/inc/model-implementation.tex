@@ -255,6 +255,89 @@ checked once. If the condition is not fulfilled, the
 entity will never act on the information, even if 
 it believes in the information.
 
+The power demand changes should be comparable to reference data.
+For this, load profiles are used as reference points to increase
+or reduce power demand from consuming entities. Load profiles
+show the average power consumption behavior of consumers and 
+are used by electricity providers to predict the power demand
+\cite{proedrou2021comprehensive}.
+The load profile used for this Thesis is the standard load profile
+for households created by the German Federal Association of Energy and 
+Water Management (Bundesverband der Energie- und Wasserwirtschaft 
+e. V. (BDEW)) \cite{meier1999reprasentative}.
+For each infected household, the additional power usage is 
+added on top of the power demand given by the load profile.
+The additional power usage is defined by the appliances in each
+household that are of relevance for the specific scenario. 
+The appliances and other system parameters are defined
+in a JSON-file. An exmple JSON is shown in Listing 
+\ref{appliancejsonfile}.
+
+\begin{lstlisting}[language=json,firstnumber=1, 
+    caption={Example parameters for household appliances for 
+    the simulation},captionpos=b,label={appliancejsonfile}]
+{
+    ...
+    "model_args":{
+        "electric_car": {
+        "power": 1125,
+        "p": 0.1,
+        "duration": 10000
+        },
+        "washing_machine": {
+        "power": 100,
+        "p": 95.8,
+        "duration": 4
+        },
+        "dishwasher": {
+        "power": 300,
+        "p": 71.7,
+        "duration": 8
+        } 
+    },
+    "sim": {
+        "p_will_act": 0.6,
+        "power_usage": 0.8,
+        "p_verify": 0.07,
+        "alpha": 0.4,
+        "beta": 0.6,
+        "power_threshold": 1.5
+    },
+    "network":{
+        "nodes": 400
+      }, 
+}
+\end{lstlisting}
+
+Each appliance of relevance for the specific scenario 
+is defined in Listing \ref{appliancejsonfile} in the 
+\code{model\_args} field. The definition of each 
+appliance contains three parameters. The \code{power}
+parameter defines by how much the power consumption
+increases if the appliance is used in a household.
+Next, the \code{p} parameter defines the probability that 
+a specific household possesses the appliance. The cause for
+this parameter is that not all households may possess
+every household appliance defined in the JSON file.
+Then, the \code{duration} parameter defines for which duration
+$\Delta t$ the appliance is turned on an thus contributes
+to the change in power consumption. Furthermore, in 
+the \code{sim} and the \code{network} fields, 
+multiple system and network parameters
+necessary for the simulation and network 
+model generation
+such as $\alpha$, $\beta$ and $p<p_{will\_act}$ 
+are defined.
+Next, a critical threshold needs to be defined 
+for when the power grid is overstressed by the 
+total power consumption and a blackout occurs.
+The critical threshold is defined as $n$ times
+the maximum power consumption in the reference power
+consumption data. The threshold factor can be seen
+in the Listing \ref{appliancejsonfile} as the
+parameter \code{power\_threshold}.
+
+
 %other todos
 %simulation steps itself
 %with pseudocode?
