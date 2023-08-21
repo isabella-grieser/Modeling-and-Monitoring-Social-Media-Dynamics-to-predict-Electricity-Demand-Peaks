@@ -99,6 +99,17 @@ of unique graph models for the simulation and the size of the
 graph can be changed without changing the graph characteristics, 
 the random graph generation approach was used to model social networks.
 
+A framework to create and modify the social network graph is needed to 
+allow the simulation to model the information propagation
+progress on the graph. \textit{NetworkX} is a 
+Python package which provides various functions to model,
+analyse and manipulate graph-based structures. 
+Furthermore, it provides several graph-based algorithms.
+It also provides multiple random graph generation algorithms,
+such as the ER graph, WS graph or the BA graph. 
+Thus, the \textit{NetworkX} library was used in this Thesis for
+the generation and modelling of the social network graph.
+
 \subsection{Implementation of the Information Propagation Algorithm}
 \label{modelinformationdiffusion}
 
@@ -182,6 +193,42 @@ In conclusion, the modified model can be categorized as a SIR model.
     \label{modified-SIS-table-equations}
 \end{table}
 
+The propagation of the information in the proposed algorithm 
+progresses after each iteration step $i$. For each iteration
+step $i$, the Algorithm showed in Algorithm \ref{inf_prop-alg}
+is executed. The algorithm divides the information propagation 
+process in two parts. In the first part, the probabilities
+$p_n(t+1) = [p_i^S, p_i^I, p_i^R]$ for the node $n$ is 
+calculated. Then, the states of all nodes are changed 
+based on the probabilities calculated in the previous step.
+By separating both steps, it can be ensured that state changes
+in the current iteration cannot influence the calculation
+of the probability $p_n(t+1)$ for the other nodes.
+
+
+\begin{algorithm}
+    \caption{Algorithm for the information propagation process}
+    \label{inf_prop-alg}
+    \begin{algorithmic}
+    \Require $\alpha, \beta, p_{verify}$
+    \ForEach {$n \in N $}
+        \State $p_i^S(t+1) \gets (1-f_i-g_i)s_i^S(t)$
+        \State $p_i^I(t+1) \gets f_is_i^S(t) + (1-p_{verify})s_i^I(t)$
+        \State $p_i^R(t+1) \gets g_is_i^S(t) + p_{verify}s_i^I(t)+s_i^R(t)$
+    \EndFor
+    \ForEach {$n \in N $}
+        \If{$p<p_i^S(t+1)$}
+            \State $n_{state} \gets S$
+        \ElsIf{$p_i^S(t+1)<p<p_i^S(t+1) + p_i^I(t+1)$}
+            \State $n_{state} \gets I$
+        \ElsIf{$p > p_i^S(t+1) + p_i^I(t+1)$}
+            \State $n_{state} \gets R$
+        \EndIf
+    \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+
 \subsection{Rule-based Calculation of the Power Consumption}
 \label{rulebasedpowerconsumption}
 
@@ -228,14 +275,14 @@ its power demand would only benefit it starting 5PM. Thus, its
 action will be delayed until 5PM. 
 
 Besides the fundamental assumptions, other assumptions are made 
-to provide more realistic simulation results. %talk about the will act etc
+to provide more realistic simulation results. 
 First, it is assumed that there may not be an immediate change 
 in power demand even if an entity is both infected and the entity 
 is in the time window to take action. This means that even if
 both conditions are fulfilled, the entity may delay its action. 
 Thus, it is assumed that for each infected entity that can 
 take action, it first needs to fulfill the condition 
-the rule $p<p_{power\_usage}$, where $p_{power\_usage}$ is a system
+the rule $p<p_{\mathrm{power\_usage}}$, where $p_{\mathrm{power\_usage}}$ is a system
 parameter that defines the probability where an entity
 starts changing its power demand when both other conditions are
 fulfilled. Furthermore, this condition is continuously checked 
@@ -247,8 +294,8 @@ The underlying idea is that even if an entity knows and believes
 in the information that is being spread and may also spread
 the information to its friends, it may not have a 
 reason or the motivation to act on the information.
-This assumption is fulfilled by the condition $p<p_{will\_act}$,
-where $p_{will\_act}$ is the probability that the 
+This assumption is fulfilled by the condition $p<p_{\mathrm{will\_act}}$,
+where $p_{\mathrm{will\_act}}$ is the probability that the 
 entity will even change its behavior given the information.
 This condition, contrary to the former condition, is only
 checked once. If the condition is not fulfilled, the 
@@ -270,7 +317,7 @@ added on top of the power demand given by the load profile.
 The additional power usage is defined by the appliances in each
 household that are of relevance for the specific scenario. 
 The appliances and other system parameters are defined
-in a JSON-file. An exmple JSON is shown in Listing 
+in a JSON file. An example JSON file is shown in Listing 
 \ref{appliancejsonfile}.
 
 \begin{lstlisting}[language=json,firstnumber=1, 
@@ -302,6 +349,7 @@ in a JSON-file. An exmple JSON is shown in Listing
         "alpha": 0.4,
         "beta": 0.6,
         "power_threshold": 1.5
+        "factor": 1
     },
     "network":{
         "nodes": 400
@@ -326,7 +374,7 @@ the \code{sim} and the \code{network} fields,
 multiple system and network parameters
 necessary for the simulation and network 
 model generation
-such as $\alpha$, $\beta$ and $p<p_{will\_act}$ 
+such as $\alpha$, $\beta$ and $p<p_{\mathrm{will\_act}}$ 
 are defined.
 Next, a critical threshold needs to be defined 
 for when the power grid is overstressed by the 
@@ -335,16 +383,108 @@ The critical threshold is defined as $n$ times
 the maximum power consumption in the reference power
 consumption data. The threshold factor can be seen
 in the Listing \ref{appliancejsonfile} as the
-parameter \code{power\_threshold}.
+\code{power\_threshold} parameter.
+
+Given the assumptions and the system parameters, the simulation 
+algorithm can thus be introduced. 
+It is assumed that the the social network graph used in the algorithm
+is initialized with each node belonging to the \textit{Susceptible} class. 
+Then, in the initialization step of the simulation algorithm,
+one node of the social network graph becomes infected,
+thus acting as the initial source of information in the network.
+Then, for each iteration step $i$, the total power demand 
+based on the information in the social network is calculated.
+The total power demand is calculated as the sum of the 
+power consumption of all nodes in the network. 
+
+\begin{equation}
+    power_n=factor \cdot power_{ref}+offset
+    \label{power-calc-equation}
+\end{equation}
+
+The equation to calculate the power consumption 
+if a node $n$ is infected is shown in Equation \ref{power-calc-equation}. 
+If the node is not infected, then the power consumption of the node 
+equals to the reference data $power_{ref}$, since it is 
+not affected by the information and thus does not change it's
+behaviour. Furthermore, Equation \ref{power-calc-equation} 
+is only used if the date of current iteration $t_i$
+is after the optional date where entities can act 
+on the information being spread. Else, power consumption
+equals to the reference data $power_{ref}$.
+The variable $offset$ in Equation \ref{power-calc-equation} 
+is the sum of all appliances defined in the JSON file (as shown in Listing 
+\ref{appliancejsonfile}) that are used by the 
+specific household.
+For the offset, all appliances that a household possesses
+whose duration $\Delta t$ is not over are added up. 
+Aditionally, the power usage can be 
+scaled by the factor $factor$, which is a parameter defined in 
+the \code{sim} field. 
+
+Afterwards, the information is 
+further propagated in the network graph. The algorithm 
+for the information propagation step was defined in Section 
+\ref{modelinformationdiffusion}. The algorithm is run over
+$m$ steps. Then, the output of the simulation is the 
+power demand over the time $[t, t+j]$ based on the
+input parameters, where $j$ is the total iterations in 
+the simulation.
 
 
-%other todos
-%simulation steps itself
-%with pseudocode?
-% the reference data is important
-%the args file with all important parameters
+Finally, the main components of the simulation framework are shown
+in Figure \ref{simframework}.
+The simulation algorithm receives as input a social 
+network graph, reference power consumption data with their 
+corresponding dates and 
+a JSON file with the simulation parameters. 
 
 
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.66]{figs/Simulation-framework.png}
+    \caption{Basic structure of the simulation framework}
+    \label{simframework}
+\end{figure}
+
+The output can either be returned as a list with $j$ values
+or an animation generated with the \textit{Matplotlib} package.
+\textit{Matplotlib} is a Python package used to plot and visualize 
+data. The animations are generated to show the information propagation
+progress dynamically and show its real-time effects on the power
+consumption curve. The simulation framework can generate two 
+kinds of animations. Both are shown in Figure \ref{both-anim-views}.
+One animation typeshown in Figure \ref{graph-view}
+provides a graph-based view, which 
+shows which nodes are at which state at an iteration step $i$.
+The other animation type shown in Figure \ref{system-view}
+provides a system-wide view, which shows
+the changes in amount of households belonging to each of the three
+states over time.
+The graph-based view can be used to analyse the information propagation
+process for small models. For big models with a high amount of nodes
+in the social network graph, the graph-based view tends to be 
+computationally expensive. Thus, the system-wide view should be used
+for big models.
+
+
+\begin{figure}[!ht]
+    \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[scale=0.5]{figs/graph-wide-view.png}
+    \caption{graph-based view}
+    \label{graph-view} 
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics[scale=.92]{figs/system-wide-view.png}
+    \caption{system-wide view}
+    \label{system-view}
+    \end{subfigure}
+    \caption{Two different variations of the animations provided
+    by the simulation framework}
+    \label{both-anim-views}
+\end{figure}
 
 
 

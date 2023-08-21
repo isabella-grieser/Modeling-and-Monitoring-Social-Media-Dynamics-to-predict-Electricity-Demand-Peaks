@@ -24,7 +24,6 @@
 \usepackage{epstopdf} 
 \usepackage{eurosym}
 %\usepackage{lmodern} % nicht nutzen dies schaltet die TU Schriftart aus!!!!!!!!!
-\usepackage{subfig}
 \usepackage{booktabs} % hübschere Tabellen als der LaTeX-Standard
 \usepackage{amsmath}
 \usepackage{placeins}
@@ -32,7 +31,13 @@
 \usepackage{multirow}
 \usepackage{adjustbox}
 \usepackage{mwe}
-\usepackage{subfig}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+%\usepackage{subfig}
 \usepackage{paralist}
 % Der folgende Block ist nur bei pdfTeX auf Versionen vor April 2018 notwendig
 \usepackage{iftex}
@@ -89,6 +94,8 @@
 \newcommand*{\FeatureFalse}{\ding{56}}
 %\bibliographystyle{IEEEtran}
 
+\usepackage{subcaption}
+\usepackage{graphicx}
 \newcommand*{\mrm}[1]{\ensuremath{\mathrm{#1}}}
 
 \usepackage{listings}

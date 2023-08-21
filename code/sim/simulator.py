@@ -22,8 +22,7 @@ class Simulator:
                  minutes=15,
                  steps=1, si="MW",
                  reduce_factor=1,
-                 y_max=50000,
-                 y_thresh_factor=2):
+                 y_max=50000):
         self.graph = G
         self.x = x
         self.y = y
@@ -48,7 +47,7 @@ class Simulator:
         self.timespan *= days
         self.power_thresh = 0
         self.__initialize__()
-        self.power_thresh *= y_thresh_factor
+        self.power_thresh *= self.args["power_threshold"]
 
     def __initialize__(self):
         length = len(self.y)
@@ -314,6 +313,9 @@ class Simulator:
         def calc_state_probabilities(n):
             if self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED:
                 # status of node cannot be changed
+                self.graph.nodes[n][const.P_S] = 0
+                self.graph.nodes[n][const.P_I] = 0
+                self.graph.nodes[n][const.P_R] = 1
                 return
             n_i = sum(1 for x in self.graph.neighbors(n) if
                       self.graph.nodes[x][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
@@ -330,10 +332,11 @@ class Simulator:
 
             s_i_s = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE)
             s_i_i = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
+            s_i_r = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED)
 
             self.graph.nodes[n][const.P_S] = (1 - f_i - g_i) * s_i_s
             self.graph.nodes[n][const.P_I] = f_i * s_i_s + (1 - p_verify) * s_i_i
-            self.graph.nodes[n][const.P_R] = g_i * s_i_s + p_verify * s_i_i
+            self.graph.nodes[n][const.P_R] = g_i * s_i_s + p_verify * s_i_i + s_i_r
 
         def change_state(n):
             prev_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
@@ -373,9 +376,6 @@ class Simulator:
                 node_val = ref_power * self.__power_consumption_factor__(x, n) \
                            + self.__power_consumption_offset__(x, n)
                 self.graph.nodes[n][const.POWER_USAGE] = node_val
-                if node_val != ref_power:
-                    node_val2 = ref_power * self.__power_consumption_factor__(x, n) \
-                               + self.__power_consumption_offset__(x, n)
                 original_power_usage += ref_power
             new_y_true = util.sum_demand(self.graph) / self.reduce_factor
             new_y_ref = original_power_usage / self.reduce_factor
@@ -386,13 +386,9 @@ class Simulator:
     def __power_consumption_factor__(self, x, node):
         if self.power_start is not None and x < self.power_start:
             return 1
-        if self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE:
-            return 1
-        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED:
-            if self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT]:
-                return 1
-        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED:
-            return 1
+        elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED \
+            and self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT]:
+                return self.args["factor"]
         return 1
 
     def __power_consumption_offset__(self, x, node):

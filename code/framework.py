@@ -59,8 +59,7 @@ class EstimationFramework:
         x_val = x[start_index:]
 
         simulator = Simulator(social_network_model, x_val, y_val, args=config["sim"],
-                              seed=config["seed"], spread_start=spread_start, days=days,
-                              y_thresh_factor=config["sim"]["power_threshold"], y_max=y_max)
+                              seed=config["seed"], spread_start=spread_start, days=days, y_max=y_max)
 
         x_all, y_ref, y_true = simulator.iterate(200, plot=True, save=False, intervall_time=50)
 

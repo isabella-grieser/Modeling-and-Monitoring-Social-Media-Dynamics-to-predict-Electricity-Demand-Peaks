@@ -5,6 +5,7 @@ import datetime as dt
 import matplotlib
 import gen.model as mb
 from sim.simulator import Simulator
+import matplotlib.pyplot as plt
 
 matplotlib.use("TkAgg")
 
@@ -24,6 +25,12 @@ if __name__ == "__main__":
     path = "data/energy/lastprofil_h0i_2023.xls"
     start_index = 1160
     df = pd.read_excel(path, header=None, names=["time", "power"])
+
+    plt.plot(df.time[:350], df.power[:350])
+    plt.gca().set_xticklabels([])
+    plt.gca().set_yticklabels([])
+    plt.show()
+
     start_spread = datetime(2023, 1, 14, 8, 30, 0, tzinfo=dt.timezone.utc)
     start_power = datetime(2023, 1, 14, 10, 30, 0, tzinfo=dt.timezone.utc)
 
@@ -40,12 +47,11 @@ if __name__ == "__main__":
                           seed=config["seed"],
                           y_max=150000,
                           reduce_factor=1,
-                          y_thresh_factor=3,
                           si="kW"
                           )
 
-    simulator.iterate(200, plot=True, save=False, intervall_time=50)
-    x_all, y_true, y_ref = simulator.iterate(1000)
+    simulator.iterate(200, plot=True, save=False, intervall_time=50, draw_graph=True)
+    #x_all, y_true, y_ref = simulator.iterate(1000)
 
     start_date = datetime(2023, 1, 14, 3, 30, 0, tzinfo=dt.timezone.utc)
     end_date = datetime(2023, 1, 14, 14, 30, 0, tzinfo=dt.timezone.utc)
