@@ -20,43 +20,42 @@ the different steps of the framework are described.
 
 \section{Implementation of the Simulation Framework}
 \label{simulationframeworksection}
-There are multiple components that are essential to model the effects of 
+There are multiple components that are necessary to model the effects of 
 both true and false information on critical infrastructures
 such as the power grid. The development of the simulation framework
-proposed in this work can be divided into three parts. First, it is 
-necessary to model a social media network graph with characteristics similar 
-or equal to
-real social media networks. Second, an algorithm to model the 
+proposed in this work can be divided into three parts. First, a model 
+to describe social media networks with characteristics similar 
+or equal to real social media networks needs to implemented.
+Second, an algorithm to model the 
 propagation of information over the network needs to be defined and 
 implemented. Third, rules to estimate the changes in the power consumption 
-need to be defined and a general simulation algorithm needs to be implemented.
+need to be defined.
 
 \subsection{Modelling Social Networks}
 \label{modelsocialnetwork}
-Two potential approaches exist to create social media network graphs 
-that can be used in the proposed framework.
-% make maybe pretty picture with example graphs for both
+Two approaches to create social media network graphs 
+are considered in this Thesis.
 
-First, a real social media network can be used as an example social network
-for the purpose of our simulation. 
-It is difficult to precisely analyse which real life individuals
+First, a real social media network can be used as an example 
+social network graph model. 
+It is difficult to determine which individuals
 control which accounts on social media networks due to privacy reasons.
 Thus, it is not possible to create a social network graph that 
-correctly shows the real state of the social media network.
+shows the real state of the social media network.
 Thus, datasets need to be used to model real life networks without 
 dealing with privacy concerns. There are datasets available to analyse
-real social media networks. One example dataset collection that can 
+real social media networks. One dataset collection that can 
 be used for such a task is the Stanford 
 Large Network Dataset Collection \cite{snapnets}.
 This collection is part of the Stanford Network Analysis Project (SNAP).
 In this collection, there are datasets which show the network structure
-of multiple well-known social networks such as Facebook and Twitter.
+of multiple social networks such as Facebook and Twitter.
 The advantage of using real social networks as reference networks
 for the simulation framework is that real networks fulfill the 
-characteristics of social networks the most effectively, since they
-are based on real data and not randomly generated. The disadvantage
+characteristics of social networks, since they
+are based on real data and not randomly generated. The problem
 is that using this approach leads to all simulations using either
-one single or few selected social network graph models. Since 
+one or few selected social network graph models. Since 
 few different graph models are used for consecutive simulations,
 it cannot be determined if the simulation results are based on the 
 specific structure of the specific social network graph or if the results 
@@ -66,7 +65,7 @@ cannot be changed without changing its characteristics, such as
 the clustering coefficient. Since real social network graphs tend to be 
 big (for example, the Twitter social network graph provided by SNAP
 contains 81306 nodes and the Facebook social network graph contains 
-4.039 nodes), it may not be computationally feasible to use such graphs
+4039 nodes), it may not be computationally feasible to use such graphs
 as reference graphs.
 
 The other approach would be to generate a graph that is not based
@@ -75,24 +74,26 @@ For this, the generated graph needs to fulfill the common
 characteristics of social networks.
 Section \ref{randomgraphssection} introduces multiple random graph algorithms.
 Furthermore, in Section \ref{comparison-random-graphs},
-these algorithms are evaluated based on how well they fulfill the characteristics
+these algorithms are evaluated based on if they fulfill the characteristics
 of social networks defined in Section \ref{graphbasics}. 
-From the information provided in that Section, it is visible that the 
-Barabási–Albert (BA) graph is the random graph algorithm that 
-fulfills the characteristics of social networks most effectively. 
-Using a random graph to model the social media network brings the advantage
+From the information provided in Section \ref{comparison-random-graphs}, 
+it is visible that the Barabási–Albert (BA) graph is the random graph 
+algorithm that fulfills the characteristics of social networks most effectively.
+The reason is that  BA graphs are both scale-free and have the small-world
+characteristic. BA graphs are also clustered.
+Using a random graph to model the social media network has the advantage
 that a variety of different graph models can be generated to use for 
 the simulation. Thus, the simulation results can be considered as more 
-robust since every simulation can be done with a different underlying 
+robust since every simulation can be done with a different 
 social media network model. Furthermore, different graph sizes can be 
-used in the simulation by changing the amount of nodes to be generated.
+used in the simulation by changing the number of nodes to be generated.
 Thus, using random graph algorithms is computationally easier since 
 real social network graphs tend to be big.
-The disadvantage is that random graph models may not fully fulfill
+The disadvantage is that random graph models may not fulfill
 all characteristics of a social network. As mentioned in 
 Section \ref{comparison-random-graphs}, the BA graph
 does not create graphs with a clustering coefficient that is as 
-high as real social networks. Nonetheless, the BA  graph is
+high as real social networks. Nonetheless, the BA graph is
 a graph that is often used to model social networks.
 As a conclusion, since the usage of random graphs allows the usage
 of unique graph models for the simulation and the size of the 
@@ -120,20 +121,20 @@ Both the information cascade model and the threshold model focus on the
 information diffusion process itself and not on the change in behavior
 of the single entities in the system. Thus, in these two models,
 entities may have two states: 
-\textit{Informed} and \textit{Not Informed}.
+\textit{Informed} or \textit{Not Informed}.
 On the other hand, epidemiological models such as the SIR model
 focus on the changes of the states of the entities in the system.
-Thus, it is possible to define a variety of behaviors in the
+Thus, it is possible to define a different behaviors in the
 information diffusion progress with epidemiological models. 
 In this Thesis, we are interested in both how the information
-diffuses and how it could be combated by using fact-checking.
+propagates and how it could be combated by using fact-checking.
 This can be studied in more detail if entities can 
 show different behaviors depending on what kind of information
 they possess. This can only be done in epidemiological models.
 Thus, an epidemiological model was chosen to model the information 
 diffusion process.
 
-Epidemiological models generally defined by differential equations.
+Epidemiological models can be defined by differential equations.
 As an example, the differential equations for the SIR and SIS 
 model are shown in Table \ref{SI-table-equations}.
 Nonetheless, graph-based epidemological models are also used.
@@ -144,12 +145,12 @@ able to model both the misinformation and fact-checking
 diffusion process in the same model. 
 For this Thesis, the the model of \textit{Tambuscio et al.} was
 modified to deal with a differing assumption.
-In this work, we only consider the short-term effects of the information 
+In this work, we consider the short-term effects of the information 
 on the power grid. Recurring spread of the same misinformation
-is not considered in this Thesis. This is done because it can be 
+is not considered. This is done because it can be 
 assumed that the initial spread of the information leads to the 
 greatest effect on the power grid since it is also assumed that this
-spread leads to the greatest amount of infected entities at
+spread leads to the greatest number of infected entities at
 the time $t_{max,I}$. Thus, we can declare $p_{\mathrm{forget}} = 0$.
 This assumption leads to a modified state chart and probability
 functions compared to \textit{Tambuscio et al.}. The modified
@@ -194,39 +195,14 @@ In conclusion, the modified model can be categorized as a SIR model.
 \end{table}
 
 The propagation of the information in the proposed algorithm 
-progresses after each iteration step $i$. For each iteration
-step $i$, the Algorithm showed in Algorithm \ref{inf_prop-alg}
-is executed. The algorithm divides the information propagation 
-process in two parts. In the first part, the probabilities
-$p_n(t+1) = [p_i^S, p_i^I, p_i^R]$ for the node $n$ is 
+progresses after each iteration step $i$. The algorithm divides the 
+information propagation process in two parts. In the first part, 
+the probabilities $p_n(t+1) = [p_i^S, p_i^I, p_i^R]$ for all nodes are
 calculated. Then, the states of all nodes are changed 
 based on the probabilities calculated in the previous step.
 By separating both steps, it can be ensured that state changes
 in the current iteration cannot influence the calculation
-of the probability $p_n(t+1)$ for the other nodes.
-
-
-\begin{algorithm}
-    \caption{Algorithm for the information propagation process}
-    \label{inf_prop-alg}
-    \begin{algorithmic}
-    \Require $\alpha, \beta, p_{verify}$
-    \ForEach {$n \in N $}
-        \State $p_i^S(t+1) \gets (1-f_i-g_i)s_i^S(t)$
-        \State $p_i^I(t+1) \gets f_is_i^S(t) + (1-p_{verify})s_i^I(t)$
-        \State $p_i^R(t+1) \gets g_is_i^S(t) + p_{verify}s_i^I(t)+s_i^R(t)$
-    \EndFor
-    \ForEach {$n \in N $}
-        \If{$p<p_i^S(t+1)$}
-            \State $n_{state} \gets S$
-        \ElsIf{$p_i^S(t+1)<p<p_i^S(t+1) + p_i^I(t+1)$}
-            \State $n_{state} \gets I$
-        \ElsIf{$p > p_i^S(t+1) + p_i^I(t+1)$}
-            \State $n_{state} \gets R$
-        \EndIf
-    \EndFor
-    \end{algorithmic}
-\end{algorithm}
+of the probability $p_n(t+1)$ of the other nodes.
 
 
 \subsection{Rule-based Calculation of the Power Consumption}
@@ -240,64 +216,62 @@ To model the demand changes in the simulation, multiple assumptions
 are made.
 First, it is assumed that only \textit{infected} entities in 
 the social network graph
-can have changes in their usual power demand pattern. The reason is 
-that only changes in power demand due to information on social media
+can change their power demand. The reason is 
+that only changes in power demand due to social media information
 are considered. Moreover, since \textit{susceptible} entities
 do not know of the information being spread on social media and 
 \textit{recovered} entities do not believe in the information anymore,
 these entities do not act on the information, unlike infected
 entities.
 Next, it is assumed that every entity in the social network graph 
-models one individual household, and not a single human. There are 
+models one household, and not a person. There are 
 two reasons for this assumption. First, it is assumed that 
 members of a single household are highly connected and if one 
 member of a household receives the information, all other members
-will be informed as well. Next, it is easier to model power demand
+will be informed as well. Next, it is simpler to model power demand
 patterns on a household level than a person level. The reason
 is that usually
-there is only one of each appliances that consume a lot of electricity, 
+there is one of each appliance that consume a lot of electricity, 
 such as washing machines, ovens or dryers, in each household.
 Then, it is assumed that the time of infection of an entity may not
-always coincide with the time where the entity changes its 
+coincide with the time where the entity changes its 
 power consumption. This is due to the fact that in the information
 being spread on social media, there may be be points in time
-mentioned, such that it leads to a delayed action response by the
+mentioned, thus leading to a delayed action response by the
 infected entities. An example scenario that benefits
 from these assumption is a false pricing information scenario 
 mentioned in Section \ref{contextmotivation}, Chapter 
-\ref{relatedworks} and Section ???. %reference the eval chapter here later.
+\ref{relatedworks} and Section \ref{demandresponsesection} 
 In this assumption, an entity may receive the information 
-at 3PM that the electricity price will be reduced by a considerable
-amount between 5PM and 7PM. Thus, the entity already received the
+at 3PM that the electricity price will be reduced 
+between 5PM and 7PM. Thus, the household already received the
 information and may be considered as infected in the social network
 graph, but it will not act on the information since changing
 its power demand would only benefit it starting 5PM. Thus, its 
 action will be delayed until 5PM. 
 
-Besides the fundamental assumptions, other assumptions are made 
+Besides the these assumptions, other assumptions are made 
 to provide more realistic simulation results. 
 First, it is assumed that there may not be an immediate change 
 in power demand even if an entity is both infected and the entity 
 is in the time window to take action. This means that even if
 both conditions are fulfilled, the entity may delay its action. 
-Thus, it is assumed that for each infected entity that can 
-take action, it first needs to fulfill the condition 
-the rule $p<p_{\mathrm{power\_usage}}$, where $p_{\mathrm{power\_usage}}$ is a system
+Therefore, it is assumed that for each infected entity that can 
+take action with the probability $p_{\mathrm{power\_usage}}$, where 
+$p_{\mathrm{power\_usage}}$ is a system
 parameter that defines the probability where an entity
 starts changing its power demand when both other conditions are
 fulfilled. Furthermore, this condition is continuously checked 
 during the simulation until the condition is fulfilled.
 Another assumption is that even if both conditions that
 the entity is infected and the entity is in the time window 
-to take action the entity may not take any action.
-The underlying idea is that even if an entity knows and believes
+to take action, the entity may not take action.
+The idea is that even if an entity knows and believes
 in the information that is being spread and may also spread
-the information to its friends, it may not have a 
-reason or the motivation to act on the information.
-This assumption is fulfilled by the condition $p<p_{\mathrm{will\_act}}$,
-where $p_{\mathrm{will\_act}}$ is the probability that the 
-entity will even change its behavior given the information.
-This condition, contrary to the former condition, is only
+the information to its friends, it may not have the motivation to 
+act on the information.
+This assumption is given with the probability $p_{\mathrm{will\_act}}$.
+This assumption, contrary to the former assumption, is only
 checked once. If the condition is not fulfilled, the 
 entity will never act on the information, even if 
 it believes in the information.
@@ -357,14 +331,14 @@ in a JSON file. An example JSON file is shown in Listing
 }
 \end{lstlisting}
 
-Each appliance of relevance for the specific scenario 
+Each appliance used in a specific scenario 
 is defined in Listing \ref{appliancejsonfile} in the 
 \code{model\_args} field. The definition of each 
 appliance contains three parameters. The \code{power}
 parameter defines by how much the power consumption
 increases if the appliance is used in a household.
 Next, the \code{p} parameter defines the probability that 
-a specific household possesses the appliance. The cause for
+a specific household possesses the appliance. The reason for
 this parameter is that not all households may possess
 every household appliance defined in the JSON file.
 Then, the \code{duration} parameter defines for which duration
@@ -374,12 +348,12 @@ the \code{sim} and the \code{network} fields,
 multiple system and network parameters
 necessary for the simulation and network 
 model generation
-such as $\alpha$, $\beta$ and $p<p_{\mathrm{will\_act}}$ 
+such as $\alpha$, $\beta$ and $p_{\mathrm{will\_act}}$ 
 are defined.
 Next, a critical threshold needs to be defined 
 for when the power grid is overstressed by the 
 total power consumption and a blackout occurs.
-The critical threshold is defined as $n$ times
+The critical threshold is defined as $a$ times
 the maximum power consumption in the reference power
 consumption data. The threshold factor can be seen
 in the Listing \ref{appliancejsonfile} as the
@@ -392,7 +366,7 @@ is initialized with each node belonging to the \textit{Susceptible} class.
 Then, in the initialization step of the simulation algorithm,
 one node of the social network graph becomes infected,
 thus acting as the initial source of information in the network.
-Then, for each iteration step $i$, the total power demand 
+Next, for each iteration step $i$, the total power demand 
 based on the information in the social network is calculated.
 The total power demand is calculated as the sum of the 
 power consumption of all nodes in the network. 
@@ -403,42 +377,50 @@ power consumption of all nodes in the network.
 \end{equation}
 
 The equation to calculate the power consumption 
-if a node $n$ is infected is shown in Equation \ref{power-calc-equation}. 
+of a node $n$ if it is infected is shown in Equation \ref{power-calc-equation}. 
 If the node is not infected, then the power consumption of the node 
-equals to the reference data $power_{ref}$, since it is 
+equals the reference data $power_{ref}$, since it is 
 not affected by the information and thus does not change it's
 behaviour. Furthermore, Equation \ref{power-calc-equation} 
 is only used if the date of current iteration $t_i$
-is after the optional date where entities can act 
+is after the date where entities can act 
 on the information being spread. Else, power consumption
 equals to the reference data $power_{ref}$.
 The variable $offset$ in Equation \ref{power-calc-equation} 
 is the sum of all appliances defined in the JSON file (as shown in Listing 
 \ref{appliancejsonfile}) that are used by the 
-specific household.
-For the offset, all appliances that a household possesses
-whose duration $\Delta t$ is not over are added up. 
+specific household whose time $\Delta t$ is still active.
 Aditionally, the power usage can be 
 scaled by the factor $factor$, which is a parameter defined in 
-the \code{sim} field. 
-
-Afterwards, the information is 
-further propagated in the network graph. The algorithm 
+the \code{sim} field in the JSON file. 
+After the calculation of the power usage, the information is 
+propagated in the network graph. The algorithm 
 for the information propagation step was defined in Section 
-\ref{modelinformationdiffusion}. The algorithm is run over
-$m$ steps. Then, the output of the simulation is the 
-power demand over the time $[t, t+j]$ based on the
-input parameters, where $j$ is the total iterations in 
-the simulation.
+\ref{modelinformationdiffusion}.
+After each iteration of the information propagation algorithm,
+it is checked whether the infected individuals will act on 
+the information. For this, it is first checked whether
+the newly infected households will ever act on the information.
+This constraint is calculated with the condition
+$p<p_{\mathrm{will\_act}}$.
+Next, it will check whether
+an infected individual will delay its action, even if
+all other constraints that hinder overconsumption of power
+are fulfilled. This constraint is checked with the
+condition $p<p_{\mathrm{power\_usage}}$. 
+Then, it will start with the next iteration $i+1$.
 
-
-Finally, the main components of the simulation framework are shown
+Next, the main components of the simulation framework are shown
 in Figure \ref{simframework}.
 The simulation algorithm receives as input a social 
 network graph, reference power consumption data with their 
 corresponding dates and 
 a JSON file with the simulation parameters. 
-
+Then, the simulation algorithm is executed.
+The algorithm is run over
+$m$ steps. Next, the output of the simulation is the 
+power demand over the time $[t, t+m]$ based on the
+input parameters.
 
 \begin{figure}[!ht]
     \center
@@ -447,7 +429,7 @@ a JSON file with the simulation parameters.
     \label{simframework}
 \end{figure}
 
-The output can either be returned as a list with $j$ values
+The output can either be returned as a list with $m$ values
 or an animation generated with the \textit{Matplotlib} package.
 \textit{Matplotlib} is a Python package used to plot and visualize 
 data. The animations are generated to show the information propagation
@@ -459,10 +441,10 @@ provides a graph-based view, which
 shows which nodes are at which state at an iteration step $i$.
 The other animation type shown in Figure \ref{system-view}
 provides a system-wide view, which shows
-the changes in amount of households belonging to each of the three
+the changes in number of households belonging to each of the three
 states over time.
 The graph-based view can be used to analyse the information propagation
-process for small models. For big models with a high amount of nodes
+process for small models. For big models with a high number of nodes
 in the social network graph, the graph-based view tends to be 
 computationally expensive. Thus, the system-wide view should be used
 for big models.
@@ -471,13 +453,13 @@ for big models.
 \begin{figure}[!ht]
     \begin{subfigure}{\textwidth}
     \centering
-    \includegraphics[scale=0.5]{figs/graph-wide-view.png}
+    \includegraphics[scale=.5]{figs/graph-wide-view.png}
     \caption{graph-based view}
     \label{graph-view} 
     \end{subfigure}
     \begin{subfigure}{\textwidth}
     \centering
-    \includegraphics[scale=.92]{figs/system-wide-view.png}
+    \includegraphics[scale=.505]{figs/system-wide-view.png}
     \caption{system-wide view}
     \label{system-view}
     \end{subfigure}
@@ -502,22 +484,22 @@ As a consequence, if the framework should produce realistic results and if
 it should be used to possibly predict excess power consumption, an 
 algorithm to estimate realistic values for the system parameters is necessary.
 
-In Section \ref{powerloadsection}, different possible variables that 
-correlate with power load were introduced. These variables could be 
+In Section \ref{powerloadsection}, different variables that 
+correlate with power load were introduced. These variables can be 
 used to estimate realistic system parameters. For this Thesis, social media data is 
 used to estimate the system parameters that control the 
-information propagation. Since it is difficult to get highly personalized 
-information of people on the internet because of data privacy reasons, the
-social media data is assumed to be as generalized as possible and the identity 
+information propagation. Since it is difficult to get personalized 
+information of people on the internet due of data privacy reasons, the
+social media data is assumed to be as generalized as possible. Moreover, the identity 
 of the users posting messages is assumed to be unknown. The only information
-that is being considered in this Thesis are the messages itself.
+that is being considered in this Thesis are the number of messages in a given timespan.
 One method to estimate the propagation parameters of the SIR model 
 is to view the problem as a minimization problem 
 \cite{jin2013epidemiological}. The idea is to iteratively solve the differential 
 equations of the SIR model, analyse the infection process and minimize 
 its difference of the true infection process that can be seen via the
 social media data. A simplified diagram with the steps of the algorithm
-can be seen in Figure \ref{paramestimationbasic}. The method that is proposed 
+can be seen in Figure \ref{paramestimationbasic}. The method proposed 
 in this Thesis contains five different steps. 
 The first three steps are used to gather and preprocess 
 the data that is of relevance for the parameter estimation process.
@@ -526,11 +508,11 @@ The steps in the proposed method are:
 
 \begin{enumerate}
     \item Find all relevant posts and messages on social media websites.
-    This can be done with both natural language processing techniques and
+    This can be done either with natural language processing techniques or
     by using keyword search queries.
-    \item Count the amount of relevant social media posts over a given 
-    timespan. This is done by counting the amount of posts in given intervals, 
-    such as e.g. the amount of posts each 15 minutes. This data shows the
+    \item Count the number of relevant social media posts over a given 
+    timespan. This is done by counting the number of posts in given intervals, 
+    such as e.g. the number of posts each 15 minutes. This data shows the
     engagement on the specific topic over time.
     \item Filter the data graph to smoothen the data and to facilitate the
     parameter extraction process. The filtered data is $posts(t)$.
@@ -551,19 +533,19 @@ The steps in the proposed method are:
 
 To use the algorithm proposed in this Thesis, it is necessary to 
 know the specific differential equations that describe the propagation 
-process over time in the system. However, the propagation algorithm
+process over time. However, the propagation algorithm
 used in the simulation framework is not based on differential equations,
 but is a graph-based algorithm. Since it is graph-based, the propagation algorithm
-does not provide a system-wide view on the propagation process,
-it only considers the local status of the infection, i.e the neighbors
+does not provide a system-wide view on the propagation process.
+It considers the local status of the infection, i.e the neighbors
 of each node, to decide on the state of a specific node.
 To calculate the differential equations for the specific SIR model algorithm
 used in this Thesis, mean-field theory is used to generalize the equations
 \cite{chaikin1995principles}.
 This is done by averaging certain variables in the system, making these
-variables constant over the whole system and thus 
+variables constant over the model and thus 
 reducing the degrees of freedom that need to be considered.
-Thus, all unique interactions in a system are averaged into a simpler,
+Thus, all unique interactions in the model are averaged into a simpler,
 higher-level or system-wide view.
 This approach originated from molecular analysis, where the method is used
 to average the behaviors of many molecules into the average behavior
@@ -577,23 +559,23 @@ propagation process.
 
 To analyse the average information propagation process, 
 it can be assumed that for a Barabási–Albert random graph, 
-the median degree for a node in the graph will be equal to the amount 
+the median degree for a node in the graph will be equal to the number 
 of edges generated when adding a new node to the random graph.
 This assumption can be made since the graph follows the power law distribution,
 which defines that few nodes have a high amount of connections to other nodes
-and a high amount of nodes have comparatively low amount of connections to 
-other nodes. Since the minimum amount of edges that a node can have 
+and a high number of nodes have comparatively low number of connections to 
+other nodes. Since the minimum number of edges that a node can have 
 in the Barabási–Albert random graph generation algorithm is $k$, this 
 means that we can assume that $\forall i \to c_i=k$.
-Next, we define that $S(t), I(t), R(t)$, where $S(t)$ is the amount of
+Next, we define the parameters $S(t), I(t), R(t)$, where $S(t)$ is the number of
 entities in the system with the status \textit{Susceptible} at the time $t$, 
-$I(t)$ is the amount of entities with the status \textit{Infected} and
-$R(t)$ is the amount of entities with the status \textit{Recovered}. 
+$I(t)$ is the number of entities with the status \textit{Infected} and
+$R(t)$ is the number of entities with the status \textit{Recovered}. 
 We assume that the states of the neighbors of a node $i$ at the time $t$ are 
 randomly distributed given the probabilities $p^S(t), p^I(t), p^R(t)$,
-where $p^S(t) + p^I(t) + p^R(t) = 1$. We can calculate the values $S, I, R$
+where $p^S(t) + p^I(t) + p^R(t) = 1$. We can calculate the values $S(t), I(t), R(t)$
 with the Equations in \ref{SIR-system-amound-eqs:all-lines},
-with $N$ as the total amount of entities in the system.
+with $N$ as the total number of entities in the system.
 
 \begin{subequations}
 \begin{align}
@@ -604,7 +586,7 @@ with $N$ as the total amount of entities in the system.
 \label{SIR-system-amound-eqs:all-lines}
 \end{subequations}
 
-Given the Equations in \ref{SIR-system-amound-eqs:all-lines}, it is also possible 
+Given the Equations in \ref{SIR-system-amound-eqs:all-lines}, it is possible 
 to calculate the changes $\Delta S(t), \Delta I(t), \Delta R(t)$ between each 
 iteration step $t$ and $t+1$ in the system.
 The changes can be calculated with the Equations defined in 
@@ -619,8 +601,8 @@ The changes can be calculated with the Equations defined in
 \label{SIR-diff-system-amount-eqs}
 \end{subequations}
 
-Since we assume that the states are randomly distributed over the system, 
-we consequently assume that the state of the node $i$ is randomly distributed.
+Since we assume that the states are randomly distributed over the model, 
+we assume that the state of the node $i$ is randomly distributed.
 Thus, the state $s_i$ of the node $i$ can be defined as in Equation 
 \ref{state-node-equation}.
 
@@ -631,7 +613,7 @@ Thus, the state $s_i$ of the node $i$ can be defined as in Equation
 
 Furthermore, the functions $g_i,f_i$ defined in Table 
 \ref{modified-SIS-table-equations}
-can be generalized by assuming that the average amount of neighbors 
+can be generalized by assuming that the average number of neighbors 
 of a specific state $K$ can be calculated as $k\cdot p^K(t)$. For this
 assumption, $k$ is the median degree of all nodes and $p^K(t)$ is the 
 average probability that a node is in the state $K$.
@@ -644,9 +626,9 @@ Equations \ref{generalized-functions-g-f}.
     \nonumber\\
     \to f(t) &= k\beta \frac{p^I(t)(1+\alpha)}{p^I(t)(1+\alpha)+p^R(t)(1-\alpha)}
     \label{generalized-function-f} \\
-    g_i(t) &= \beta \frac{n_i^F(t)(1-\alpha)}{n_i^I(t)(1+\alpha)+n_i^R(t)(1-\alpha)} 
+    g_i(t) &= \beta \frac{n_i^R(t)(1-\alpha)}{n_i^I(t)(1+\alpha)+n_i^R(t)(1-\alpha)} 
     \nonumber \\
-    \to g(t) &= k\beta \frac{p^F(t)(1-\alpha)}{p^I(t)(1+\alpha)+p^R(t)(1-\alpha)}
+    \to g(t) &= k\beta \frac{p^R(t)(1-\alpha)}{p^I(t)(1+\alpha)+p^R(t)(1-\alpha)}
     \label{generalized-function-g}
 \end{align}
 \label{generalized-functions-g-f}
@@ -661,7 +643,7 @@ as shown in Equation \ref{delta-r-deduction-eqs}.
     p^R(t+1) - p^R(t) &= g \cdot p^S(t) + p_{verify}\cdot p^I(t) \nonumber\\
     \Delta R(t) = (p^R(t+1) - p^R(t))\cdot N 
     &= N(g \cdot p^S(t) + p_{verify}\cdot p^I(t)) \nonumber\\
-    &= N(g \cdot \frac{S(t)}{N} + p_{verify}\cdot \frac{I}{N} ) \nonumber\\
+    &= N(g \cdot \frac{S(t)}{N} + p_{verify}\cdot \frac{I(t)}{N} ) \nonumber\\
     &= g \cdot S(t) + p_{verify}\cdot I(t) \nonumber\\
     &= k\beta \frac{p^R(t)(1-\alpha)}{p^I(t)(1+\alpha)+p^R(t)(1-\alpha)} 
     \cdot S(t) + p_{verify}\cdot I(t) \nonumber\\
@@ -716,10 +698,10 @@ algorithm can be seen in Equation \ref{all-deduced-diff-equations}.
 \begin{subequations}
     \begin{align}
         \frac{dS}{dt} \approx \Delta S(t) &= -\frac{k\beta}{N} \cdot S(t) \\
-        \frac{dI}{dt} \approx  \Delta I(t) &=  \frac{k\beta}{N} \frac{I(t)(1+\alpha)}{I(t)(1+\alpha)+R(t)(1-\alpha)}
+        \frac{dI}{dt} \approx \Delta I(t) &=  \frac{k\beta}{N} \frac{I(t)(1+\alpha)}{I(t)(1+\alpha)+R(t)(1-\alpha)}
         \cdot S(t) - p_{verify}\cdot I(t) \\
         \frac{dR}{dt} \approx \Delta R(t) &= \frac{k\beta}{N} \frac{R(t)(1-\alpha)}{I(t)(1+\alpha)+R(t)(1-\alpha)} 
-        \cdot S(t) + p_{verify}\cdot I(t)\\
+        \cdot S(t) + p_{verify}\cdot I(t)
 \end{align}
 \label{all-deduced-diff-equations}
 \end{subequations}
@@ -746,24 +728,24 @@ to predict power demand surges started by information shared in
 social media networks is proposed in this Thesis. The steps
 in the proposed framework are shown in Figure \ref{basicpredicitonframework}.
 First, the data used for the parameter estimation process is gathered and
-preprocessed. Then, this data is used for the parameter estimation process
-proposed in this Section. Afterwards, the simulation framework is configured
+preprocessed. Then, this data is used for the parameter estimation algorithm. 
+Afterwards, the simulation framework is configured
 with the parameter estimated in the previous step. For this, 
 $\alpha, \beta, S(t_0), I(t_0), R(t_0)$ are used to configure the 
 information propagation process implemented in the simulation framework.
-The variables $N, k$ are used to configure the random graph generation
+The variables $N$ and $k$ are used to configure the random graph generation
 characteristics. The implementation of the 
 algorithm of the Barabási–Albert random graph in \textit{NetworkX}
-receives the total amount of nodes in the graph and the number of edges 
+receives the total number of nodes in the graph and the number of edges 
 for each incoming node as inputs. Since we assume that the median degree
 $k$ equals the number of edges generated for each incoming node, we can thus
 use $k$ as an input for the random graph algorithm. However, this assumption
-only works if the total amount of nodes in the random graph is $N$.
+only works if the total number of nodes in the random graph is $N$.
 Since social networks tend to be big, it can be assumed that 
 $N$ is of high value and that a graph of such a size may lead to technical 
 issues such as high computation time. Thus, smaller values such as $N'$
-can be used as long as the ration between the amount of nodes and the
-amount of edges for the incoming nodes are the same, thus the constraint
+can be used as long as the ration between the number of nodes and the
+number of edges for the incoming nodes are the same, thus the constraint
 $\frac{k}{N}=\frac{k'}{N'}$ needs to be fulfilled for a Barabási–Albert
 graph $G'(N',k')$. With the parameters for the information propagation and 
 for the random graph, the simulation can thus be run. 

@@ -5,18 +5,18 @@ In this chapter, the fundamental concepts necessary to understand
 this thesis are explained.
 First, the general concept of panic buying,
 its consequences and what may lead to panic buying is explained 
-(see section \ref{panicbuying}).
+(see Section \ref{panicbuying}).
 Then, the fundamental theory of graph systems are 
 introducted and multiple attributes to describe graphs are defined 
-(see section \ref{graphbasics}).
+(see Section \ref{graphbasics}).
 Furthermore, the concept of random graphs and multiple random 
 graph algorithms are described.
 Next, the concept of information diffusion
 and multiple algorithms to model information diffusion are introduced
-(see section \ref{informationdiffsection}).
+(see Section \ref{informationdiffsection}).
 Finally, different human-based variables that 
 correlate with the power consumption are described
-(see section \ref{powerloadsection},).
+(see Section \ref{powerloadsection},).
 
 
 \section{Panic Buying as a Result from Social Media Influence}
@@ -181,7 +181,7 @@ or the number of edges, are predetermined,
 while other features are randomly generated using designated algorithms.
 
 There are a number of algorithms used to generate random graphs.
-The most commonly used algorithms are introduced in this section.
+The most commonly used algorithms are introduced in this Section.
 
 \subsubsection{Erdős–Rényi Model}
 
@@ -217,7 +217,7 @@ not scale-free.
      $\overline{c} = (n-1)p$ \\ 
      \hline
      Degree Distribution & 
-     $P_k = e^{-\overline{c}} \frac{\overline{c}^k}{k!}$ \\ 
+     $P_k = \frac{\overline{c}^k}{k!} e^{-\overline{c}}$ \\ 
      \hline
      Clustering Coefficient & 
      $C=\frac{\overline{c}}{n-1}=p$ \\ 
@@ -274,7 +274,7 @@ will create when being added to the random graph.
 \end{table}
 
 \subsubsection{Watts–Strogatz Model}
-The last random graph algorithm mentioned in this section 
+The last random graph algorithm mentioned in this Section 
 is the Watts–Strogatz (WS) random graph \cite{wattsmodel}.
 Contrary to BA random graphs, the focus of the WS graph is not to 
 form graphs based on the power law, but to create graphs
@@ -296,7 +296,7 @@ thus favored over the former algorithm \cite{basicnetwork}.
 The graph characteristics of the model can be seen
 in Table \ref{ws-model}. Given the degree distribution $P_k$, it can be seen
 that the distribution does not follow the power law since it is more similar
-to the Poisson distribution than a power distribution. Thus, the WS model
+to the Poisson distribution than a power law distribution. Thus, the WS model
 is not scale-free.
 
 \begin{table}[ht!]
@@ -428,7 +428,7 @@ specific state are shown in Table \ref{SI-table}.
     \label{SI-table}
 \end{table}
 
-Two models that shall be further analysed in this section are the SIR and SIS models. 
+Two models that shall be further analysed in this Section are the SIR and SIS models. 
 For the SIR model, it is assumed that at the beginning, all entities in the 
 system are in the state $S$, thus susceptible to an infection. In the context of 
 misinformation diffusion this means that an entity does not know about the
@@ -486,7 +486,7 @@ There is no exact definition for an algorithm to calculate the state changes in 
 graph model. Nonetheless, the probability that an entity changes
 its state from susceptible to infected $S \to I$ generally increases depending on
 how many neighbors are already infected. In its simplest form, a
-propagation algorithm may be defined as in equation \ref{eqbasicpropagation} 
+propagation algorithm may be defined as in Equation \ref{eqbasicpropagation} 
 \cite{easypropagation}.
 
 \begin{equation}
@@ -521,8 +521,7 @@ the information that they received and thus return to the \textit{Susceptible} s
 \begin{figure}[!ht]
     \center
     \includegraphics[scale=.9]{figs/Tambuscio.png}
-    \caption{state chart for the model described
-    in \textit{Tambuscio et al.} \cite{sirsmodel}}
+    \caption{state chart for the model \cite{sirsmodel}}
     \label{originalmodelstatechart}
 \end{figure}
 
@@ -545,8 +544,7 @@ the information that they received and thus return to the \textit{Susceptible} s
        & \\
      \hline
     \end{tabular}
-    \caption{probability functions for the states described 
-    in \textit{Tambuscio et al.} \cite{sirsmodel}}
+    \caption{probability functions for the states \cite{sirsmodel}}
     \label{SIS-table-equations}
 \end{table}
 
@@ -554,8 +552,8 @@ In Figure \ref{originalmodelstatechart}, the states and the general probability
 for transitions of the model are shown.
 In Table \ref{SIS-table-equations}, the probability functions 
 $p_i^S, p_i^I, p_i^R$ that a node $i$ will belong to each state  
-\textit{Susceptible}($S$),  \textit{Infected}($I$) and 
-\textit{Recovered}($R$) at the iteration step $t+1$ are defined more clearly. 
+\textit{Susceptible} ($S$),  \textit{Infected} ($I$) and 
+\textit{Recovered} ($R$) at the iteration step $t+1$ are defined more clearly. 
 These probability functions 
 are dependent on the current state of the node $s_i=[s_i^S,  s_i^I,  s_i^R]$,
 where $s_i^K$ is $1$ if the node $i$ has the state $K$ and else $0$.
@@ -575,16 +573,16 @@ news in the propagation process.
 
 \subsection{Information Cascade Models}
 
-Another way to model information diffusion in graphs is by viewing it as a 
-sequential information propagation process. This assumption is made in
-information cascade models. In this type of model, any node $n$ infected in the
+Another way to model information diffusion in graphs is by viewing the diffusion as a 
+sequential information propagation process. This is the assumption in
+information cascade models. In this type of model, any node $n$ which is infected in the
 iteration step $i$ may infect its connected neighbor $a$ with a probability $P_n(a)$
 \cite{reviewinformationdiffusion}. All nodes infected by node $n$
 can then infect their neighboring node in the next iteration step $i+1$
 and the node $n$ becomes inactive and does not infect any neighbors in any future
 iterations.
-The equation for the propagation step can be seen in equation 
-\ref{eqbasicpropagationcascading}.
+Equation \ref{eqbasicpropagationcascading} 
+shows the how the propagation step is modelled.
 Information cascade models are mostly used for prediction and influence 
 analysis purposes, and not to explain the collective behavior
 of the system during the information diffusion process.
@@ -595,30 +593,30 @@ of the system during the information diffusion process.
     \label{eqbasicpropagationcascading}
 \end{equation}
 
-There are several different subtypes of cascading models.
+There are different subtypes of cascading models.
 Some subtypes are described in \cite{diffusionbasics}. These are:
 
 \begin{itemize}
     \item Independent Cascading Model: In this type of model, the 
-    probability $P_n(a)=p$ ist constant for each node $a$ and neighbor $n$.
+    probability $P_n(a)=p$ is constant for each node $a$ and neighbor $n$.
     Thus, the probability function does not depend on the history 
     of the system and its information diffusion status.
     \item Decreasing Cascading Model: In this type of model, the probability
     function to activate the node $a$ decreases with each attempts of its 
     neighbors. This means that if a neighbor $n$ unsuccessfully tries to infect
     $a$ at iteration step $i$, then the probability that the neighbor $m$
-    can sucessfully infect $a$ at step $i+t$ is smaller, thus $P_n(a)>P_m(a)$.
+    can sucessfully infect $a$ at step $i+t$ is smaller.
 \end{itemize}
 
 \subsection{Threshold Models}
-A different method to analyse the diffusion process in graphs is by viewing the
+Another method to analyse the diffusion process in graphs is by viewing the
 propagation step as a process where each entity needs to overcome a 
 specific threshold $\theta$ to become infected. More specifically, 
 a certain amount of neighbors need to be infected for node $a$ to become 
-infected too. Furthermore, contrary to the cascade models, a node can always 
+infected, too. Contrary to cascade models, a node can always 
 infect its neighbors as long as the conditions are fulfilled in the threshold 
-model. The general equation for the threshold model can be seen in equation
-\ref{eq:threshold}.
+model. Equation \ref{eq:threshold} shows the general definition 
+for the threshold model.
 
 \begin{equation}
     I(a) = \sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
@@ -627,61 +625,58 @@ model. The general equation for the threshold model can be seen in equation
 \end{equation}
 
 Subtypes of this kind of diffusion model differ by the threshold parameter.
-Some subtypes are described in \cite{diffusionbasics}. These are:
+Some subtypes described in \cite{diffusionbasics} are:
 
 \begin{itemize}
-    \item Majority Threshold Model: In this type of model, a node $a$ becomes
+    \item Majority Threshold Model: A node $a$ becomes
     infected if the majority of its neighbors are infected, thus 
     $\theta = \frac{1}{2}deg(a)$.
-    \item Small Threshold Model: In this type of model, the threshold for that
+    \item Small Threshold Model: The threshold for which
     node $a$ becomes infected is very small. The advantage of this model is that 
-    certain algorithms may be calculated faster with this type of model 
-    \cite{diffusionbasics}.
-    \item Unanimous Threshold Model: In this type of model, all neighbors 
+    certain algorithms may be calculated faster \cite{diffusionbasics}.
+    \item Unanimous Threshold Model: All neighbors 
     of a node $a$ need to be infected for $a$ to become infected, thus
     $\theta = deg(a)$.
 \end{itemize}
 
 
-\section{Variable Usages in Power Load Forecasting}
+\section{Power Load Forecasting Methods}
 \label{powerloadsection}
 
-A very significant task in modern power grid infrastructure management 
-is to forecast
-the future power demand, so that the power supply can be adjusted accordingly.
+An important task in modern power grid infrastructure management 
+is to forecast power demand, so that the power supply can be adjusted accordingly.
 The power demand forecasting methods can be categorized in three types:
 short-, medium and long-term power demand forecast. These differ in which
 timespan they forecast the power demand. Most forecasting models are 
-either statistical models or artifical intelligence-based models 
-\cite{raza2015review}. But for these models to be able to predict the power 
-demand, it is necessary to give them input data which correlate with the power 
-usage. These kinds of variables that correlate with the power load 
+either statistical models or artifical intelligence based models 
+\cite{raza2015review}. For these models to be able to predict the power 
+demand, they need input data which correlate with the power 
+usage. Variables that correlate with the power load 
 can be classified as either endogenous or exogenous variables.
 Exogenous variables can be considered as independent variables 
-whose values determined outside of the system. 
+whose values are determined outside of the system. 
 Endogenous variables, on the other side, 
 are variables that are dependent of other variables in the 
-system.
+model.
 
 In the context of power load prediction, the most commonly 
 used endogenous variable is the historical power load data.
 For the exogenous variables, there are multiple types of 
-variables that are often considered as possible input data \cite{exogenousdata}
-\cite{exogenousdata2}.
-The first type of variables are environmental variables like temperature, 
-rainfall, humidity or wind power. A different type of variables are time data
+variables that are often considered as possible input data.
+The first type of variables are \textit{environmental} variables like temperature, 
+rainfall, humidity or wind power. A different type of variables are \textit{time} data
 such as the specific weekday, if a day is a holiday and the time of the day.
-One more type of variables are socio-economic variables such as the
+Another type of variables are socio-economic variables such as the
 population size and growth, the exchange rate, the income level,
 the gross domestic product or the different types and amount 
 of consumers like agricultural, industrial or household consumers.
-Another type of variables are building and occupancy related variables such
+The last type of variables are \textit{building and occupancy related} variables such
 as the household appliance usage,
 the number of persons or the number of bedrooms in a household.
 
-The relevance of each type of variables depend heavily on if the model is
-a short-, middle- or long-term power load forecasting model. When shifting to more 
-long-term predictions, the slower changing variables such as socio-economic
+The relevance of each type of variables depend on if the model is
+a short-, middle- or long-term power load forecasting model. For 
+long-term predictions, the more slowly changing variables such as socio-economic
 variables become more important than short-term variables such as weather data 
 \cite{loadforecastingtimedependency2}\cite{loadforecastingtimedependency}.
 The specific task definition is also relevant for the parameter selection.
@@ -692,24 +687,22 @@ macroeconomic scale, socio-economic variables are more important.
 Exogenous variables that are explicitly linked to human behaviour, 
 such as social media usage, traffic information, satellite image data or 
 internet usage, are not used often for power load forecasting. 
-But these are the variables that would be affected the most in a change of 
-human behavior. Thus, these variables should be analysed in more detail 
-for this Thesis.
+But these are the variables that would probably be affected in a change of 
+human behavior. Therefore, these variables are analysed for this Thesis.
 
 Social media data does not directly correlate with power demand, but it is
-possible to extract information relevant for power demand prediction
+possible to extract information relevant for power demand forecasting
 from the content generated by it.
-First, it is possible to analyse the spacial density of people by 
+First, it is possible to analyse the spatial density of people by 
 counting the amount of tweets tagged in a specific location of interest. 
-In the work of \textit{Deng et al.},
-it was shown that there is a significant
-correlation between the amount of geotagged tweets
+It was shown that there is a significant
+correlation between the number of geotagged tweets
 and the power consumption in a specific region \cite{twittergeoloccorr}.
-As a possible explanation for this correlation, the paper assumes that 
-an increased amount of human activity in a specific region leads a greater 
+As a possible explanation for this correlation is that 
+increased human activity in a specific region leads to a greater 
 use of facilities such as heating or air conditioning in buildings or 
 other types of power-consuming behavior.
-For this reason, geotagged tweets were already used as input data for 
+For this reason, geotagged tweets were used as input data for 
 power load forecasting models 
 \cite{twittergeolocforecasting} \cite{twittergeolocforecasting2}.
 Second, it is also possible to analyse the content written in the 
@@ -719,7 +712,7 @@ It can either be analysed by searching for posts with a defined keyword or tag
 or it can be analysed by using natural language processing techniques. 
 In natural language processing the raw text content 
 (and possibly its metadata and attachements) of a post is analysed
-in some form to extract the desired information. Possible analysis
+to extract the desired information. Possible analysis
 methods would be to classify if a post is related to some energy-consuming
 behavior or to count the number of energy-relevant keywords in the text.
 For example, a natural language processing model was trained to 
@@ -727,27 +720,27 @@ classify specifically energy-related tweets \cite{energybert}.
 The other possibility is to query the social media instance 
 to find all posts that contain the defined keyword or tag.
 This method is usually simpler than using more sophisticated natural 
-language processing techniques, but increases the amount of false positive 
+language processing techniques, but increases the number of false positive 
 posts that are not relevant for the specific task.
 For power load prediction tasks, usually only the keyword search method is used.
-In the work of \textit{LaLone et al.}, they show that the amount of energy
-related tweets during hurricane Katrina correlated with the amount of 
+In the work of \textit{LaLone et al.}, they show that the number of energy
+related tweets during hurricane Katrina correlated with the number of 
 power outages at the same time \cite{poweroutagetwitter}.
-Another paper uses twitter data with both keyword search and 
+Another work uses twitter data with both keyword search and 
 tweets that were classified with natural language processing techniques to
 to find power outage regions \cite{twitterpoweroutagelighttime}.
-In addition, another paper used topic mining techniques to find
+In addition, another work used topic mining techniques to find
 events on twitter posts that correlate with energy consumption 
 \cite{twittertopicevent}.
-Finally, a data type that can be considered as partially related to social 
-network data, since it also shows the interest that greater parts of 
-the population have for a specific topic, are search engine indices.
-This was shown in the work of \textit{Wu et al.}, where it was proven that adding 
+Search engine indices are also a data type that can be considered 
+as partially related to social network data, since it also shows the 
+interest that greater parts of the population have for a specific topic.
+In the work of \textit{Wu et al.}, it was proven that adding 
 keyword search counts can improve power load forecasting accuracy 
 \cite{googlepowerforecast}.
 
 General internet traffic data also correlates with power usage.
-In the study of \textit{Morleya et al.}, they conclude that 
+\textit{Morleya et al.} concludes that 
 electricity consumed by information and communication devices
 may contribute to increased peak electricity demand 
 \cite{internettrafficenergycorrelation}.
@@ -757,10 +750,9 @@ power demand forecasting models \cite{electricityinternetforecast}.
 Studies show that with the increased adoption of electric vehicles (EV), 
 there is an increased interdependency between the electric and 
 transportation infrastructure \cite{interdependnytrafficenergy}. 
-Therefore, traffic data may correlate with power load 
-in two ways:
-First, with the traffic movement in general, it is possible to follow the
-movement patterns of larger group. As an example, in the morning,
+Traffic data may correlate with power load in two ways:
+First, with traffic movement patterns, it is possible to follow the
+movement patterns of larger groups of people. As an example, in the morning,
 traffic intensity increases since larger part of the population needs
 to go to their workplace. Subsequently, this population group
 returns back to their residences after finishing their work in the afternoon.
@@ -771,49 +763,69 @@ region of interest. The usage of this variable in power load
 forecasting models gained more interest during the COVID-19 pandemic, 
 where drastically changing mobility and power consumption 
 patterns meant that new model inputs were necessary to consider changing
-behavior patterns in the general population 
+behavior patterns in the population 
 \cite{covidtrafficpower} \cite{covidtrafficpower2}.
-But this variable also correlates with the electricity consumption pattern
-during normal times. One paper successfully showed that
+But traffic data also correlated with the electricity consumption pattern
+before the pandemic. One work showed that
 using traffic data as an input for power load
-forecasting models generally leads to more accurate predictions, even before
+forecasting models leads to more accurate predictions, even before
 the COVID-19 pandemic \cite{causalmodeltrafficelectricity}.
 Second, with the increasing EV usage in the future, 
 the total power demand increases since these types of vehicles 
-need to be charged often. Power load forecasting methods that consider this
+need to be charged. Power load forecasting methods that consider this
 issue often focus on charging stations \cite{evcharchingstations}
-\cite{evcharchingstations2}, but changes in household power consumption 
+\cite{evcharchingstations2}. However, changes in household power consumption 
 and the general charging behavior of households
 were also the objective of some studies. \textit{Gerossier et al.}
-analysed in their study the different charging patterns in households
+analysed the different charging patterns in households
 and found four different charging patters in which its members charged at 
 a similar time and duration \cite{gerossier2019modeling}.
-In addition, there are also studies that work on
+In addition, there are also works that describe
 power load prediction models for individual household
 charging forecasts \cite{skala2023interval}. 
-A notable study was done by \textit{Arias et al.} that also considered the traffic patterns
+A notable work was done by \textit{Arias et al.} that also considered the traffic patterns
 and analysed the differences in EV charging behaviors between
-commercial and residential districts when forecasting the power demand
-created by EV charging \cite{arias2016electric}.
+commercial and residential districts for power demand forecasting
+\cite{arias2016electric}.
 
-The last variable that depends on human behavior mentioned in this section are
+The last variable that depends on human behavior mentioned in this Section are
 satellite images. These kind of images can be used to find a variety 
-of enviromental factors that are of relevance for the amount of power demand.
+of enviromental factors relevant for power demand.
 Satellite images are mostly used to forecast power generation of 
 renewable resources such as solar power \cite{solarprediction}.
 But it can also be used to estimate household power consumption,
-specially during nighttime. This is particularly of relevance for regions 
-where the electricity data is unreliable, such as in developing contries
-\cite{reviewnighttime}. There is a relation 
+especially during nighttime. This is particularly of relevance for regions 
+where the electricity consumption data is unreliable, such as in developing contries
+\cite{reviewnighttime}. There is a correlation 
 between nighttime light intensity and power consumption.
-But this relation depends on the type of consumer, such as households, industry
-or other types of consumers. Furthermore, the relation is not linear
-\cite{nighttimepowerestimation}. 
-A disadvantage of using nighttime images for power demand prediction is 
+But this relation depends on the type of consumer, e.g. households or industry. 
+Furthermore, the relation is not linear \cite{nighttimepowerestimation}. 
+An issue when using nighttime images for power demand prediction is 
 the inherent noise in the data. Non-household light sources such as 
 streetlights and vehicles add noise to the image data \cite{reviewnighttime}.
-Another usage of nighttime satellite image is for power outage detection.
+Another application of nighttime satellite image is for power outage detection.
 If there is a power outage, the affected region will turn dark, which 
-consequently can be detected in satellite images. Thus, satellite image data 
+can be detected in satellite images. Satellite image data 
 was successfully used in multiple power outage detection models
 \cite{nightpoweroutage} \cite{twitterpoweroutagelighttime}.
+
+\subsubsection{Load Profiles as Power Load Forecasting Models}
+Another method to forecast power demand at a specific time are load 
+profiles. Load profiles describe the power usage pattern of costumers
+during a specific time, such as a day or a year. Load profiles are 
+representative load curves and thus are independent of input variables.
+Load profiles differ by the type of custormer they represent. For 
+example, the load profiles provided by the German Federal Association of 
+Energy and Water Management (Bundesverband der Energie- und Wasserwirtschaft 
+e. V. (BDEW)) can be divided by households, commerce, 
+farms and other types of customers \cite{meier1999reprasentative}.
+There are three methods to model load profiles.
+Bottom-up models analyse the electricity consumption of individual customers
+and extrapolate the findings to a group of customers, e.g. households.
+For household customers, the appliance usage and electricity consumption 
+and the behavior patterns of the inhabitants are analysed to model
+the power consumption. Top-down models use the total power consumption 
+estimates to approximate the power consumption of individual consumers.
+Hybrid models combine both bottom-up and top-down models to model 
+load profiles. 
+
