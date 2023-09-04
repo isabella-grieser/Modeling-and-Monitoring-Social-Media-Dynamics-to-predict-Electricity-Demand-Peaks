@@ -56,19 +56,49 @@ have used the policy changes of Twitter to impersonate 	utility companies
 and to advertise a false reduction of energy prices, leading to customers
 believing the information and increasing their energy consumption as a 
 reaction. Another possibility would be that hackers would force access to the
-social media profiles of 	utility companies and start sending false 
+social media profiles of utility companies and start sending false 
 information to its customers. Hackers were already able to gain access
 to the social media profiles of multinational companies in the past
 \cite{twitterhacker}. Hackers could also spread misinformation in regards
 to a false reduction in prices, thus leading to changing consumer demand.
 
-% HERE AN EXAMPLE TWITTER POST
-
 Based on the information, a possible scenario could be that hackers would
 access the social media profiles of a well-known utility company
 to spread the information that the energy prices would be reduced by 
-a signifiant factor at a specific time. This information would then be 
+a signifiant factor at a specific time. An example tweet is shown in 
+Figure \ref{demandtweet}. This information would then be 
 spread around social media, reaching many customers of the company.
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.4]{figs/eondemandresponse.png}
+    \caption{Example tweet posted by hackers pretending to be an utility company}
+    \label{demandtweet}
+\end{figure}
+
+Given the description of the scenario, multiple assumptions can be made.
+First, we can assume that the time where an entity receives the information
+about the price reduction does not correlate with the time it will act on
+it. Furthermore, since it is a widespread information propagation scenario,
+we can use a similar information propagation event to analyse the 
+results of the total framework. Thus, the information propagation
+parameters do not need to be defined. Furthermore, one work estimates 
+the price elasticity of electricity in Germany to be $-0.4310$
+\cite{priceelasticity}. 
+This means that a price reduction of $1\%$
+on the electricity price would could lead to a $0.43\%$ increase in
+electricity consumption. From this, we can assume that consumers 
+respond well to such price reduction programs. Thus, we can also assume 
+that many people will act on the information.
+
+To estimate the information propagation parameters with the framework,
+example social media data is necessary. However, there are no real examples
+for social media information spread events which affected the power demand.
+Thus, other information spreading events are used to estimate 
+realistic propagation parameters. The dataset used for this scenario
+was the Typhoon Haiyan dataset \cite{takahashi2015communicating}. In this
+dataset, $2.753.230$ twitter posts and their published dates were collected
+to analyse communication during a disaster.
 
 
 \section{Scenario 2: Coordinated Action of Extremists 
@@ -106,8 +136,22 @@ then need to deal with a sudden surplus of electricity.
 Given the previous information, a possible scenario could be 
 that extremists plan to turn off all their electrical devices at 
 a specific time to destabilize the electrical infrastructure. The
-time would be announced in advance.
+time would be announced in advance. An example message spread by
+these extremists can be seen in Figure \ref{schwurbler}.
 
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.7]{figs/schwurblerchat.png}
+    \caption{Example message posted by extremists on Telegram}
+    \label{schwurbler}
+\end{figure}
+
+Given the description of the example scenario, multiple assumptions can be drawn.
+First, this scenario also assumes that the time where an entity receives the
+information does not equal to the time where it acts on the information.
+Furthermore, this scenario is unlikely to make big parts of the population
+to act on the information since it is assumed that only a small minority
+of the population will act on extremist information.
 
 \section{Scenario 3: Mass Evacuation of a City due to a Disaster}
 
@@ -131,7 +175,23 @@ Given the previous assumptions, a possible scenario could be that
 rumors about a wildfire spreading towards a city leads to people
 trying to leave the city in masses. In addition, a significant 
 amount of people drive EVs, thus giving them the need to charge
-their cars before they are able to leave the city.
+their cars before they are able to leave the city. An example
+tweet spreading the rumor can be seen in Figure \ref{firetweet}.
+
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.4]{figs/firenews.png}
+    \caption{Example tweet posted by an anonymus user on Twitter}
+    \label{firetweet}
+\end{figure}
+
+Given the example scenario, multiple assumptions for the simulation can
+be made. First, it can be assumed that the time where an entity receives
+the information equals the time where the entity will act on it.
+Next, It can be assumed that the information will be shared very quickly.
+Furthermore, it is assumed that most people will act on the information,
+since they will fear for their lives.
 
 
 \section{Scenario 4: Mass Showering after a Chemical Accident}
@@ -159,6 +219,28 @@ Thus, the city's government would use Cell Broadcast to
 instruct the population to close their windows and 
 to take a shower to remove the chemicals from their bodies.
 Therefore, most people would take showers at the same time.
+An example message can be seen in Figure \ref{warningmessage}.
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.7]{figs/emergencychemical.png}
+    \caption{Example warning message received via Cell Broadcast}
+    \label{warningmessage}
+\end{figure}
+
+Given the scenario description, multiple assumptions can be
+made for the simulation.
+First, it is assumed that since Cell Broadcast is used, the simulation
+will reach all entities in the city at the same time.
+Furthermore, since the information comes from a verified channel,
+all entities will act on the information. Also, the time where the
+entities receive the information is also the time where they will act
+on it.
+Moreover, since this scenario is a synchronous event, we can define that the
+maximum number of infected individuals at the same time equals
+the total number of entities in the system, thus $I(t_{max})=N$.
+Consequently, the usage of the simulation work is not necessary
+and the results of this scenario can be calculated.
 
 
 % Questions: how to define the parameters

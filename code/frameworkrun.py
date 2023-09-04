@@ -16,4 +16,4 @@ if __name__ == "__main__":
 
     framework = EstimationFramework()
 
-    framework.estimate_power_outage(values, start)
+    framework.estimate_power_outage(y, start)

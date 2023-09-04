@@ -1,7 +1,6 @@
 import pandas as pd
 
 
-
 def clean_household_data(path, save):
     df = pd.read_csv(path)
 
@@ -28,23 +27,12 @@ def clean_household_data(path, save):
     df = df.round(5)
     df.to_csv(save)
 
-def clean_time_series_data(path, save):
-    df = pd.read_csv(path)
-
-    remained_cols = ['utc_timestamp', 'cet_cest_timestamp', 'DE_load_actual_entsoe_transparency']
-
-    df = df.loc[:, df.columns.intersection(remained_cols)]
-    df = df.dropna()
-    df.to_csv(save)
 
 def clear_detailed_data(path, save):
     df = pd.read_csv(path)
     df['mean'] = df.drop('index', axis=1).mean(axis=1)
     df.to_csv(save)
 
+
 if __name__ == "__main__":
-
-    # clean_household_data("../data/household_data_1min_opsd.csv", "../data/opsd_1min.csv")
-    # clean_time_series_data("../data/time_series_15min_opsd.csv", "../data/time_15min.csv")
-
     clear_detailed_data("../data/energy/household_2019_15min.csv", "../data/household_15min.csv")

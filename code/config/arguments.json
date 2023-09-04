@@ -1,8 +1,0 @@
-{
-  "network":{
-    "nodes": 20,
-    "type": "small_world",
-    "edges": 3,
-    "beta": 0.3
-  }
-}

@@ -3,6 +3,7 @@ import pandas as pd
 from sim.parameterEstimator import *
 from gen.model import *
 from sim.simulator import Simulator
+from demandlib import bdew
 
 class EstimationFramework:
 
@@ -11,7 +12,7 @@ class EstimationFramework:
 
     def estimate_power_outage(self, twitter_data, start,
                               config_path="./config/framework_config.json",
-                              ref_energy_path="data/energy/lastprofil_h0i_2023.xls",
+                              year=2013, factor=100,
                               days=1, beta=0.1, alpha=0.4,
                               p_verify=0.4, degree=10,
                               y_max=500000, index_shift=100):
@@ -48,14 +49,17 @@ class EstimationFramework:
         print(f"estimated params: p_verify: {return_dict['p_verify']}, alpha: {return_dict['alpha']}, beta: {return_dict['beta']}")
 
         social_network_model = define_appliance_use(social_network_model, config["model_args"])
-        df = pd.read_excel(ref_energy_path, header=None, names=["time", "power"])
-        x = pd.to_datetime(df["time"], utc=True).dt.to_pydatetime().tolist()
+
+        load_profile = bdew.elec_slp.ElecSlp(year)
+        df = load_profile.get_profile({'h0': year})
+        x = df.index.to_list()
+        y = df.h0.apply(lambda x: x * factor).to_list()
 
         comparable_starts = [x_i[0] for x_i in enumerate(x) if x_i[1].time() > start.time()
                              and x_i[1].day == start.day and x_i[1].month == start.month]
         start_index = comparable_starts[0] - index_shift
         spread_start = x[comparable_starts[0]]
-        y_val = [df["power"].to_list()[start_index:]]
+        y_val = [y[start_index:]]
         x_val = x[start_index:]
 
         simulator = Simulator(social_network_model, x_val, y_val, args=config["sim"],
