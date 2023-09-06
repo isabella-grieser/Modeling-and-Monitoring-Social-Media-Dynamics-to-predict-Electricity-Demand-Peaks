@@ -1,7 +1,8 @@
 {
-  "seed": 23,
+  "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   "network":{
-    "nodes": 400
+    "nodes": 400,
+    "available": 0.5
   },
   "reference" : [
       "https://www.daftlogic.com/information-appliance-power-consumption.htm",
@@ -15,7 +16,8 @@
     "beta": 0.6,
     "power_usage": 0.8,
     "factor": 1,
-    "power_threshold": 1.5
+    "power_threshold": 1.5,
+    "fringe": false
   },
   "model_args":{
     "electric_car": {

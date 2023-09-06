@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import networkx as nx
 from random import sample
@@ -11,6 +13,7 @@ import config.systemconstants as const
 import utils.utils as util
 from matplotlib.lines import Line2D
 import datetime
+import math
 
 matplotlib.use("TkAgg")
 
@@ -330,6 +333,11 @@ class Simulator:
             else:
                 g_i = beta * ((n_r * (1 - alpha)) / (n_i * (1 + alpha) + n_r * (1 - alpha)))
 
+            if math.isnan(f_i):
+                f_i = sys.float_info.max
+            if math.isnan(g_i):
+                g_i = sys.float_info.max
+
             s_i_s = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE)
             s_i_i = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
             s_i_r = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED)
@@ -338,27 +346,31 @@ class Simulator:
             self.graph.nodes[n][const.P_I] = f_i * s_i_s + (1 - p_verify) * s_i_i
             self.graph.nodes[n][const.P_R] = g_i * s_i_s + p_verify * s_i_i + s_i_r
 
+            if math.isnan(self.graph.nodes[n][const.P_S]) or math.isnan(self.graph.nodes[n][const.P_I]) \
+                    or math.isnan(self.graph.nodes[n][const.P_R]):
+                val = True
+
         def change_state(n):
-            prev_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
+            if not (self.graph.nodes[n][const.CAN_ACTIVATE] and self.args["fringe"]):
+                prev_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
 
+                self.graph.nodes[n][const.INFECTION_STATUS] = np.random.choice(states,
+                                                                               p=[self.graph.nodes[n][const.P_S],
+                                                                                  self.graph.nodes[n][const.P_I],
+                                                                                  self.graph.nodes[n][const.P_R]
+                                                                                  ])
 
-            self.graph.nodes[n][const.INFECTION_STATUS] = np.random.choice(states,
-                                                                           p=[self.graph.nodes[n][const.P_S],
-                                                                              self.graph.nodes[n][const.P_I],
-                                                                              self.graph.nodes[n][const.P_R]
-                                                                              ])
+                current_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
 
-            current_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
-
-            if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE \
-                    and current_infect_status == const.InfectionStatus.INFECTED:
-                self.graph.nodes[n][const.WILL_ACT] = random.random() < self.args["p_will_act"]
-
-            if self.power_start is None or self.power_start is not None and x > self.power_start:
-                # check if the node will start using more power
-                if not self.graph.nodes[n][const.ACTIVATED] \
+                if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE \
                         and current_infect_status == const.InfectionStatus.INFECTED:
-                    self.graph.nodes[n][const.ACTIVATED] = random.random() < self.args["power_usage"]
+                    self.graph.nodes[n][const.WILL_ACT] = random.random() < self.args["p_will_act"]
+
+                if self.power_start is None or self.power_start is not None and x > self.power_start:
+                    # check if the node will start using more power
+                    if not self.graph.nodes[n][const.ACTIVATED] \
+                            and current_infect_status == const.InfectionStatus.INFECTED:
+                        self.graph.nodes[n][const.ACTIVATED] = random.random() < self.args["power_usage"]
 
         n_jobs = 4
         for n in self.graph.nodes:
@@ -387,15 +399,17 @@ class Simulator:
         if self.power_start is not None and x < self.power_start:
             return 1
         elif self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED \
-            and self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT]:
-                return self.args["factor"]
+                and self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT] \
+                and self.graph.nodes[node][const.CAN_ACTIVATE]:
+            return self.args["factor"]
         return 1
 
     def __power_consumption_offset__(self, x, node):
         if self.power_start is not None and x < self.power_start:
             return 0
         if self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT] and \
-                self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED:
+                self.graph.nodes[node][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED \
+                and self.graph.nodes[node][const.CAN_ACTIVATE]:
             total_power = 0
             for appliance in self.graph.nodes[node][const.HOUSEHOLD_APPLIANCE]:
                 if appliance[1] >= 0:

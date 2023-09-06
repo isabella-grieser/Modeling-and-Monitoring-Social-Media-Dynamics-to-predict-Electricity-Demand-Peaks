@@ -1,0 +1,38 @@
+\chapter{Appendix}
+
+\begin{lstlisting}[language=json,firstnumber=1, 
+    caption={Configuration file for scenario 1
+    },captionpos=b,label={scenario1config}]
+{
+    ...
+    "model_args":{
+        "electric_car": {
+        "power": 1125,
+        "p": 0.1,
+        "duration": 10000
+        },
+        "washing_machine": {
+        "power": 100,
+        "p": 95.8,
+        "duration": 4
+        },
+        "dishwasher": {
+        "power": 300,
+        "p": 71.7,
+        "duration": 8
+        } 
+    },
+    "sim": {
+        "p_will_act": 0.6,
+        "power_usage": 0.8,
+        "p_verify": 0.07,
+        "alpha": 0.4,
+        "beta": 0.6,
+        "power_threshold": 1.5
+        "factor": 1
+    },
+    "network":{
+        "nodes": 400
+      }, 
+}
+\end{lstlisting}

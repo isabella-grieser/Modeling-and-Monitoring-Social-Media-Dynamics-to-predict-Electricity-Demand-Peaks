@@ -33,3 +33,9 @@ def define_appliance_use(G, appliances):
                 vals = [appliances[appliance]["power"], appliances[appliance]["duration"]]
                 G.nodes[n][const.HOUSEHOLD_APPLIANCE].append(vals)
     return G
+
+def define_availability(G, config):
+    p = config["available"]
+    for n in G.nodes():
+        G.nodes[n][const.CAN_ACTIVATE] = random.random() < p
+    return G

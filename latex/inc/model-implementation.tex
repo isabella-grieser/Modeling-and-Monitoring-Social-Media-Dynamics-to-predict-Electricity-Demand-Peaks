@@ -274,7 +274,21 @@ This assumption is given with the probability $p_{\mathrm{will\_act}}$.
 This assumption, contrary to the former assumption, is only
 checked once. If the condition is not fulfilled, the 
 entity will never act on the information, even if 
-it believes in the information.
+it believes in the information. Last, it 
+is also assumed that some entities may not be able to participate due 
+to constraints that are outside of their control. For example, 
+one entity may be interested in participating in energy reduction
+program to reduce his energy costs, but is unable to do so since 
+the entity has an energy provider which does not offer such a program.
+Thus, even if the entity is infected and would like to act on the 
+information, contextual contraints do not allow him to participate in it.
+Nonetheless, the entity can still spread the information to its neighbors
+which might be able to act on it. 
+This availability to participate in the power demand change event is 
+given with the probability $p_{\mathrm{available}}$.
+Furthermore, there may be scenarios where 
+an entity both does not act on the information and does not 
+spread the information further. 
 
 The power demand changes should be comparable to reference data.
 For this, load profiles are used as reference points to increase
@@ -298,7 +312,6 @@ in a JSON file. An example JSON file is shown in Listing
     caption={Example parameters for household appliances for 
     the simulation},captionpos=b,label={appliancejsonfile}]
 {
-    ...
     "model_args":{
         "electric_car": {
         "power": 1125,
@@ -309,16 +322,11 @@ in a JSON file. An example JSON file is shown in Listing
         "power": 100,
         "p": 95.8,
         "duration": 4
-        },
-        "dishwasher": {
-        "power": 300,
-        "p": 71.7,
-        "duration": 8
-        } 
+        }
     },
     "sim": {
         "p_will_act": 0.6,
-        "power_usage": 0.8,
+        "p_power_usage": 0.8,
         "p_verify": 0.07,
         "alpha": 0.4,
         "beta": 0.6,
@@ -326,7 +334,9 @@ in a JSON file. An example JSON file is shown in Listing
         "factor": 1
     },
     "network":{
-        "nodes": 400
+        "nodes": 400,
+        "available": 0.9,
+        "fringe": false
       }, 
 }
 \end{lstlisting}
@@ -347,9 +357,16 @@ to the change in power consumption. Furthermore, in
 the \code{sim} and the \code{network} fields, 
 multiple system and network parameters
 necessary for the simulation and network 
-model generation
-such as $\alpha$, $\beta$ and $p_{\mathrm{will\_act}}$ 
-are defined.
+model generation are defined.
+The parameter \code{n} defines the size $N$ of the social media graph.
+Next, the parameters \code{alpha}, \code{beta} and \code{p\_verify}
+are used for the information propagation process.
+Then, the parameters \code{p\_will\_act}, \code{p\_power\_usage}
+ans \code{available}
+were alread described in the assumptions. 
+\code{fringe} is the parameter used to define if a specific scenario
+is a fringe scenario, where unavailable entities do not share 
+information even if they receive it.
 Next, a critical threshold needs to be defined 
 for when the power grid is overstressed by the 
 total power consumption and a blackout occurs.

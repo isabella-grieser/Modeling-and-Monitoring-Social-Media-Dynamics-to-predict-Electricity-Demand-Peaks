@@ -96,10 +96,72 @@ example social media data is necessary. However, there are no real examples
 for social media information spread events which affected the power demand.
 Thus, other information spreading events are used to estimate 
 realistic propagation parameters. The dataset used for this scenario
-was the Typhoon Haiyan dataset \cite{takahashi2015communicating}. In this
+was the Typhoon Haiyan dataset \cite{david2016tweeting}. In this
 dataset, $2.753.230$ twitter posts and their published dates were collected
-to analyse communication during a disaster.
+to analyse communication during a disaster. The twitter posts were collected
+between November 8, 2013 and November 26, 2013. This means that the 
+information propagation for this dataset progressed over multiple days.
+The propagation curve and the estimated infection curves can be seen in 
+Figure \ref{propagationestimationtyphoon}. In the figure, it can be seen 
+that the parameter estimation algorithm models the infection progress
+well, ignoring outliers such as the maximum value of the true information
+propagation progress. Furthermore, 
+the infection process progresses during multiple days. Moreover, the high number 
+of posts in the first week collected in the dataset
+allows the assumption that the intensity of the information propagation
+is high in the beginning. This is shown with a high transmission parameter 
+of $\beta=0.99$ estimated by the framework. Furthermore, the
+information is assumed by the framework to have an average credibility 
+of $\alpha=0.44$. Since the infection process is slow and progresses over 
+multiple days, the verification parameter is
+low with $p_{\mathrm{verify}}=0.003$. Last, the degree-to-node ratio
+is also low with $\frac{k'}{N'}=0.002$.
 
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.95]{figs/parameter_estimation.png}
+    \caption{Information propagation progress for the Typhoon dataset 
+    and estimated infection process}
+    \label{propagationestimationtyphoon}
+\end{figure}
+
+Besides the propagation parameters, which are estimated by the framework,
+the system parameters $p_{\mathrm{will\_act}}$ and 
+$p_{\mathrm{power\_usage}}$ need to be defined. Since the information 
+propagated in the scenario
+is believeable and we assume that customers respond well to price 
+reduction programs, we can also assume that the two probabilities are 
+high. For this simulation, values of $p_{\mathrm{will\_act}}=$ and 
+$p_{\mathrm{power\_usage}}=$ were chosen. Furthermore, this scenario
+is given for only one utility company and not for the whole 
+energy market. The current energy market share in Germany is 
+shown in Figure \ref{marketshare}. It can be seen that the 
+utility company RWE has the highest market share in germany 
+with $14.9\%$. Thus, we define $p_{\mathrm{available}}=0.149$ as the 
+current market share of RWE. Last, since the scenario would both be 
+well-received by the entities and it is a believeable scenario, 
+entities may also share the information with its neighbors even if
+cannot act on the information. A reason for why an entity cannot act 
+on the information is that it is the customer of another utility company.
+This scenario considers the household appliances which are energy-intensive.
+The config file of the scenario with all appliances considered in this
+scenario can be found in the Appendix in Listing \ref{scenario1config}.
+
+% next ideas: average over multiple seeds
+% check out how unstable the simulation is
+% then find out how the simulation acts based on the other two probabilities
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.95]{figs/strommarkt.png}
+    \caption{Market share in the electricity market \cite{monitoringbericht}}
+    \label{marketshare}
+\end{figure}
+
+For to evaluate this szenario, the simulation was run five times with five 
+different seeds used for the random probability calculations.
+ 
 
 \section{Scenario 2: Coordinated Action of Extremists 
 against the Electrical Grid}
@@ -240,7 +302,11 @@ Moreover, since this scenario is a synchronous event, we can define that the
 maximum number of infected individuals at the same time equals
 the total number of entities in the system, thus $I(t_{max})=N$.
 Consequently, the usage of the simulation work is not necessary
-and the results of this scenario can be calculated.
+and the results of this scenario can be calculated manually.
+Darmstadt is chosen as the example city for this scenario analysis.
+
+Darmstadt is a city with a population of $162.243$ in 2022 
+\cite{statistadarmstadt}.  
 
 
 % Questions: how to define the parameters
