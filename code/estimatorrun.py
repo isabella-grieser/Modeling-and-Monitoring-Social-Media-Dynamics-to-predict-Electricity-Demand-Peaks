@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     values = values
     start = values.index[0]
-    y = signal.savgol_filter(values.values, 53, 3)
+    y = signal.savgol_filter(values.values, 24, 2)
 
     # estimate parameters
     start_time, end_time, time_step = 0, len(y), 1

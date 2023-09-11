@@ -1,7 +1,7 @@
 {
-  "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  "seeds": [1, 2, 3, 4, 5],
   "network":{
-    "nodes": 400,
+    "nodes": 1000,
     "available": 0.5
   },
   "reference" : [
@@ -10,7 +10,7 @@
       ""
   ],
     "sim": {
-    "p_will_act": 0.6,
+    "p_will_act": 0.8,
     "p_verify": 0.07,
     "alpha": 0.4,
     "beta": 0.6,
@@ -21,39 +21,34 @@
   },
   "model_args":{
     "electric_car": {
-      "power": 1125,
+      "power": 0.400,
       "p": 0.1,
-      "duration": 10
+      "duration": 1000
     },
     "washing_machine": {
-      "power": 100,
+      "power": 0.100,
       "p": 95.8,
       "duration": 4
     },
     "washer_dryer": {
-      "power": 500,
+      "power": 0.125,
       "p": 42.6,
       "duration": 3
     },
     "dishwasher": {
-      "power": 300,
+      "power": 0.300,
       "p": 71.7,
       "duration": 8
     },
     "oven": {
-      "power": 540,
+      "power": 0.540,
       "p": 80,
       "duration": 4
     },
     "electric_stove": {
-      "power": 500,
+      "power": 0.350,
       "p": 94,
       "duration": 2
-    },
-    "hometrainer": {
-      "power": 100,
-      "p": 26.4,
-      "duration": 4
     }
   }
 }

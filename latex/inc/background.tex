@@ -72,7 +72,7 @@ influenced more easily by their friends' posts and advices on social media.
 Moreover, since friend circles became more 
 internationalized through the global nature of social media networks,
 events in other countries and its
-possible consequences for one's own country can be analysed, thus
+possible consequences for one's own country can be analyzed, thus
 leading to a reaction. As an example,
 shortage of a specific good in one country can lead to people in other countries
 assuming that the shortage may happen in one's own country, thus leading to 
@@ -197,7 +197,7 @@ Thus, the number of edges $|E|$ is not fixed.
 The characteristics besides the number of nodes and the
 probability of the ER graph are generally not known.
 Nonetheless, the average value of the other
-characteristics to analyse the random graph algorithm can be calculated.
+characteristics to analyze the random graph algorithm can be calculated.
 The graph characteristics of this type of random graph are shown in Table 
 \ref{erdos-model}.
 An important observation is that 
@@ -365,7 +365,7 @@ Furthermore, both true and false information can spread through
 these channels.
 Thus, the topic of information propagation over social media has become an 
 important research field in the academic community.
-The main way to analyse the spreading of information over a social network 
+The main way to analyze the spreading of information over a social network 
 is by modeling the propagation process. The spread of information over 
 a network is called information diffusion. 
 The modeling of information diffusion can be divided into three components
@@ -389,9 +389,9 @@ The modeling of information diffusion can be divided into three components
 
 The first two components are independent of specific simulation scenarios,
 unlike the third component. Thus the first two components should be further
-analysed. Furthermore, there is a multitude of different ways 
+analyzed. Furthermore, there is a multitude of different ways 
 to model information diffusion in social networks. Therefore, the most common
-modeling methods will be further analysed in this chapter.
+modeling methods will be further analyzed in this chapter.
 
 \subsection{Epidemiological Models}
 \label{epidemologicalmodels}
@@ -428,7 +428,7 @@ specific state are shown in Table \ref{SI-table}.
     \label{SI-table}
 \end{table}
 
-Two models that shall be further analysed in this Section are the SIR and SIS models. 
+Two models that shall be further analyzed in this Section are the SIR and SIS models. 
 For the SIR model, it is assumed that at the beginning, all entities in the 
 system are in the state $S$, thus susceptible to an infection. In the context of 
 misinformation diffusion this means that an entity does not know about the
@@ -443,47 +443,10 @@ The SIS model differs from the SIR model in that the entity does not recover,
 but it \glqq forgets\grqq{} about the fact that the information is fake 
 and becomes susceptible to misinformation again.
 
-The amount of entities belonging to each state may change 
-after a time duration $\Delta t$. The equations to calculate the 
-changes in number of entities in each state, and thus the progress 
-of the information diffusion, can be seen in Table \ref{SI-table-equations}.
-
-\begin{table}[ht!]
-    \centering
-    \begin{tabular}{|c | c |} 
-     \hline
-     SIR & SIS  \\ 
-     \hline
-     & \\
-     $\begin{aligned}
-          \frac{dS}{dt} &= -\beta I S \\
-          \frac{dI}{dt} &= \beta I S - \gamma I \\
-          \frac{dR}{dt} &= \gamma I  
-        \end{aligned}$
-      &
-      $\begin{aligned}
-          \frac{dS}{dt} &= -\beta I S + \gamma I\\
-          \frac{dI}{dt} &= \beta I S - \gamma I
-        \end{aligned}$
-       \\ 
-       & \\
-     \hline
-    \end{tabular}
-    \caption{Model equations for SIR and SIS model \cite{sirequation}}
-    \label{SI-table-equations}
-\end{table}
-
-$\beta$ and $\gamma$ are the transition rates parameters of the model, where 
-$\beta$ is the transmission rate and $\gamma$ the 
-recovery rate. Moreover, the equations in Table \ref{SI-table-equations}
-are differential equations that are used to calculate the amount
-of entities for each state in the system, not to calculate in which state
-each entity in the system is in. Thus, the differential equations are 
-only useful if a system-level view on the propagation is required.
-If an entity-level view is necessary, i.e. if it is required to know which 
-specific entities are in which state, then graph based diffusion models are needed.
-There is no exact definition for an algorithm to calculate the state changes in the
-graph model. Nonetheless, the probability that an entity changes
+Epidemiological models can be used for graphs to describe which nodes 
+in the graph belong to which state.
+There is no exact definition for a modeling algorithm to calculate the state 
+changes in the graph model. Nonetheless, the probability that an entity changes
 its state from susceptible to infected $S \to I$ generally increases depending on
 how many neighbors are already infected. In its simplest form, a
 propagation algorithm may be defined as in Equation \ref{eqbasicpropagation} 
@@ -571,6 +534,53 @@ the fact-checking propagation process at the same time.
 Moreover, it is possible to consider the plausibility of the fake 
 news in the propagation process.
 
+Graph-based epidemological models view the infection process on an entity-level.
+Thus, the state of each node in the system is always known.
+However, another way to view epidemological models is by ignoring the 
+state of each node and only calculating the number of nodes in each state.
+As a consequence, this can be considered a system-level view.
+This view can be modeled with differential equations.
+For differential equations, the amount of entities belonging to each state may change 
+after a time duration $\Delta t$. The equations to calculate the 
+changes in number of entities in each state, and thus the progress 
+of the information diffusion, can be seen in Table \ref{SI-table-equations}.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c | c |} 
+     \hline
+     SIR & SIS  \\ 
+     \hline
+     & \\
+     $\begin{aligned}
+          \frac{dS}{dt} &= -\beta I S \\
+          \frac{dI}{dt} &= \beta I S - \gamma I \\
+          \frac{dR}{dt} &= \gamma I  
+        \end{aligned}$
+      &
+      $\begin{aligned}
+          \frac{dS}{dt} &= -\beta I S + \gamma I\\
+          \frac{dI}{dt} &= \beta I S - \gamma I
+        \end{aligned}$
+       \\ 
+       & \\
+     \hline
+    \end{tabular}
+    \caption{Model equations for SIR and SIS model \cite{sirequation}}
+    \label{SI-table-equations}
+\end{table}
+
+$\beta$ and $\gamma$ are the transition rates parameters of the model, where 
+$\beta$ is the transmission rate and $\gamma$ the 
+recovery rate. Moreover, the equations in Table \ref{SI-table-equations}
+are differential equations that are used to calculate the amount
+of entities for each state in the system, not to calculate in which state
+each entity in the system is in. Thus, the differential equations are 
+only useful if a system-level view on the propagation is required.
+If an entity-level view is necessary, i.e. if it is required to know which 
+specific entities are in which state, then graph based diffusion models are needed.
+
+
 \subsection{Information Cascade Models}
 
 Another way to model information diffusion in graphs is by viewing the diffusion as a 
@@ -582,7 +592,7 @@ can then infect their neighboring node in the next iteration step $i+1$
 and the node $n$ becomes inactive and does not infect any neighbors in any future
 iterations.
 Equation \ref{eqbasicpropagationcascading} 
-shows the how the propagation step is modelled.
+shows the how the propagation step is modeled.
 Information cascade models are mostly used for prediction and influence 
 analysis purposes, and not to explain the collective behavior
 of the system during the information diffusion process.
@@ -609,7 +619,7 @@ Some subtypes are described in \cite{diffusionbasics}. These are:
 \end{itemize}
 
 \subsection{Threshold Models}
-Another method to analyse the diffusion process in graphs is by viewing the
+Another method to analyze the diffusion process in graphs is by viewing the
 propagation step as a process where each entity needs to overcome a 
 specific threshold $\theta$ to become infected. More specifically, 
 a certain amount of neighbors need to be infected for node $a$ to become 
@@ -651,7 +661,11 @@ timespan they forecast the power demand. Most forecasting models are
 either statistical models or artifical intelligence based models 
 \cite{raza2015review}. For these models to be able to predict the power 
 demand, they need input data which correlate with the power 
-usage. Variables that correlate with the power load 
+usage. 
+
+\subsection{Variables used for Power Load Forecasting}
+
+Variables that correlate with the power load 
 can be classified as either endogenous or exogenous variables.
 Exogenous variables can be considered as independent variables 
 whose values are determined outside of the system. 
@@ -688,12 +702,12 @@ Exogenous variables that are explicitly linked to human behaviour,
 such as social media usage, traffic information, satellite image data or 
 internet usage, are not used often for power load forecasting. 
 But these are the variables that would probably be affected in a change of 
-human behavior. Therefore, these variables are analysed for this Thesis.
+human behavior. Therefore, these variables are analyzed for this Thesis.
 
 Social media data does not directly correlate with power demand, but it is
 possible to extract information relevant for power demand forecasting
 from the content generated by it.
-First, it is possible to analyse the spatial density of people by 
+First, it is possible to analyze the spatial density of people by 
 counting the amount of tweets tagged in a specific location of interest. 
 It was shown that there is a significant
 correlation between the number of geotagged tweets
@@ -705,13 +719,13 @@ other types of power-consuming behavior.
 For this reason, geotagged tweets were used as input data for 
 power load forecasting models 
 \cite{twittergeolocforecasting} \cite{twittergeolocforecasting2}.
-Second, it is also possible to analyse the content written in the 
+Second, it is also possible to analyze the content written in the 
 social media posts. The content in social media posts can be 
-analysed in two ways: 
-It can either be analysed by searching for posts with a defined keyword or tag
-or it can be analysed by using natural language processing techniques. 
+analyzed in two ways: 
+It can either be analyzed by searching for posts with a defined keyword or tag
+or it can be analyzed by using natural language processing techniques. 
 In natural language processing the raw text content 
-(and possibly its metadata and attachements) of a post is analysed
+(and possibly its metadata and attachements) of a post is analyzed
 to extract the desired information. Possible analysis
 methods would be to classify if a post is related to some energy-consuming
 behavior or to count the number of energy-relevant keywords in the text.
@@ -757,7 +771,7 @@ traffic intensity increases since larger part of the population needs
 to go to their workplace. Subsequently, this population group
 returns back to their residences after finishing their work in the afternoon.
 Thus, there is also an increased traffic intensity in the afternoon.
-This traffic movement can be analysed by measuring the 
+This traffic movement can be analyzed by measuring the 
 incoming and outgoing traffic volume at the main roads of the 
 region of interest. The usage of this variable in power load
 forecasting models gained more interest during the COVID-19 pandemic, 
@@ -777,14 +791,14 @@ issue often focus on charging stations \cite{evcharchingstations}
 \cite{evcharchingstations2}. However, changes in household power consumption 
 and the general charging behavior of households
 were also the objective of some studies. \textit{Gerossier et al.}
-analysed the different charging patterns in households
+analyzed the different charging patterns in households
 and found four different charging patters in which its members charged at 
 a similar time and duration \cite{gerossier2019modeling}.
 In addition, there are also works that describe
 power load prediction models for individual household
 charging forecasts \cite{skala2023interval}. 
 A notable work was done by \textit{Arias et al.} that also considered the traffic patterns
-and analysed the differences in EV charging behaviors between
+and analyzed the differences in EV charging behaviors between
 commercial and residential districts for power demand forecasting
 \cite{arias2016electric}.
 
@@ -809,7 +823,7 @@ can be detected in satellite images. Satellite image data
 was successfully used in multiple power outage detection models
 \cite{nightpoweroutage} \cite{twitterpoweroutagelighttime}.
 
-\subsubsection{Load Profiles as Power Load Forecasting Models}
+\subsection{Load Profiles as Power Load Forecasting Models}
 Another method to forecast power demand at a specific time are load 
 profiles. Load profiles describe the power usage pattern of costumers
 during a specific time, such as a day or a year. Load profiles are 
@@ -820,10 +834,10 @@ Energy and Water Management (Bundesverband der Energie- und Wasserwirtschaft
 e. V. (BDEW)) can be divided by households, commerce, 
 farms and other types of customers \cite{meier1999reprasentative}.
 There are three methods to model load profiles.
-Bottom-up models analyse the electricity consumption of individual customers
+Bottom-up models analyze the electricity consumption of individual customers
 and extrapolate the findings to a group of customers, e.g. households.
 For household customers, the appliance usage and electricity consumption 
-and the behavior patterns of the inhabitants are analysed to model
+and the behavior patterns of the inhabitants are analyzed to model
 the power consumption. Top-down models use the total power consumption 
 estimates to approximate the power consumption of individual consumers.
 Hybrid models combine both bottom-up and top-down models to model 

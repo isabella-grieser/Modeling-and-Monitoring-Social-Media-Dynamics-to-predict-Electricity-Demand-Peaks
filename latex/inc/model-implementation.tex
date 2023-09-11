@@ -1,8 +1,7 @@
-\chapter{Implementation of a Framework to model the Effect
-of Information on Social Media on the Power Grid}
+\chapter{Modeling Information Effects on Power Grids}
 \label{implementationall}
-In this Chapter, a framework to analyse and predict 
-the effects of information on the 
+In this Chapter, a framework to analyze and predict 
+the effects of information on social media on the 
 power grid will be introduced and the specific implementation of the 
 framework will be explained.
 First, in Section \ref{simulationframeworksection}, 
@@ -31,7 +30,7 @@ propagation of information over the network needs to be defined and
 implemented. Third, rules to estimate the changes in the power consumption 
 need to be defined.
 
-\subsection{Modelling Social Networks}
+\subsection{Social Network Modeling Approaches}
 \label{modelsocialnetwork}
 Two approaches to create social media network graphs 
 are considered in this Thesis.
@@ -43,7 +42,7 @@ control which accounts on social media networks due to privacy reasons.
 Thus, it is not possible to create a social network graph that 
 shows the real state of the social media network.
 Thus, datasets need to be used to model real life networks without 
-dealing with privacy concerns. There are datasets available to analyse
+dealing with privacy concerns. There are datasets available to analyze
 real social media networks. One dataset collection that can 
 be used for such a task is the Stanford 
 Large Network Dataset Collection \cite{snapnets}.
@@ -104,14 +103,14 @@ A framework to create and modify the social network graph is needed to
 allow the simulation to model the information propagation
 progress on the graph. \textit{NetworkX} is a 
 Python package which provides various functions to model,
-analyse and manipulate graph-based structures. 
+analyze and manipulate graph-based structures. 
 Furthermore, it provides several graph-based algorithms.
 It also provides multiple random graph generation algorithms,
 such as the ER graph, WS graph or the BA graph. 
 Thus, the \textit{NetworkX} library was used in this Thesis for
-the generation and modelling of the social network graph.
+the generation and modeling of the social network graph.
 
-\subsection{Implementation of the Information Propagation Algorithm}
+\subsection{Information Propagation Algorithm}
 \label{modelinformationdiffusion}
 
 There are multiple methods to model information diffusion in graph models.
@@ -208,7 +207,7 @@ of the probability $p_n(t+1)$ of the other nodes.
 \subsection{Rule-based Calculation of the Power Consumption}
 \label{rulebasedpowerconsumption}
 
-Last, given the social network modelling components given in 
+Last, given the social network modeling components given in 
 Sections \ref{simulationframeworksection} and 
 \ref{modelinformationdiffusion}, the rules to model the
 power demand changes need to be defined.
@@ -460,7 +459,7 @@ The other animation type shown in Figure \ref{system-view}
 provides a system-wide view, which shows
 the changes in number of households belonging to each of the three
 states over time.
-The graph-based view can be used to analyse the information propagation
+The graph-based view can be used to analyze the information propagation
 process for small models. For big models with a high number of nodes
 in the social network graph, the graph-based view tends to be 
 computationally expensive. Thus, the system-wide view should be used
@@ -487,8 +486,7 @@ for big models.
 
 
 
-\section{Extending the Framework to estimate the System Parameters based on
-Domain Variables}
+\section{Framework for System Parameter Estimation}
 \label{parameterestimationalgo}
 
 In Section \ref{simulationframeworksection}, a framework to simulate the effects 
@@ -513,7 +511,7 @@ that is being considered in this Thesis are the number of messages in a given ti
 One method to estimate the propagation parameters of the SIR model 
 is to view the problem as a minimization problem 
 \cite{jin2013epidemiological}. The idea is to iteratively solve the differential 
-equations of the SIR model, analyse the infection process and minimize 
+equations of the SIR model, analyze the infection process and minimize 
 its difference of the true infection process that can be seen via the
 social media data. A simplified diagram with the steps of the algorithm
 can be seen in Figure \ref{paramestimationbasic}. The method proposed 
@@ -567,14 +565,14 @@ higher-level or system-wide view.
 This approach originated from molecular analysis, where the method is used
 to average the behaviors of many molecules into the average behavior
 of the whole system,
-but it can also be used to analyse the characteristics of graphs
+but it can also be used to analyze the characteristics of graphs
 \cite{barabasi1999mean}\cite{sirsmodel}.
 Thus, mean-field theory is used in this Thesis to 
-analyse the average interactions in the graph and thus to deduce 
+analyze the average interactions in the graph and thus to deduce 
 the average characteristics of the information 
 propagation process. 
 
-To analyse the average information propagation process, 
+To analyze the average information propagation process, 
 it can be assumed that for a Barabási–Albert random graph, 
 the median degree for a node in the graph will be equal to the number 
 of edges generated when adding a new node to the random graph.

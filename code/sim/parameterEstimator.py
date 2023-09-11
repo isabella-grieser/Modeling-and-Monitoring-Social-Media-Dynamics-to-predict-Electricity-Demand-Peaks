@@ -27,7 +27,7 @@ def solve_params(n, i, r, start_time, end_time, time_step, twitter_data, beta, a
     #create minimization parameters
     time_span = (start_time, end_time)
     time_points = np.arange(start_time, end_time, time_step)
-    init_params = [beta, alpha, p_verify, degree, n, i, r]
+    init_params = np.array([beta, alpha, p_verify, degree, n, i, r])
 
     bounds = ((0, 1), (0, 1), (0, 1), (0, float('inf')), (0, float('inf')), (0, float('inf')), (0, float('inf')))
     #minimize the difference between the sir model and the twitter data

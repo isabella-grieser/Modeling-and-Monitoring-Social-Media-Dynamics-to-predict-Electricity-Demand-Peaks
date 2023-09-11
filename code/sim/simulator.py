@@ -19,14 +19,14 @@ matplotlib.use("TkAgg")
 
 
 class Simulator:
-    def __init__(self, G, x, y, args, spread_start=None,
+    def __init__(self, graph, x, y, args, spread_start=None,
                  power_start=None,
                  seed=42, days=1,
                  minutes=15,
                  steps=1, si="MW",
                  reduce_factor=1,
                  y_max=50000):
-        self.graph = G
+        self.graph = graph
         self.x = x
         self.y = y
         self.args = args
@@ -103,14 +103,18 @@ class Simulator:
                 line_sir_i, = ax2.plot([], [], lw=2, color='red', label="infected")
                 line_sir_r, = ax2.plot([], [], lw=2, color='blue', label="recovered")
 
-                n_size = self.graph.number_of_nodes()
-                s_true = [n_size for n in range(self.timespan)]
-                i_true = [0 for n in range(self.timespan)]
-                r_true = [0 for n in range(self.timespan)]
                 ax2.set_ylabel(f"Infection Process")
                 ax2.set_xlabel(f"Time")
+                xfmt2 = md.DateFormatter('%H:%M')
+                ax2.xaxis.set_major_formatter(xfmt2)
+                n_size = self.graph.number_of_nodes()
                 ax2.set(xlim=(self.x[0], self.x[self.timespan + iterations]), ylim=(0, n_size))
                 ax2.legend(loc="upper left")
+
+            n_size = self.graph.number_of_nodes()
+            s_true = [n_size for n in range(self.timespan)]
+            i_true = [0 for n in range(self.timespan)]
+            r_true = [0 for n in range(self.timespan)]
 
             x_plot = self.x[:self.timespan]
             y_true, y_ref = self.__calculate_power__(x_plot, [y_s[:self.timespan] for y_s in self.y])
@@ -248,16 +252,7 @@ class Simulator:
                     sus_nodes, inf_nodes, rem_nodes = update_graph()
                     return [line1, line2, sus_nodes, inf_nodes, rem_nodes]
                 else:
-                    s_sum = 0
-                    i_sum = 0
-                    r_sum = 0
-                    for n_n, y in self.graph.nodes(data=True):
-                        if y[const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE:
-                            s_sum += 1
-                        if y[const.INFECTION_STATUS] == const.InfectionStatus.INFECTED:
-                            i_sum += 1
-                        if y[const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED:
-                            r_sum += 1
+                    s_sum, i_sum, r_sum = self.__calc_infection_process__()
 
                     s_true.append(s_sum)
                     i_true.append(i_sum)
@@ -277,28 +272,70 @@ class Simulator:
                 anim.save(save_name, fps=10)
             else:
                 plt.show()
-            return x_total, y_ref_total, y_true_total
+            if draw_graph:
+                return x_total, y_ref_total, y_true_total, None, None, None
+            else:
+                return x_total, y_ref_total, y_true_total, s_true, i_true, r_true
         else:
             x_all = self.x[:self.timespan]
             y_true, y_ref = self.__calculate_power__(x_all, [y_s[:self.timespan] for y_s in self.y])
+
+            n_size = self.graph.number_of_nodes()
+            s_true = [n_size for n in range(self.timespan)]
+            i_true = [0 for n in range(self.timespan)]
+            r_true = [0 for n in range(self.timespan)]
+
             for i in range(iterations):
                 x_new, y_new_true, y_new_ref = None, None, None
-                n = (i * self.steps + self.timespan) % len(self.x)
+                # append new steps
+                times, n = divmod(i * self.steps + self.timespan, len(self.x))
                 if n + self.steps >= len(self.x):
-                    i = (n + self.steps) % len(self.x)
-                    x_new = self.x[n:] + self.x[:i]
-                    y_new_true, y_new_ref = self.__calculate_power__(x_new, [y_s[n:] + y_s[:i] for y_s in self.y])
+                    j = (n + self.steps) % len(self.x)
+                    x_new = self.x[n:] + self.x[:j]
+                    y_new_true, y_new_ref = self.__calculate_power__(x_new, [y_s[n:] + y_s[:j] for y_s in self.y])
+                    x_plot_new = [
+                        x_vals + len(self.x) * times * datetime.timedelta(minutes=self.minutes)
+                        for x_vals in self.x[n:]
+                    ]
+                    x_plot_new.extend([
+                        x_vals + len(self.x) * (times + 1) * datetime.timedelta(minutes=self.minutes)
+                        for x_vals in self.x[:j]
+                    ])
                 else:
-                    i = n + self.steps
-                    x_new = self.x[n:i]
-                    y_new_true, y_new_ref = self.__calculate_power__(x_new, [y_s[n:i] for y_s in self.y])
-
+                    j = n + self.steps
+                    x_new = self.x[n:j]
+                    y_new_true, y_new_ref = self.__calculate_power__(x_new, [y_s[n:j] for y_s in self.y])
+                    x_plot_new = [
+                        x_vals + len(self.x) * times * datetime.timedelta(minutes=self.minutes)
+                        for x_vals in self.x[n:j]
+                    ]
+                # propagate based on if the next x (after step size) fulfills the simulation condition
                 self.__propagate__(x_new[-1])
-                x_all.extend(x_new)
+
+                x_all.extend(x_plot_new)
                 y_true.extend(y_new_true)
                 y_ref.extend(y_new_ref)
 
-            return x_all, y_true, y_ref
+                s_sum, i_sum, r_sum = self.__calc_infection_process__()
+                s_true.append(s_sum)
+                i_true.append(i_sum)
+                r_true.append(r_sum)
+
+            return x_all, y_true, y_ref, s_true, i_true, r_true
+
+    def __calc_infection_process__(self):
+        s_sum = 0
+        i_sum = 0
+        r_sum = 0
+        for n_n, y in self.graph.nodes(data=True):
+            if y[const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE:
+                s_sum += 1
+            if y[const.INFECTION_STATUS] == const.InfectionStatus.INFECTED:
+                i_sum += 1
+            if y[const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED:
+                r_sum += 1
+        return s_sum, i_sum, r_sum
+
 
     def __propagate__(self, x):
         if self.spread_start is not None and x < self.spread_start:
@@ -333,10 +370,11 @@ class Simulator:
             else:
                 g_i = beta * ((n_r * (1 - alpha)) / (n_i * (1 + alpha) + n_r * (1 - alpha)))
 
+            # for the case when n_i = 0 and alpha = 1 => we use the act that f_i + g_i = beta
             if math.isnan(f_i):
-                f_i = sys.float_info.max
+                f_i = beta - g_i
             if math.isnan(g_i):
-                g_i = sys.float_info.max
+                g_i = beta - f_i
 
             s_i_s = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE)
             s_i_i = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
@@ -346,9 +384,6 @@ class Simulator:
             self.graph.nodes[n][const.P_I] = f_i * s_i_s + (1 - p_verify) * s_i_i
             self.graph.nodes[n][const.P_R] = g_i * s_i_s + p_verify * s_i_i + s_i_r
 
-            if math.isnan(self.graph.nodes[n][const.P_S]) or math.isnan(self.graph.nodes[n][const.P_I]) \
-                    or math.isnan(self.graph.nodes[n][const.P_R]):
-                val = True
 
         def change_state(n):
             if not (self.graph.nodes[n][const.CAN_ACTIVATE] and self.args["fringe"]):
