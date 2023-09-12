@@ -29,7 +29,7 @@ def solve_params(n, i, r, start_time, end_time, time_step, twitter_data, beta, a
     time_points = np.arange(start_time, end_time, time_step)
     init_params = np.array([beta, alpha, p_verify, degree, n, i, r])
 
-    bounds = ((0, 1), (0, 1), (0, 1), (0, float('inf')), (0, float('inf')), (0, float('inf')), (0, float('inf')))
+    bounds = ((0, 1), (0, 0.999), (0, 1), (0, float('inf')), (0, float('inf')), (0, float('inf')), (0, float('inf')))
     #minimize the difference between the sir model and the twitter data
     result = minimize(error_function, init_params, bounds=bounds)
     optimal_beta, optimal_alpha, optimal_p, optimal_d, optimal_s, optimal_i, optimal_r = result.x

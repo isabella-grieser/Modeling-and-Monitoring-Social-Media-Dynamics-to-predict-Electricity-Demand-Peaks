@@ -729,10 +729,11 @@ with the size of the social media website $N_{website}$.
 Another unknown variable is the average degree $k$ of the social network,
 since we do not know the specific characteristics of the network of the
 subgroup infected or susceptible to the information.
-Next, the two propagation parameters $\alpha, \beta$ are not known
+Next, the three propagation parameters $\alpha, \beta, p_{verify}$ are not known
 and need to be optimized. 
 Last, the initial values $S(t_0), I(t_0), R(t_0)$ are also not known.
-Thus, there are seven variables $N, k, \alpha, \beta, S(t_0), I(t_0), R(t_0)$
+Thus, there are seven variables $N, k, \alpha, \beta, p_{verify}, 
+S(t_0), I(t_0), R(t_0)$
 that need to be optimized.
 
 
@@ -746,7 +747,7 @@ First, the data used for the parameter estimation process is gathered and
 preprocessed. Then, this data is used for the parameter estimation algorithm. 
 Afterwards, the simulation framework is configured
 with the parameter estimated in the previous step. For this, 
-$\alpha, \beta, S(t_0), I(t_0), R(t_0)$ are used to configure the 
+$\alpha, \beta, p_{verify}, S(t_0), I(t_0), R(t_0)$ are used to configure the 
 information propagation process implemented in the simulation framework.
 The variables $N$ and $k$ are used to configure the random graph generation
 characteristics. The implementation of the 

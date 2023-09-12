@@ -20,7 +20,7 @@ class EstimationFramework:
                               factor=1,
                               days=1, beta=0.1, alpha=0.4,
                               p_verify=0.4, degree=10,
-                              y_max=5000, index_shift=100):
+                              y_max=5000, index_shift=100, edge_ratio=0.0065):
 
         # create simulation framework
 
@@ -53,8 +53,12 @@ class EstimationFramework:
             print(f"estimated params: p_verify: {return_dict['p_verify']}, "
                 f"alpha: {return_dict['alpha']}, beta: {return_dict['beta']}, degree ratio: {ratio}")
         else:
+            model_config = {
+                "seed": self.config["seed"],
+                "edges": round(edge_ratio * self.config["network"]["nodes"])
+            }
             social_network_model = create_social_network_graph(self.config["network"]["nodes"],
-                                                               "barabasi_albert", self.config["network"])
+                                                               "barabasi_albert", model_config)
 
         social_network_model = define_appliance_use(social_network_model, self.config["model_args"])
         social_network_model = define_availability(social_network_model, self.config["network"])

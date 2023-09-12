@@ -2,7 +2,8 @@
   "seeds": [1, 2, 3, 4, 5],
   "network":{
     "nodes": 1000,
-    "available": 0.5
+    "available": 0.5,
+    "edges": 25
   },
   "reference" : [
       "https://www.daftlogic.com/information-appliance-power-consumption.htm",
@@ -23,7 +24,7 @@
     "electric_car": {
       "power": 0.400,
       "p": 0.1,
-      "duration": 1000
+      "duration": 32
     },
     "washing_machine": {
       "power": 0.100,

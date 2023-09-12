@@ -336,7 +336,6 @@ class Simulator:
                 r_sum += 1
         return s_sum, i_sum, r_sum
 
-
     def __propagate__(self, x):
         if self.spread_start is not None and x < self.spread_start:
             return
@@ -361,21 +360,16 @@ class Simulator:
                       self.graph.nodes[x][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
             n_r = sum(1 for x in self.graph.neighbors(n) if
                       self.graph.nodes[x][const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED)
-            if n_i == 0:
-                f_i = 0
-            else:
-                f_i = beta * ((n_i * (1 + alpha)) / (n_i * (1 + alpha) + n_r * (1 - alpha)))
-            if n_r == 0:
-                g_i = 0
-            else:
-                g_i = beta * ((n_r * (1 - alpha)) / (n_i * (1 + alpha) + n_r * (1 - alpha)))
 
-            # for the case when n_i = 0 and alpha = 1 => we use the act that f_i + g_i = beta
-            if math.isnan(f_i):
+            # edge case for when all neighbors are susceptible
+            if n_i == 0 and n_r == 0:
+                g_i, f_i = 0, 0
+            else:
+                g_i = beta * (n_r * (1 - alpha)) / (n_i * (1 + alpha) + n_r * (1 - alpha))
                 f_i = beta - g_i
-            if math.isnan(g_i):
-                g_i = beta - f_i
 
+            if math.isnan(g_i) or math.isnan(f_i):
+                t = True
             s_i_s = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.SUSCEPTIBLE)
             s_i_i = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.INFECTED)
             s_i_r = int(self.graph.nodes[n][const.INFECTION_STATUS] == const.InfectionStatus.RECOVERED)
@@ -383,7 +377,6 @@ class Simulator:
             self.graph.nodes[n][const.P_S] = (1 - f_i - g_i) * s_i_s
             self.graph.nodes[n][const.P_I] = f_i * s_i_s + (1 - p_verify) * s_i_i
             self.graph.nodes[n][const.P_R] = g_i * s_i_s + p_verify * s_i_i + s_i_r
-
 
         def change_state(n):
             if not (self.graph.nodes[n][const.CAN_ACTIVATE] and self.args["fringe"]):
