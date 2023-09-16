@@ -5,7 +5,7 @@ from sim.parameterEstimator import *
 import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
-    data = get_typhoon_data()
+    data = get_geoloc()
 
     values = data.groupby(pd.Grouper(key="date", freq="15min"))["tweet"].count()
 

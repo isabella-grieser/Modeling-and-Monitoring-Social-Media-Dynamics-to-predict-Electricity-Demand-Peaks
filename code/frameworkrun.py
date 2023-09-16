@@ -10,6 +10,7 @@ import matplotlib.dates as md
 import matplotlib.pyplot as plt
 from statistics import mean
 import pytz
+import numpy as np
 
 matplotlib.use("TkAgg")
 
@@ -79,7 +80,7 @@ def plot_basic_timeline(x_all, y_vals, y_ref, s_true, i_true, r_true, power_tres
     plt.show()
 
 
-def basic_plot(config, start, action_start, y=None):
+def basic_plot(config, start, action_start, iterations=200, y=None):
     y_vals, s_vals, i_vals, r_vals = [], [], [], []
     x_all, y_ref = None, None
     framework = None
@@ -88,7 +89,7 @@ def basic_plot(config, start, action_start, y=None):
         framework = EstimationFramework(config, plot=False)
 
         x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
-            framework.estimate_power_outage(start, action_start=action_start, y_max=1000, data=y)
+            framework.estimate_power_outage(start, action_start=action_start, iterations=iterations, y_max=1000, data=y)
         y_vals.append(y_true)
         s_vals.append(s_true)
         i_vals.append(i_true)
@@ -97,7 +98,7 @@ def basic_plot(config, start, action_start, y=None):
                         framework.threshold, spread=start, action=action_start)
 
 
-def plot_vals(config, attr1, attr2, probs, start, action_start):
+def plot_vals(config, attr1, attr2, probs, start, action_start, iterations=200):
     final_vals = []
     i_average = []
     r_average = []
@@ -111,7 +112,7 @@ def plot_vals(config, attr1, attr2, probs, start, action_start):
             config["seed"] = s
             framework = EstimationFramework(config, plot=False)
             x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
-                framework.estimate_power_outage(start, action_start=action_start, y_max=1000)
+                framework.estimate_power_outage(start, action_start=action_start, iterations=iterations, y_max=1000)
             max_val = max(y_true)
             x = x_all
             print(f"max y value: {max_val}")
@@ -145,72 +146,88 @@ def scenario1():
         config = json.load(f)
 
     def plot_alpha(alpha_p):
-        config["sim"]["beta"] = .5
-        config["sim"]["alpha"] = .5
-        config["sim"]["p_verify"] = .01
         x, alpha_vals, i_average, r_average = plot_vals(config, "sim",
                                                         "alpha", alpha_p, start, action_start)
 
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
+        start_i, end_i = 80, -150
+        x = x[start_i: end_i]
         for r_val, i_val, b in zip(r_average, i_average, alpha_p):
-            ax1.plot(x, i_val, label=f"alpha={b}")
-            ax2.plot(x, r_val, label=f"alpha={b}")
-        ax2.legend(loc="upper left")
+            ax1.plot(x, i_val[start_i: end_i], label=f"alpha={b}")
+            ax2.plot(x, r_val[start_i: end_i], label=f"alpha={b}")
+        ax2.legend(loc="lower left")
         ax1.legend(loc="upper right")
         ax1.set_xlabel("Time")
-        ax1.set_ylabel("number of infected entities")
+        ax1.set_ylabel("Number of infected entities")
         ax2.set_xlabel("Time")
-        ax2.set_ylabel("number of recovered entities")
+        ax2.set_ylabel("Number of recovered entities")
+        ax1.tick_params(labelrotation=45)
+        ax2.tick_params(labelrotation=45)
+        xfmt = md.DateFormatter('%H:%M')
+        ax1.xaxis.set_major_formatter(xfmt)
+        ax2.xaxis.set_major_formatter(xfmt)
         plt.show()
         return alpha_p, alpha_vals
 
     def plot_beta(beta_p):
-        config["sim"]["beta"] = .5
-        config["sim"]["alpha"] = .5
-        config["sim"]["p_verify"] = .01
         x, beta_vals, i_average, r_average = plot_vals(config, "sim",
                                                        "beta", beta_p, start, action_start)
 
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
+        start_i, end_i = 80, -150
+        x = x[start_i: end_i]
         for r_val, i_val, b in zip(r_average, i_average, beta_p):
-            ax1.plot(x, i_val, label=f"beta={b}")
-            ax2.plot(x, r_val, label=f"beta={b}")
-        ax2.legend(loc="upper left")
+            ax1.plot(x, i_val[start_i: end_i], label=f"beta={b}")
+            ax2.plot(x, r_val[start_i: end_i], label=f"beta={b}")
+        ax2.legend(loc="lower left")
         ax1.legend(loc="upper right")
         ax1.set_xlabel("Time")
-        ax1.set_ylabel("number of infected entities")
+        ax1.set_ylabel("Number of infected entities")
         ax2.set_xlabel("Time")
-        ax2.set_ylabel("number of recovered entities")
+        ax2.set_ylabel("Number of recovered entities")
+        ax1.tick_params(labelrotation=45)
+        ax2.tick_params(labelrotation=45)
+        xfmt = md.DateFormatter('%H:%M')
+        ax1.xaxis.set_major_formatter(xfmt)
+        ax2.xaxis.set_major_formatter(xfmt)
         plt.show()
         return beta_p, beta_vals
 
     def plot_verify(verify_p):
-        config["sim"]["beta"] = .5
-        config["sim"]["alpha"] = .5
-        config["sim"]["p_verify"] = .5
         x, verify_vals, i_average, r_average = plot_vals(config, "sim",
                                                          "p_verify", verify_p, start, action_start)
 
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
-        # plt.plot(beta_vals, beta_results)
+        start_i, end_i = 80, -150
+        x = x[start_i: end_i]
         for r_val, i_val, b in zip(r_average, i_average, verify_p):
-            ax1.plot(x, i_val, label=f"p_verify={b}")
-            ax2.plot(x, r_val, label=f"p_verify={b}")
-        ax2.legend(loc="upper left")
+            ax1.plot(x, i_val[start_i: end_i], label=f"p_verify={b}")
+            ax2.plot(x, r_val[start_i: end_i], label=f"p_verify={b}")
+        ax2.legend(loc="lower left")
         ax1.legend(loc="upper right")
         ax1.set_xlabel("Time")
-        ax1.set_ylabel("number of infected entities")
+        ax1.set_ylabel("Number of infected entities")
         ax2.set_xlabel("Time")
-        ax2.set_ylabel("number of recovered entities")
+        ax2.set_ylabel("Number of recovered entities")
+        ax1.tick_params(labelrotation=45)
+        ax2.tick_params(labelrotation=45)
+        xfmt = md.DateFormatter('%H:%M')
+        ax1.xaxis.set_major_formatter(xfmt)
+        ax2.xaxis.set_major_formatter(xfmt)
         plt.show()
         return verify_p, verify_vals
 
     def analyze_propagation(alpha_p, beta_p, verify_p):
+        config["sim"]["beta"] = .2
+        config["sim"]["alpha"] = .4
+        config["sim"]["p_verify"] = .2
         alpha_vals, alpha_res = plot_alpha(alpha_p)
+        config["sim"]["alpha"] = .4
         beta_vals, beta_res = plot_beta(beta_p)
+        config["sim"]["beta"] = .2
         verify_vals, verify_res = plot_verify(verify_p)
 
         fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(14, 6))
@@ -221,81 +238,177 @@ def scenario1():
         ax1.set_xlabel("alpha")
         ax2.set_xlabel("beta")
         ax3.set_xlabel("p_verify")
+        ax1.tick_params(labelrotation=45)
+        ax2.tick_params(labelrotation=45)
+        ax3.tick_params(labelrotation=45)
+        xfmt = md.DateFormatter('%H:%M')
+        ax1.xaxis.set_major_formatter(xfmt)
+        ax2.xaxis.set_major_formatter(xfmt)
         plt.show()
 
-    def analyze_acting_params(acting_p, usage_p):
-        acting_v, usage_v = [], []
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+    def analyze_acting_params(acting_p, usage_p, available_p):
+        acting_v, usage_v, available_v = [], [], []
         print("change will act")
         config["sim"]["beta"] = .5
         config["sim"]["alpha"] = .5
-        config["sim"]["p_verify"] = .5
+        config["sim"]["p_verify"] = .05
 
+        config["network"]["available"] = 1
         config["sim"]["power_usage"] = 1
-        for j in acting_p:
-            vals = []
-            config["sim"]["p_will_act"] = j
+        x, y_reference = None, None
+        for p in acting_p:
+            y_trues = []
+            config["sim"]["p_will_act"] = p
             for s in config["seeds"]:
                 config["seed"] = s
                 framework = EstimationFramework(config, plot=False)
                 x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
                     framework.estimate_power_outage(start, action_start=action_start, y_max=1000)
+                x = x_all
+                y_reference = y_ref
                 max_val = max(y_true)
                 print(f"max y value: {max_val}")
-                vals.append(max_val)
+                y_trues.append(y_true)
 
-            acting_v.append(mean(vals))
+            y_average = []
+            for i in range(len(y_trues[0])):
+                y_average.append(mean(y_trues[j][i] for j in range(len(y_trues))))
+            acting_v.append(y_average)
 
         config["sim"]["p_will_act"] = 1
-        for j in acting_p:
-            vals = []
-            config["sim"]["power_usage"] = j
+        for p in usage_p:
+            y_trues = []
+            config["sim"]["power_usage"] = p
             for s in config["seeds"]:
                 config["seed"] = s
                 framework = EstimationFramework(config, plot=False)
-
                 x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
                     framework.estimate_power_outage(start, action_start=action_start, y_max=1000)
                 max_val = max(y_true)
                 print(f"max y value: {max_val}")
-                vals.append(max_val)
+                y_trues.append(y_true)
 
-            usage_v.append(mean(vals))
+            y_average = []
+            for i in range(len(y_trues[0])):
+                y_average.append(mean(y_trues[j][i] for j in range(len(y_trues))))
+            usage_v.append(y_average)
 
-        ax1.plot(acting_p, acting_v)
-        ax2.plot(usage_p, usage_v)
+        config["sim"]["p_will_act"] = 1
+        config["sim"]["power_usage"] = 1
+        for p in available_p:
+            y_trues = []
+            config["network"]["available"] = p
+            for s in config["seeds"]:
+                config["seed"] = s
+                framework = EstimationFramework(config, plot=False)
+                x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
+                    framework.estimate_power_outage(start, action_start=action_start, y_max=1000)
+                max_val = max(y_true)
+                print(f"max y value: {max_val}")
+                y_trues.append(y_true)
 
+            y_average = []
+            for i in range(len(y_trues[0])):
+                y_average.append(mean(y_trues[j][i] for j in range(len(y_trues))))
+            available_v.append(y_average)
+
+        fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(14, 6))
+        # cut parts of the plot
+        start_i, end_i = 130, -130
+        x = x[start_i: end_i]
+        for usage_val, u_p in zip(usage_v, usage_p):
+            # calc the difference
+            y_plot = np.array(usage_val) - np.array(y_reference)
+            ax1.plot(x, y_plot[start_i: end_i], label=f"power_usage={u_p}")
+
+        for acting_val, a_p in zip(acting_v, acting_p):
+            y_plot = np.array(acting_val) - np.array(y_reference)
+            ax2.plot(x, y_plot[start_i: end_i], label=f"p_will_act={a_p}")
+
+        for available_val, a_p in zip(available_v, available_p):
+            y_plot = np.array(available_val) - np.array(y_reference)
+            ax3.plot(x, y_plot[start_i: end_i], label=f"available={a_p}")
+
+        # ax1.plot(x, y_reference, color='black', label="ref consumption")
+        # ax2.plot(x, y_reference, color='black', label="ref consumption")
+        xfmt = md.DateFormatter('%H:%M')
+        ax1.xaxis.set_major_formatter(xfmt)
+        ax2.xaxis.set_major_formatter(xfmt)
+        ax3.xaxis.set_major_formatter(xfmt)
+        ax1.set_ylabel("Power consumption in kW")
         ax1.set_xlabel("p_will_act")
-        ax1.set_ylabel("Maximum power consumption")
         ax2.set_xlabel("power_usage")
+        ax3.set_xlabel("available")
+        ax1.legend(loc="upper right")
+        ax2.legend(loc="upper right")
+        ax3.legend(loc="upper left")
+        ax1.tick_params(labelrotation=45)
+        ax2.tick_params(labelrotation=45)
+        ax3.tick_params(labelrotation=45)
+        plt.show()
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        for usage_val, u_p in zip(usage_v, usage_p):
+            ax.plot(x, usage_val[start_i: end_i], label=f"power_usage={u_p}")
+        ax.plot(x, y_reference[start_i: end_i], color='black', label="ref consumption")
+        ax.xaxis.set_major_formatter(xfmt)
+        ax.set_ylabel("Power consumption in kW")
+        ax.set_xlabel("Time")
+        ax.legend(loc="upper right")
+        plt.xticks(rotation=45)
         plt.show()
 
     basic_plot(config, start, action_start, y)
-    analyze_propagation([0, 0.2, 0.4, 0.6, 0.8, 0.99], [0, 0.2, 0.4, 0.6, 0.8, 1],
-                        [0, 0.2, 0.4, 0.6, 0.8, 1])
-    analyze_acting_params(acting_p=[0.2, 0.4, 0.6, 0.8, 1], usage_p=[0.2, 0.4, 0.6, 0.8, 1])
+    analyze_propagation([0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.99], [0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.99],
+                        [0, 0.05, 0.1, 0.2, 0.25, 0.3, 0.5])
+    analyze_acting_params(acting_p=[0, 0.1, 0.2, 0.4, 0.6, 0.8, 1], usage_p=[0, 0.1, 0.2, 0.4, 0.6, 0.8, 1],
+                          available_p=[0, 0.1, 0.2, 0.4, 0.6, 0.8, 1])
 
 
 def scenario2():
-    start = None
     with open("./config/conspiracy.json", "r") as f:
         config = json.load(f)
 
-    action_start = datetime(2013, 11, 7, 17, 0, 0, tzinfo=dt.timezone.utc) \
-        .replace(tzinfo=pytz.UTC)
+    data = get_typhoon_data()
 
-    basic_plot(config, start, action_start)
+    s_index, e_index = 0, -1
+    values = data.groupby(pd.Grouper(key="date", freq="15min"))["tweet"].count()
+
+    start = values.index[s_index]
+
+    action_start = datetime(2013, 11, 7, 19, 0, 0, tzinfo=dt.timezone.utc) \
+        .replace(tzinfo=pytz.UTC)
+    y = signal.savgol_filter(values.values, 53, 3)[s_index: e_index]
+
+    basic_plot(config, start, action_start, iterations=200)
 
 
 def scenario3():
-    start = None
-    with open("./config/conspiracy.json", "r") as f:
+    with open("./config/wildfire.json", "r") as f:
         config = json.load(f)
-    framework = EstimationFramework(config)
-    framework.estimate_power_outage(start)
+
+    start = datetime(2013, 11, 6, 15, 0, 0, tzinfo=dt.timezone.utc) \
+        .replace(tzinfo=pytz.UTC)
+
+    action_start = datetime(2013, 11, 6, 18, 15, 0, tzinfo=dt.timezone.utc) \
+        .replace(tzinfo=pytz.UTC)
+
+    basic_plot(config, start, action_start, iterations=200)
+
+
+def scenario4():
+    with open("./config/chemicalaccident.json", "r") as f:
+        config = json.load(f)
+
+    action_start = datetime(2013, 11, 6, 18, 15, 0, tzinfo=dt.timezone.utc) \
+        .replace(tzinfo=pytz.UTC)
+
+    basic_plot(config, action_start, action_start=None, iterations=100)
 
 
 if __name__ == "__main__":
-    scenario1()
+    # scenario1()
     # scenario2()
     # scenario3()
+    scenario4()

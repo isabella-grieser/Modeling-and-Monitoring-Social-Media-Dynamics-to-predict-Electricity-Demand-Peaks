@@ -25,7 +25,8 @@ class Simulator:
                  minutes=15,
                  steps=1, si="MW",
                  reduce_factor=1,
-                 y_max=50000):
+                 y_max=50000,
+                 nr_init_nodes=1):
         self.graph = graph
         self.x = x
         self.y = y
@@ -38,6 +39,7 @@ class Simulator:
         self.si = si
         self.reduce_factor = reduce_factor
         self.minutes = minutes
+        self.nr_init_nodes = nr_init_nodes
         np.random.seed(self.seed)
         random.seed(self.seed)
 
@@ -63,8 +65,9 @@ class Simulator:
         self.power_thresh = np.max(vector_sum)
 
         # infect a random node
-        node = sample(list(self.graph.nodes()), 1)
-        self.graph.nodes[node[0]][const.INFECTION_STATUS] = const.InfectionStatus.INFECTED
+        nodes = sample(list(self.graph.nodes()), self.nr_init_nodes)
+        for n in nodes:
+            self.graph.nodes[n][const.INFECTION_STATUS] = const.InfectionStatus.INFECTED
 
     def iterate(self, iterations=1000, intervall_time=50, draw_graph=False,
                 plot=False, save=False, save_name="./output/video.mp4"):
@@ -366,7 +369,7 @@ class Simulator:
                 g_i, f_i = 0, 0
             else:
                 g_i = beta * (n_r * (1 - alpha)) / (n_i * (1 + alpha) + n_r * (1 - alpha))
-                f_i = beta - g_i
+                f_i = beta * (n_i * (1 + alpha)) / (n_i * (1 + alpha) + n_r * (1 - alpha))
 
             if math.isnan(g_i) or math.isnan(f_i):
                 t = True
@@ -379,7 +382,7 @@ class Simulator:
             self.graph.nodes[n][const.P_R] = g_i * s_i_s + p_verify * s_i_i + s_i_r
 
         def change_state(n):
-            if not (self.graph.nodes[n][const.CAN_ACTIVATE] and self.args["fringe"]):
+            if not self.args["fringe"] or self.graph.nodes[n][const.CAN_ACTIVATE] and self.args["fringe"]:
                 prev_infect_status = self.graph.nodes[n][const.INFECTION_STATUS]
 
                 self.graph.nodes[n][const.INFECTION_STATUS] = np.random.choice(states,
@@ -392,13 +395,16 @@ class Simulator:
 
                 if prev_infect_status == const.InfectionStatus.SUSCEPTIBLE \
                         and current_infect_status == const.InfectionStatus.INFECTED:
-                    self.graph.nodes[n][const.WILL_ACT] = random.random() < self.args["p_will_act"]
+                    t = random.random() < self.args["p_will_act"]
+                    self.graph.nodes[n][const.WILL_ACT] = t
 
                 if self.power_start is None or self.power_start is not None and x > self.power_start:
                     # check if the node will start using more power
+                    t = self.graph.nodes[n][const.ACTIVATED]
                     if not self.graph.nodes[n][const.ACTIVATED] \
                             and current_infect_status == const.InfectionStatus.INFECTED:
-                        self.graph.nodes[n][const.ACTIVATED] = random.random() < self.args["power_usage"]
+                        t = random.random() < self.args["power_usage"]
+                        self.graph.nodes[n][const.ACTIVATED] = t
 
         n_jobs = 4
         for n in self.graph.nodes:
@@ -433,6 +439,8 @@ class Simulator:
         return 1
 
     def __power_consumption_offset__(self, x, node):
+        a, b, d = self.graph.nodes[node][const.ACTIVATED], self.graph.nodes[node][const.WILL_ACT], \
+                self.graph.nodes[node][const.CAN_ACTIVATE]
         if self.power_start is not None and x < self.power_start:
             return 0
         if self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT] and \

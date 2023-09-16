@@ -19,10 +19,8 @@ class EstimationFramework:
     def estimate_power_outage(self, start, action_start=None, data=None,
                               factor=1,
                               days=1, beta=0.1, alpha=0.4,
-                              p_verify=0.4, degree=10,
+                              p_verify=0.4, degree=10, iterations=200,
                               y_max=5000, index_shift=100, edge_ratio=0.0065):
-
-        # create simulation framework
 
         # estimate parameters
         if data is not None:
@@ -38,6 +36,8 @@ class EstimationFramework:
 
             # find the ratio of nodes and edge degree
             ratio = return_dict["degree"] / n
+            # ratio for infection initialization
+            init_nodes = round(return_dict["s_init"] / n)
 
             model_config = {
                 "seed": self.config["seed"],
@@ -45,7 +45,6 @@ class EstimationFramework:
             }
 
             social_network_model = create_social_network_graph(nodes, "barabasi_albert", model_config)
-            social_network_model = define_appliance_use(social_network_model, self.config["model_args"])
             self.config["sim"]["p_verify"] = return_dict["p_verify"]
             self.config["sim"]["alpha"] = return_dict["alpha"]
             self.config["sim"]["beta"] = return_dict["beta"]
@@ -79,10 +78,11 @@ class EstimationFramework:
 
         simulator = Simulator(social_network_model, x_val, y_val, args=self.config["sim"],
                               seed=self.config["seed"], spread_start=spread_start, si="kW",
-                              power_start=action_start, days=days, y_max=y_max)
+                              power_start=action_start, days=days, y_max=y_max,
+                              nr_init_nodes=1)
 
         x_all, y_true, y_ref, s_true, i_true, r_true = \
-            simulator.iterate(200, plot=self.plot, save=False, intervall_time=50)
+            simulator.iterate(iterations, plot=self.plot, save=False, intervall_time=50)
 
         self.threshold = simulator.power_thresh
         # find first occurrence where value is true

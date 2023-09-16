@@ -2,7 +2,7 @@
   "seeds": [1, 2, 3, 4, 5],
   "network":{
     "nodes": 1000,
-    "available": 0.1,
+    "available": 0.2,
     "edges": 25
   },
   "reference" : [
@@ -13,8 +13,8 @@
     "sim": {
     "p_will_act": 1,
     "p_verify": 0,
-    "alpha": 0.05,
-    "beta": 0.1,
+    "alpha": 1,
+    "beta": 1,
     "power_usage": 1,
     "factor": 0,
     "power_threshold": 1.5,

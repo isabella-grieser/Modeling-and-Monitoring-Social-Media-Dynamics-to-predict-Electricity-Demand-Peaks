@@ -42,12 +42,14 @@ def get_florence():
 
 def get_geoloc():
     frames = []
-    for i in range(4, 7):
+    for i in range(6, 7):
         records = map(json.loads, open(f'data/social_media/geoloc/2020-12-{str(i).zfill(2)}.ndjson', encoding="utf8"))
         df = pd.DataFrame.from_records(records)
         frames.append(df)
-
-    result = pd.concat(frames)
+    if len(frames) > 1:
+        result = pd.concat(frames)
+    else:
+        result = frames[0]
     result["date"] = pd.to_datetime(result["created_at"], format="%Y-%m-%dT%H:%M:%S")
     result["date"] = result["date"].apply(lambda x: x.replace(tzinfo=pytz.UTC))
     result["tweet"] = result["text"]

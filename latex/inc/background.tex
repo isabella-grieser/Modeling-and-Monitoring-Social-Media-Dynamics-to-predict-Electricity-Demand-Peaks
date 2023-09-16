@@ -6,15 +6,15 @@ this thesis are explained.
 First, the general concept of panic buying,
 its consequences and what may lead to panic buying is explained 
 (see Section \ref{panicbuying}).
-Then, the fundamental theory of graph systems are 
+Second, the fundamental theory of graph systems are 
 introducted and multiple attributes to describe graphs are defined 
 (see Section \ref{graphbasics}).
-Furthermore, the concept of random graphs and multiple random 
+Third, the concept of random graphs and multiple random 
 graph algorithms are described.
-Next, the concept of information diffusion
+Forth, the concept of information diffusion
 and multiple algorithms to model information diffusion are introduced
 (see Section \ref{informationdiffsection}).
-Finally, different human-based variables that 
+Fifth, different human-based variables that 
 correlate with the power consumption are described
 (see Section \ref{powerloadsection},).
 
@@ -27,15 +27,17 @@ one that stands out is the phenomenon of panic buying.
 It occurs when there is an unusual surge in sales of 
 specific goods due to extraordinary situations, such as natural disasters, 
 pandemics, or the spread of misinformation among the general population.
-Currently, this phenomeon has gained interest during the COVID-19 pandemic,
+Currently, this phenomeon has gained interest since it occured
+during the COVID-19 pandemic,
 where the demand for disinfectants, soap and toilet paper increased significantly
 \cite{covidpanicbuying}. Nonetheless, panic buying is not a new behavior.
-But there are other historical examples for panic buying behavior.
+However, there are other historical examples for panic buying behavior.
 These include the Spanish Flu
 in 1918, where there was an increasing demand for medications 
 \cite{honigsbaum2013regulating}. Another example is the Cuban Missile Crisis 
-in 1962, where the sales of canned foods increased significantly \cite{george2004awaiting}, 
-Lastly, during hurricane Irma in 2017, the affected population bought
+in 1962, where the sales of canned foods increased significantly 
+\cite{george2004awaiting}. 
+Lastly, during hurricane Irma in 2017 in the US, the affected population bought
 significantly more fuel, bottled water 
 and other essential goods in anticipation of the hurricane \cite{irmahurricane},
 leading to shortages.
@@ -46,12 +48,13 @@ are described in the work of \textit{Prentice et al.}
 
 \begin{itemize}
     \item Peer Pressure: The knowledge that other people fear shortages and 
-    stock-outs leads to people being influenced by their peers' fears and thus leads
+    stock-outs leads to people being influenced by their peers' fears and leads
     to them fearing shortages themselves, thus forcing them to also buy excessively.
     \item Sense of Security: Given the uncertainty that the general population
-    feels during a crisis, people want to secure their own future. This is also
-    the case for when people anticipate shortages due to their peers' fears 
-    and behaviors. Thus, they participate in panic buying to the secure their
+    feels during a crisis, people want to secure their own future. This 
+    also applies to situations where people expect 
+    shortages because of the fears and actions of their peers.
+    Thus, they participate in panic buying to the secure their
     own stockpile.
     \item Media Influence: The stories of shortages on the media
     lead to a distorted view that there exists a shortage, thus increasing 
@@ -64,25 +67,25 @@ media on the panic buying phenomenom.
 Multiple reasons for why social media influences consumer demand, 
 specifically in the case of the COVID-19 pandemic,
 are discussed in the work of \textit{Naeem} \cite{naeem2021social}.
-In his work, he noticed that since people are spreading their 
+His work showed that since people are spreading their 
 own experiences on social media, the messages generated from their peers feel
 more personal and lead to a stronger reaction by increasing the will to 
-socially distance and to stockpile supplies. Additionally, people are generally
-influenced more easily by their friends' posts and advices on social media.
-Moreover, since friend circles became more 
+socially distance and stockpiling supplies. Additionally, people are generally
+influenced more strongly by their friends' posts and advices on social media.
+Moreover, since friend circles become more 
 internationalized through the global nature of social media networks,
-events in other countries and its
+events in other countries and the
 possible consequences for one's own country can be analyzed, thus
 leading to a reaction. As an example,
 shortage of a specific good in one country can lead to people in other countries
 assuming that the shortage may happen in one's own country, thus leading to 
 panic buying in one's own country. 
 The next discovery was that people in positions of authority and with expertise,
-such as politicians, organizations and experts, can use social media to increase 
+such as politicians, organizations, and experts, can use social media to increase 
 the outreach of their messages, leading to people talking about their 
 recommendations and policies.
 Last, it was also proven that social media may increase rumor spreading,
-thus leading to panic buying \cite{naeem2022understanding}.
+consequently leading to panic buying \cite{naeem2022understanding}.
 In conclusion, social media can both amplify the messages and rumors that lead to 
 panic buying and it can amplify the messages of governments and organizations 
 that may inhibit the panic buying phenomenom.
@@ -91,10 +94,10 @@ that may inhibit the panic buying phenomenom.
 
 \section{Graph as a Representation of Social Media Networks}
 \label{graphbasics}
-Graph models are a valuable approach for modeling real-world systems.
+Graph are often used to model real-world systems.
 A graph is an abstract structure that represents a set of objects and the 
 relationship between the objects. 
-This Thesis primarily focuses on social media networks
+This Thesis focuses primarily on social media networks
 \cite{socialgraphexample}. Nonetheless, graphs can 
 also be applied to other real-world systems, such as economic systems 
 \cite{economicsgraph} or power grids \cite{powergraphexample}.
@@ -106,7 +109,7 @@ written as $e=(x, y)$. This means that for all $e\in E$, the
 condition  $e \subseteq\{ (x, y) \mid x, y \in V  \}$ 
 is valid.
 
-There are multiple different subtypes of graphs. A directional graph is a graph 
+There are multiple subtypes of graphs. A directional graph is a graph 
 whose edges have a source node $a$ and target node $b$, thus representing
 a direction from $a$ to $b$. If the edges do not fulfill this 
 condition, i.e. if the edges do not show a direction, a graph is unidirectional.
@@ -360,13 +363,13 @@ and all models show similar values for the average path length
 
 Since the creation of the internet, 
 people are receiving increasing amounts of information.
-This information is spread through social media.
+This information is spread through social media and other channels.
 Furthermore, both true and false information can spread through 
 these channels.
-Thus, the topic of information propagation over social media has become an 
+Thus, information propagation over social media has become an 
 important research field in the academic community.
 The main way to analyze the spreading of information over a social network 
-is by modeling the propagation process. The spread of information over 
+is to model the propagation process. The spread of information over 
 a network is called information diffusion. 
 The modeling of information diffusion can be divided into three components
 \cite{reviewinformationdiffusion}: 
@@ -374,17 +377,17 @@ The modeling of information diffusion can be divided into three components
 \begin{itemize}
     \item State: Entities in a system may be grouped together in a class which
     defines their behavior in the system. For example, 
-    an entity can belong to the  \glqq Spreader \grqq{} class which 
+    an entity can belong to the \textit{Spreader} class which 
     spreads the information
     to other entities in the system. An entity could also belong to a
-    \glqq Susceptible \grqq{} class that did not receive the information yet, 
+    \textit{Susceptible} class that did not receive the information yet, 
     but is able to receive it.
     \item Model: The model defines how the entities interact which each other
     given their states. A model is often represented by a graph with the entities
     as nodes and connections between the entities as edges 
     (see Section \ref{graphbasics}).
     \item Transition rates: The transition rates are the parameters used
-    do define how the information is diffused in the model in a simulation. 
+    to define how the information is diffused in the model in a simulation. 
 \end{itemize}
 
 The first two components are independent of specific simulation scenarios,
@@ -400,11 +403,11 @@ Due to their similarity to the spread of infectious diseases,
 the spread of misinformation is often modeled in the same way as epidemiological models.
 The simplest epidemiological model is the SI model, where entities in a system
 can either belong to the state \textit{Susceptible}($S$) or 
-\textit{Infected} ($I$). Moreover, the number of total entities of a 
+\textit{Infected} ($I$). The number of total entities of a 
 system can be calculated as $N=S+I$. The SI model is the basis for many
 more specialised models where the states are more detailed to capture more 
 aspects of real life behavior. A few models based on the SI model and their 
-specific state are shown in Table \ref{SI-table}.
+specific states are shown in Table \ref{SI-table}.
 
 \begin{table}[ht!]
     \centering
@@ -433,13 +436,14 @@ For the SIR model, it is assumed that at the beginning, all entities in the
 system are in the state $S$, thus susceptible to an infection. In the context of 
 misinformation diffusion this means that an entity does not know about the
 misinformation that is being spread and is neutral towards it. A susceptible
-entity may become infected and thus may change its state to $S\to I$.
+entity may become infected and therefore change its state to $S\to I$.
 An infected entity knows and believes in the misinformation and may
 spread the misinformation to other entities in the system. After being infected,
 an entity may learn that the information is fake. Therefore, it recovers 
 from being infected and changes its state to $I\to R$. An entity in a 
 recovered state cannot be infected again by misinformation and thus is immune.
-The SIS model differs from the SIR model in that the entity does not recover,
+In contrast to the SIR model, the SIS model assumes that
+the entity does not recover,
 but it \glqq forgets\grqq{} about the fact that the information is fake 
 and becomes susceptible to misinformation again.
 

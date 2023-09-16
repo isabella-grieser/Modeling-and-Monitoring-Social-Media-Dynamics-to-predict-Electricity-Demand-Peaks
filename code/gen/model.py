@@ -18,7 +18,8 @@ def initialize_node_attributes(G):
         G.nodes[n][const.POWER_USAGE] = 0.0
         G.nodes[n][const.ACTIVATED] = False
         G.nodes[n][const.HOUSEHOLD_APPLIANCE] = []
-        G.nodes[n][const.WILL_ACT] = True
+        G.nodes[n][const.WILL_ACT] = False
+        G.nodes[n][const.CAN_ACTIVATE] = True
         G.nodes[n][const.PREV_STATE] = const.InfectionStatus.SUSCEPTIBLE
         G.nodes[n][const.P_S] = 0.0
         G.nodes[n][const.P_I] = 0.0
