@@ -1,7 +1,7 @@
 {
   "seeds": [1, 2, 3, 4, 5],
   "network":{
-    "nodes": 8919,
+    "nodes": 891,
     "available": 1
   },
     "sim": {

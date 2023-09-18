@@ -383,6 +383,10 @@ def scenario2():
 
     basic_plot(config, start, action_start, iterations=200)
 
+    config["fringe"] = False
+    basic_plot(config, start, action_start, iterations=200)
+
+
 
 def scenario3():
     with open("./config/wildfire.json", "r") as f:
@@ -405,6 +409,32 @@ def scenario4():
         .replace(tzinfo=pytz.UTC)
 
     basic_plot(config, action_start, action_start=None, iterations=100)
+
+    probs_p = [0, 0.03, 0.05, 0.1, 0.2, 0.3, 0.5]
+    probs_v = []
+    for p in probs_p:
+        y_trues = []
+        config["model_args"]["heat_pump"]["p"] = p
+        for s in config["seeds"]:
+            config["seed"] = s
+            framework = EstimationFramework(config, plot=False)
+            x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
+                framework.estimate_power_outage(action_start, y_max=1000)
+            max_val = max(y_true)
+            print(f"max y value: {max_val}")
+            y_trues.append(max_val)
+        probs_v.append(mean(y_trues))
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.plot(probs_p, probs_v)
+    xfmt = md.DateFormatter('%H:%M')
+    ax.xaxis.set_major_formatter(xfmt)
+    ax.set_ylabel("Additional power consumption in kW")
+    ax.set_xlabel("Percentage of households with heat pumps")
+    ax.legend(loc="upper left")
+    plt.xticks(rotation=45)
+    plt.show()
 
 
 if __name__ == "__main__":

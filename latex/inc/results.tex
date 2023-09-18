@@ -422,11 +422,14 @@ $p_{\mathrm{available}}=0.2,
 p_{\mathrm{power\_usage}}=1, p_{\mathrm{will\_act}}=1$
 were chosen.
 Moreover, it is expected that infected individuals will not 
-believe in any information that goes agains the original message.
+believe in any information that goes against the original message.
 Therefore, it is assumed that $p_{\mathrm{verify}}=0$. Next, it
 can be considered that the information is believable to 
 the affected population and that it is quickly spread by 
 the infected entities. Thus, it is assumed that $\alpha=1, \beta=1$.
+However, the information is not believeable to the people 
+who are not open to extremist messages. Thus, the 
+parameter \code{fringe} is set to \code{true}.
 Next, it is assumed that all infected entities 
 stop consuming power and their demand decreases to zero. Thus,
 the power usage factor \code{factor} is set to zero.
@@ -440,7 +443,14 @@ From $1000$ nodes, only $200$ get infected. The reason is
 that $p_{\mathrm{available}}=0.2$, thus only $20\%$ of the nodes
 can get infected. In addition, it is visible that the results 
 are not very robust. The results change heavily in different 
-simulations.
+simulations. The reason is that depending on the network structure
+and which nodes can get infected and will act on the information, 
+the infected nodes may not be able to infect all other nodes
+that could get infected. Nodes that can get infected may be 
+connected by nodes that are not susceptible to the conspiracy 
+theory, which does also not forward the message to other nodes
+open to the conspiracy theory, thus limiting the 
+spread of misinformation.
 Moreover, it can be seen that the amount of underconsumption
 is higher in peak load periods compared to periods with 
 lower load. This makes sense since infected households would 
@@ -458,6 +468,38 @@ power suppliers.
     \caption{Simulation results for the second scenario}
     \label{schwurblerresults}
 \end{figure}
+
+In Figure \ref{schwurblerresults}, it could be seen that 
+the results of the simulation are not robust. To analyze the 
+robustness of the simulation in regards to the parameter
+\code{fringe}, a second simulation was run where the 
+\code{fringe} parameter was set to \code{false}. 
+The simulation was run five times with five different seeds
+to ensure different results. The simulation results can be
+seen in Figure \ref{schwurblerresults2}. It
+can be observed that if \code{fringe} is \code{true}, then 
+the simulation results get less robust. The reason is 
+that the infection process may be hindered and thus not
+all nodes can get infected. The \code{fringe} parameter was 
+implemented by making nodes which are not available and thus
+do not use additional power consumption
+also not able to forward the information to other nodes.
+Thus, these nodes can hinder the information propagation process.
+However, this idea may not be realistic. Smaller communities,
+such as extremist communities, may 
+be tightly connected. Therefore, there may be no information 
+barriers that could hinder the flow of information between 
+entities that are open for this kind of information.
+
+
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.55]{figs/eval/scenario2/fringeoff.png}
+    \caption{Simulation results when all nodes forward the information}
+    \label{schwurblerresults2}
+\end{figure}
+
 
 \section{Scenario 3: Mass Evacuation of a City due to a Disaster}
 
@@ -577,5 +619,8 @@ If we assume that all households in Darmstadt receive
 a message at the same time via Cell Broadcast and that
 every household takes a hot shower for 15 minutes,
 we can calculate that there will be an additional 
-demand of $2kWh \cdot 2675 = 5350 kWh $ for these 
-15 minutes.
+demand of $0.5kWh \cdot 2675 = 1337.5 kWh $ for these 
+15 minutes. If an average household uses $3900 kWh$ 
+per year and $0.44kWh$ per hour, then using the heat pump 
+would double their power consumption for a short time.
+
