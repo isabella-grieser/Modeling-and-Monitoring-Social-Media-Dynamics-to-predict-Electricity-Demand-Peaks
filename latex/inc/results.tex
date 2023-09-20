@@ -433,10 +433,13 @@ parameter \code{fringe} is set to \code{true}.
 Next, it is assumed that all infected entities 
 stop consuming power and their demand decreases to zero. Thus,
 the power usage factor \code{factor} is set to zero.
+The configuration file can be seen in the Appendix in
+Listing \ref{scenario2config}.
 
 To analyze the scenario, the simulation was run five times with five 
 different seeds. Furthermore, a model with $1000$ nodes was used 
-for the evaluation. The results of the simulation can be seen in
+for the evaluation. 
+The results of the simulation can be seen in
 Figure \ref{schwurblerresults}. In the Figure, it can be 
 observed that the amount of infected individuals is not high.
 From $1000$ nodes, only $200$ get infected. The reason is 
@@ -623,4 +626,109 @@ demand of $0.5kWh \cdot 2675 = 1337.5 kWh $ for these
 15 minutes. If an average household uses $3900 kWh$ 
 per year and $0.44kWh$ per hour, then using the heat pump 
 would double their power consumption for a short time.
+
+To check if the simulation framework calculates the same 
+results, the framework was configured with immediate
+propagation of information. Thus, the propagation
+parameters is set as 
+$\alpha=1, \beta=1, p_{verify}=0$. 
+Furthermore, it is assumed that all infected 
+individuals will immediately act on the information.
+Therefore, the activation parameters are 
+set as $p_{\mathrm{available}}=1, 
+p_{\mathrm{power\_usage}}=1, p_{\mathrm{will\_act}}=1$.
+In addition, the duration of the heat pump is set to $1$.
+This means that the heat pump is used for one iteration step.
+The configuration file can be seen in the Appendix in
+Listing \ref{scenario4config}.
+
+The simulation was run five times with five 
+different seeds to ensure different results. 
+Furthermore, since the simulation framework is unable
+to handle models that are too big, a graph model with 
+$892$ nodes were used for the evaluation. 
+The results of the simulation can be seen in 
+Figure \ref{warningmessagesimulations}.
+In the Figure, it is visible that the excess power 
+consumption is similar the calculated excess
+consumption. Since the model size is approximately
+$\frac{1}{100}$ of the size of Darmstadt, the 
+excess power consumption should be
+$1337.5 kWh\cdot \frac{1}{100} \approx 13.3 kWh $.
+However, the excess power consumption 
+calculated by the simulation is $12 kWh$.
+Thus, it is lower than the analytical result.
+The reason is that given the implementation of the 
+framework, not all nodes can be infected at the first
+iteration step $t_0$. This can be observed in the 
+left plot in the Figure. The function showing the 
+number of infected entities does not immediately
+rise to the number of all entities in the system.
+Given the propagation 
+parameters, for each iteration step $t_{i}$ all
+neighboring nodes of all infected nodes that
+are not infected become infected. Thus, for 
+all nodes to become infected, $j$ iteration steps 
+are needed, where $j$ is the number of hops between 
+the initial source of infection and the furthest 
+node. Since the additional usage of the heat pump 
+lasts one iteration step, the excess power usage
+of the heat pump is distributed over 
+the timespan $[t_0, t_j]$. 
+This means that the 
+usage of the heat pumps is not fully synchronized.
+Therefore, the simulation framework is unable
+to simulate scenarios where all entities 
+are informed and thus become infected at the 
+same time. 
+
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.53]{figs/eval/scenario4/basic_plot.png}
+    \caption{Simulation results for the forth scenario}
+    \label{warningmessagesimulations}
+\end{figure}
+
+As a conclusion, the duration of the appliance 
+usage may affect the results of a scenario where 
+all entities receive the information at the same time.
+However, it the number of hops $j$ is smaller than
+the minumum duration of the relevant appliances $d$,
+then the maximum excess power consumption should 
+be similar to the analytical result. 
+In Figure \ref{warningmessagedifferentdurations},
+the maximum excess power consumptions were calculated
+given different durations $d$ for the heat pump.
+It can be observed that the maximum excess power 
+consumption increases with the duration $d$.
+At duration $d=4$, the maximum excess power consumption
+increases from $12kWh$ from to duration $1$ to 
+$12.7kWh$. Thus, with a longer duration $d$, the 
+analytical results can be approximated.
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.7]{figs/eval/scenario4/durationeval.png}
+    \caption{Excess power consumption given different durations}
+    \label{warningmessagedifferentdurations}
+\end{figure}
+
+Last, in Figure \ref{warningmessagedifferentadoptionrates},
+it is visible that with increasing number of households 
+that use the technology, the maximum excess power consumption
+increases. This shows that the risk of synchronized 
+behavior increases with the increasing adoption of 
+energy consuming appliances in society. This should 
+be considered when creating policies that try to 
+increase the adoption rates of such energy-demaning 
+technologies in households.
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.7]{figs/eval/scenario4/percentageeval.png}
+    \caption{Excess power consumption given different adoption 
+    rates for heat pumps}
+    \label{warningmessagedifferentadoptionrates}
+\end{figure}
 

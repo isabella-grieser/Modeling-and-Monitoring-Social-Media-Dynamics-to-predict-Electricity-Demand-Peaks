@@ -3,60 +3,118 @@
 \begin{lstlisting}[language=json,firstnumber=1, 
     caption={Configuration file for scenario 1
     },captionpos=b,label={scenario1config}]
-    {
-    "seeds": [1, 2, 3, 4, 5],
-    "network":{
-      "nodes": 1000,
-      "available": 0.5,
-      "edges": 25
+{
+  "seeds": [1, 2, 3, 4, 5],
+  "network":{
+    "nodes": 1000,
+    "available": 0.5,
+    "edges": 25
+  },
+  "reference" : [
+      "https://www.daftlogic.com/information-appliance-power-consumption.htm",
+      "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Equipment-Consumer-Durables/Tables/liste-equipment-households-electrical--household-appliance-others-germany.html#55702",
+      ""
+  ],
+    "sim": {
+    "p_will_act": 0.8,
+    "p_verify": 0.07,
+    "alpha": 0.4,
+    "beta": 0.6,
+    "power_usage": 0.8,
+    "factor": 1,
+    "power_threshold": 1.5,
+    "fringe": false
+  },
+  "model_args":{
+    "electric_car": {
+      "power": 0.400,
+      "p": 0.1,
+      "duration": 32
     },
-    "reference" : [
-        "https://www.daftlogic.com/information-appliance-power-consumption.htm",
-        "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Equipment-Consumer-Durables/Tables/liste-equipment-households-electrical--household-appliance-others-germany.html#55702",
-        ""
-    ],
-      "sim": {
-      "p_will_act": 0.8,
-      "p_verify": 0.07,
-      "alpha": 0.4,
-      "beta": 0.6,
-      "power_usage": 0.8,
-      "factor": 1,
-      "power_threshold": 1.5,
-      "fringe": false
+    "washing_machine": {
+      "power": 0.100,
+      "p": 95.8,
+      "duration": 4
     },
-    "model_args":{
-      "electric_car": {
-        "power": 0.400,
-        "p": 0.1,
-        "duration": 32
-      },
-      "washing_machine": {
-        "power": 0.100,
-        "p": 95.8,
-        "duration": 4
-      },
-      "washer_dryer": {
-        "power": 0.125,
-        "p": 42.6,
-        "duration": 3
-      },
-      "dishwasher": {
-        "power": 0.300,
-        "p": 71.7,
-        "duration": 8
-      },
-      "oven": {
-        "power": 0.540,
-        "p": 80,
-        "duration": 4
-      },
-      "electric_stove": {
-        "power": 0.350,
-        "p": 94,
-        "duration": 2
-      }
+    "washer_dryer": {
+      "power": 0.125,
+      "p": 42.6,
+      "duration": 3
+    },
+    "dishwasher": {
+      "power": 0.300,
+      "p": 71.7,
+      "duration": 8
+    },
+    "oven": {
+      "power": 0.540,
+      "p": 80,
+      "duration": 4
+    },
+    "electric_stove": {
+      "power": 0.350,
+      "p": 94,
+      "duration": 2
     }
-    
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=json,firstnumber=1, 
+  caption={Configuration file for scenario 2
+  },captionpos=b,label={scenario2config}]
+{
+  "seeds": [6,7,8,9,10],
+  "network":{
+    "nodes": 1000,
+    "available": 0.2,
+    "edges": 25
+  },
+    "sim": {
+    "p_will_act": 1,
+    "p_verify": 0,
+    "alpha": 1,
+    "beta": 1,
+    "power_usage": 1,
+    "factor": 0,
+    "power_threshold": 1,
+    "fringe": true
+  },
+  "model_args":{}
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=json,firstnumber=1, 
+  caption={Configuration file for scenario 3
+  },captionpos=b,label={scenario3config}]
+
+\end{lstlisting}
+
+\begin{lstlisting}[language=json,firstnumber=1, 
+  caption={Configuration file for scenario 4
+  },captionpos=b,label={scenario4config}]
+{
+  "seeds": [1, 2, 3, 4, 5],
+  "network":{
+    "nodes": 892,
+    "available": 1
+  },
+    "sim": {
+    "p_will_act": 1,
+    "p_verify": 0,
+    "alpha": 1,
+    "beta": 1,
+    "power_usage": 1,
+    "factor": 1,
+    "power_threshold": 1.5,
+    "fringe": false
+  },
+  "model_args":{
+    "heat_pump": {
+      "power": 0.5,
+      "p": 0.03,
+      "duration": 1
+    }
+  }
 }
 \end{lstlisting}

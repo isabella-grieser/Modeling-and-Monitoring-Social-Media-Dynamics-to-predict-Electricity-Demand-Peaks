@@ -439,8 +439,6 @@ class Simulator:
         return 1
 
     def __power_consumption_offset__(self, x, node):
-        a, b, d = self.graph.nodes[node][const.ACTIVATED], self.graph.nodes[node][const.WILL_ACT], \
-                self.graph.nodes[node][const.CAN_ACTIVATE]
         if self.power_start is not None and x < self.power_start:
             return 0
         if self.graph.nodes[node][const.ACTIVATED] and self.graph.nodes[node][const.WILL_ACT] and \

@@ -34,15 +34,19 @@ def create_plot():
     return fig, ax1, ax2
 
 
-def plot_basic_timeline(x_all, y_vals, y_ref, s_true, i_true, r_true, power_tresh, spread=None, action=None):
+def plot_basic_timeline(x_all, y_vals, y_ref, s_true, i_true, r_true, power_tresh, spread=None, action=None,
+                        start_index=0, end_index=-1):
     fig, ax1, ax2 = create_plot()
-    ax1.plot(x_all, y_ref)
     y_max, y_min, y_average = [], [], []
     for i in range(len(y_vals[0])):
         y_max.append(max(y_vals[j][i] for j in range(len(y_vals))))
         y_min.append(min(y_vals[j][i] for j in range(len(y_vals))))
         y_average.append(mean(y_vals[j][i] for j in range(len(y_vals))))
 
+    x_all, y_ref = x_all[start_index:end_index], y_ref[start_index:end_index]
+    y_max, y_min, y_average = y_max[start_index:end_index], y_min[start_index:end_index], y_average[start_index:end_index]
+
+    ax1.plot(x_all, y_ref)
     ax1.fill_between(x_all, y_min, y_max, color='blue', alpha=.5, linewidth=0)
     ax1.plot(x_all, y_average, linewidth=2, color='blue', label="true consumption")
     ax1.plot(x_all, y_ref, linewidth=2, color='black', label="ref consumption")
@@ -70,6 +74,10 @@ def plot_basic_timeline(x_all, y_vals, y_ref, s_true, i_true, r_true, power_tres
         r_min.append(min(r_true[j][i] for j in range(len(r_true))))
         r_average.append(mean(r_true[j][i] for j in range(len(r_true))))
 
+    s_max, s_min, s_average = s_max[start_index:end_index], s_min[start_index:end_index], s_average[start_index:end_index]
+    i_max, i_min, i_average = i_max[start_index:end_index], i_min[start_index:end_index], i_average[start_index:end_index]
+    r_max, r_min, r_average = r_max[start_index:end_index], r_min[start_index:end_index], r_average[start_index:end_index]
+
     ax2.fill_between(x_all, s_min, s_max, color='green', alpha=.5, linewidth=0)
     ax2.plot(x_all, s_average, linewidth=2, color='green', label="susceptible")
     ax2.fill_between(x_all, i_min, i_max, color='red', alpha=.5, linewidth=0)
@@ -80,8 +88,8 @@ def plot_basic_timeline(x_all, y_vals, y_ref, s_true, i_true, r_true, power_tres
     plt.show()
 
 
-def basic_plot(config, start, action_start, iterations=200, y=None):
-    y_vals, s_vals, i_vals, r_vals = [], [], [], []
+def basic_plot(config, start, action_start, iterations=200, y=None, start_index=0, end_index=-1):
+    y_vals, s_vals, i_vals, r_vals, y_max = [], [], [], [], []
     x_all, y_ref = None, None
     framework = None
     for s in config["seeds"]:
@@ -94,8 +102,14 @@ def basic_plot(config, start, action_start, iterations=200, y=None):
         s_vals.append(s_true)
         i_vals.append(i_true)
         r_vals.append(r_true)
+        diffs = [y_true[i] - y_ref[i] for i in range(len(y_true))]
+        y_max.append(max(diffs))
+
+    print(f"excess consumption max: {mean(y_max)}")
+
     plot_basic_timeline(x_all, y_vals, y_ref, s_vals, i_vals, r_vals,
-                        framework.threshold, spread=start, action=action_start)
+                        framework.threshold, spread=start, action=action_start,
+                        start_index=start_index, end_index=end_index)
 
 
 def plot_vals(config, attr1, attr2, probs, start, action_start, iterations=200):
@@ -405,12 +419,12 @@ def scenario4():
     with open("./config/chemicalaccident.json", "r") as f:
         config = json.load(f)
 
-    action_start = datetime(2013, 11, 6, 18, 15, 0, tzinfo=dt.timezone.utc) \
+    action_start = datetime(2013, 11, 6, 18, 30, 0, tzinfo=dt.timezone.utc) \
         .replace(tzinfo=pytz.UTC)
 
-    basic_plot(config, action_start, action_start=None, iterations=100)
+    basic_plot(config, action_start, action_start=None, iterations=100, start_index=90, end_index=-70)
 
-    probs_p = [0, 0.03, 0.05, 0.1, 0.2, 0.3, 0.5]
+    probs_p = [0, 0.03, 0.05, 0.1, 0.15, 0.2]
     probs_v = []
     for p in probs_p:
         y_trues = []
@@ -420,19 +434,45 @@ def scenario4():
             framework = EstimationFramework(config, plot=False)
             x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
                 framework.estimate_power_outage(action_start, y_max=1000)
-            max_val = max(y_true)
+            diffs = [y_true[i] - y_ref[i] for i in range(len(y_true))]
+            max_val = max(diffs)
             print(f"max y value: {max_val}")
             y_trues.append(max_val)
         probs_v.append(mean(y_trues))
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.plot(probs_p, probs_v)
-    xfmt = md.DateFormatter('%H:%M')
-    ax.xaxis.set_major_formatter(xfmt)
+    probs = [f"{int(p*100)}%"for p in probs_p]
+    ax.bar(probs, probs_v, width=1, label=probs, edgecolor="white", linewidth=0.7)
     ax.set_ylabel("Additional power consumption in kW")
     ax.set_xlabel("Percentage of households with heat pumps")
-    ax.legend(loc="upper left")
+    plt.xticks(rotation=45)
+    plt.show()
+
+    duration_p = [1, 2, 3, 4]
+    duration_v = []
+    config["model_args"]["heat_pump"]["p"] = 0.03
+    for p in duration_p:
+        y_trues = []
+        config["model_args"]["heat_pump"]["duration"] = p
+        for s in config["seeds"]:
+            config["seed"] = s
+            framework = EstimationFramework(config, plot=False)
+            x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
+                framework.estimate_power_outage(action_start, y_max=1000)
+            diffs = [y_true[i] - y_ref[i] for i in range(len(y_true))]
+            max_val = max(diffs)
+            print(f"max y value: {max_val}")
+            y_trues.append(max_val)
+        duration_v.append(mean(y_trues))
+
+    print(f"durations: {duration_p}, results: {duration_v}")
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    duration = [str(d) for d in duration_p]
+    ax.bar(duration, duration_v, width=1, label=duration, edgecolor="white", linewidth=0.7)
+    ax.set_ylabel("Additional power consumption in kW")
+    ax.set_xlabel("Duration of the usage of heat pumps")
     plt.xticks(rotation=45)
     plt.show()
 
@@ -440,5 +480,5 @@ def scenario4():
 if __name__ == "__main__":
     # scenario1()
     # scenario2()
-    # scenario3()
-    scenario4()
+    scenario3()
+    # scenario4()

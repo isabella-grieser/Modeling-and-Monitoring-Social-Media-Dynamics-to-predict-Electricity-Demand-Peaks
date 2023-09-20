@@ -5,11 +5,6 @@
     "available": 0.2,
     "edges": 25
   },
-  "reference" : [
-      "https://www.daftlogic.com/information-appliance-power-consumption.htm",
-      "https://www.destatis.de/EN/Themes/Society-Environment/Income-Consumption-Living-Conditions/Equipment-Consumer-Durables/Tables/liste-equipment-households-electrical--household-appliance-others-germany.html#55702",
-      ""
-  ],
     "sim": {
     "p_will_act": 1,
     "p_verify": 0,
