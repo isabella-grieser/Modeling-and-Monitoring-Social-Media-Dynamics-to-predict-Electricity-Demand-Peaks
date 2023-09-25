@@ -1,8 +1,19 @@
 \chapter{Case Studies}
-
+\label{results}
 %do the usual introduction
 % then explain wtf the idea is
 
+In this Chapter, foure scenarios are analyzed with the framework 
+proposed in \ref{implementationall}.
+In Section \ref{demandresponsesection}, a scenario
+pertaining demand-response activities is studied.
+Next, in Section \ref{scenario2total}, a scenario
+with an intended underconsumption of electricity is 
+investigated. Then, in Section \ref{scenario3all},
+a scenario with a sudden charging of electric vehicles
+is analyzed.
+Last, in Section \ref{scenario4total}, a scenario
+where all entities act at the same time is studied.
 
 
 \section{Scenario 1: Demand-Response Misinformation Campaign}
@@ -106,7 +117,7 @@ is also low with $\frac{k'}{N'}=0.006$.
 
 \begin{figure}[!ht]
     \center
-    \includegraphics[scale=.95]{figs/parameter_estimation.png}
+    \includegraphics[scale=.7]{figs/parameter_estimation.png}
     \caption{Information propagation progress for the Typhoon dataset 
     and estimated infection process}
     \label{propagationestimationtyphoon}
@@ -364,7 +375,7 @@ already the topic of other research works
 
 \section{Scenario 2: Coordinated Action of Extremists 
 against the Electrical Grid}
-
+\label{scenario2total}
 Echo chambers on various social media websites allow people to 
 hear biased opinions and news which confirm their views on 
 various topics \cite{terren2021echo}. This leads to political
@@ -505,6 +516,7 @@ entities that are open for this kind of information.
 
 
 \section{Scenario 3: Mass Evacuation of a City due to a Disaster}
+\label{scenario3all}
 
 Sometimes the conditions under a disaster get so extreme that 
 authorities choose to order the evacuation of the affected population.
@@ -538,15 +550,84 @@ tweet spreading the rumor can be seen in Figure \ref{firetweet}.
 \end{figure}
 
 Given the example scenario, multiple assumptions for the simulation can
-be made. First, it can be assumed that the time where an entity receives
-the information equals the time where the entity will act on it.
-Next, It can be assumed that the information will be shared very quickly.
-Furthermore, it is assumed that most people will act on the information,
-since they will fear for their lives.
+be made. In 2023, $2.3\%$ of all cars in Germany were 
+EVs. Thus, $2.3\%$ of all households in the simulation
+possess an EV. Moreover, it is assumed that 
+each 15 minutes, $1.75kWh$ is used to charge the EV 
+and that after one hour, most people stop charging
+to leave their residences and flee from the city with their EVs.
+Furthermore, due to the severity of the rumor,
+all people are assumed to act immediately upon 
+receiving the information. Therefore, it is assumed 
+that $p_{\mathrm{available}}=1, 
+p_{\mathrm{power\_usage}}=1, p_{\mathrm{will\_act}}=1$.
 
+The information propagation parameters were estimated with 
+the framework. For the estimation framework, a 
+dataset containing .... at April 12 2020.
+%TODO: talk about the dataset; mention
+The results of the estimation framework can be seen in 
+Figure \ref{geoloctweet}. It can be seen that the dataset 
+shows the start of the information propagation process.
+Thus, this dataset can be used as an example dataset 
+to show how the excess power consumption curve 
+could be predicted at the beginning of an infection.
+The estimated infection curves show that the infection
+curve rises monotonously. Furthermore, the infected 
+entities do not change their state to \textit{Removed}.
+The parameters estimated by the framework are 
+$p_{verify}= 0.0, \alpha = 0.8, \beta = 0.56$.
+Moreover, the estimated social media graph is 
+connected more tightly compared to the 
+scenario described in Section \ref{demandresponsesection} 
+with the node degree ratio being 
+$\frac{k'}{N'}=0.53$. 
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.6]{figs/eval/scenario3/informationpropagation.png}
+    \caption{Information propagation progress for the soccer dataset 
+    and estimated infection process}
+    \label{geoloctweet}
+\end{figure}
+
+The simulation was run five times with five 
+different seeds to ensure different results. 
+A social media graph with $1000$ nodes was used
+for the simulation. The results of the simulation can be 
+seen in Figure \ref{thirdscenarioresults}. In the Figure,
+it can be seen that the excess power consumption created 
+in this scenario is negligible. The reason is that the 
+current adoption rate of $3\%$ is low. Therefore, a 
+synchronized charging of the given amount of EVs does not
+lead to significant spikes in power usage.
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.5]{figs/eval/scenario3/scenario3basic.png}
+    \caption{Simulation results for the third scenario}
+    \label{thirdscenarioresults}
+\end{figure}
+
+However, with the increasing adoption of EVs in the 
+population, the danger of synchronized charging 
+of EVs increases. This can be seen in Figure 
+\ref{thirdscenarioresultsdiffadoption}. In the Figure,
+it can be observed that with increasing adoption of EVs,
+the power usage spikes created by syncronized charging 
+increases significantly. In the simulation framework,
+an adoption rate of $20\%$ is enough to create a 
+blackout.
+
+\begin{figure}[!ht]
+    \center
+    \includegraphics[scale=.5]{figs/eval/scenario3/changingadoption.png}
+    \caption{Simulation results with different adoption rates for EVs}
+    \label{thirdscenarioresultsdiffadoption}
+\end{figure}
 
 \section{Scenario 4: Mass Showering after a Chemical Accident}
-%This Scenario should also be the one with the total framework
+\label{scenario4total}
 
 With the increasing usage of ICTs in the population, it allows for 
 new methods to communicate with people about extreme circumstances

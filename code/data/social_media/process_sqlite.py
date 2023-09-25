@@ -42,7 +42,7 @@ def get_florence():
 
 def get_geoloc():
     frames = []
-    for i in range(6, 7):
+    for i in range(4, 5):
         records = map(json.loads, open(f'data/social_media/geoloc/2020-12-{str(i).zfill(2)}.ndjson', encoding="utf8"))
         df = pd.DataFrame.from_records(records)
         frames.append(df)

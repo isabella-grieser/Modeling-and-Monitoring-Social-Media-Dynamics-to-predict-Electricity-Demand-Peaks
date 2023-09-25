@@ -43,8 +43,13 @@ def plot_basic_timeline(x_all, y_vals, y_ref, s_true, i_true, r_true, power_tres
         y_min.append(min(y_vals[j][i] for j in range(len(y_vals))))
         y_average.append(mean(y_vals[j][i] for j in range(len(y_vals))))
 
-    x_all, y_ref = x_all[start_index:end_index], y_ref[start_index:end_index]
-    y_max, y_min, y_average = y_max[start_index:end_index], y_min[start_index:end_index], y_average[start_index:end_index]
+    if end_index < 0:
+        x_all, y_ref = x_all[start_index:end_index], y_ref[start_index:end_index]
+        y_max, y_min, y_average = y_max[start_index:end_index], y_min[start_index:end_index], y_average[
+                                                                                              start_index:end_index]
+    else:
+        x_all, y_ref = x_all[start_index:], y_ref[start_index:]
+        y_max, y_min, y_average = y_max[start_index:], y_min[start_index:], y_average[start_index:]
 
     ax1.plot(x_all, y_ref)
     ax1.fill_between(x_all, y_min, y_max, color='blue', alpha=.5, linewidth=0)
@@ -73,10 +78,17 @@ def plot_basic_timeline(x_all, y_vals, y_ref, s_true, i_true, r_true, power_tres
         r_max.append(max(r_true[j][i] for j in range(len(r_true))))
         r_min.append(min(r_true[j][i] for j in range(len(r_true))))
         r_average.append(mean(r_true[j][i] for j in range(len(r_true))))
-
-    s_max, s_min, s_average = s_max[start_index:end_index], s_min[start_index:end_index], s_average[start_index:end_index]
-    i_max, i_min, i_average = i_max[start_index:end_index], i_min[start_index:end_index], i_average[start_index:end_index]
-    r_max, r_min, r_average = r_max[start_index:end_index], r_min[start_index:end_index], r_average[start_index:end_index]
+    if end_index < 0:
+        s_max, s_min, s_average = s_max[start_index:end_index], s_min[start_index:end_index], s_average[
+                                                                                              start_index:end_index]
+        i_max, i_min, i_average = i_max[start_index:end_index], i_min[start_index:end_index], i_average[
+                                                                                              start_index:end_index]
+        r_max, r_min, r_average = r_max[start_index:end_index], r_min[start_index:end_index], r_average[
+                                                                                              start_index:end_index]
+    else:
+        s_max, s_min, s_average = s_max[start_index:], s_min[start_index:], s_average[start_index:]
+        i_max, i_min, i_average = i_max[start_index:], i_min[start_index:], i_average[start_index:]
+        r_max, r_min, r_average = r_max[start_index:], r_min[start_index:], r_average[start_index:]
 
     ax2.fill_between(x_all, s_min, s_max, color='green', alpha=.5, linewidth=0)
     ax2.plot(x_all, s_average, linewidth=2, color='green', label="susceptible")
@@ -88,16 +100,17 @@ def plot_basic_timeline(x_all, y_vals, y_ref, s_true, i_true, r_true, power_tres
     plt.show()
 
 
-def basic_plot(config, start, action_start, iterations=200, y=None, start_index=0, end_index=-1):
+def basic_plot(config, start, action_start=None, iterations=200, year=2017, y=None, start_index=0, end_index=-1):
     y_vals, s_vals, i_vals, r_vals, y_max = [], [], [], [], []
     x_all, y_ref = None, None
     framework = None
     for s in config["seeds"]:
         config["seed"] = s
-        framework = EstimationFramework(config, plot=False)
+        framework = EstimationFramework(config, year=year, plot=False)
 
         x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
-            framework.estimate_power_outage(start, action_start=action_start, iterations=iterations, y_max=1000, data=y)
+            framework.estimate_power_outage(start, action_start=action_start, iterations=iterations,
+                                            y_max=1000, data=y)
         y_vals.append(y_true)
         s_vals.append(s_true)
         i_vals.append(i_true)
@@ -384,16 +397,11 @@ def scenario2():
     with open("./config/conspiracy.json", "r") as f:
         config = json.load(f)
 
-    data = get_typhoon_data()
-
-    s_index, e_index = 0, -1
-    values = data.groupby(pd.Grouper(key="date", freq="15min"))["tweet"].count()
-
-    start = values.index[s_index]
+    start = datetime(2013, 11, 7, 10, 45, 0, tzinfo=dt.timezone.utc) \
+        .replace(tzinfo=pytz.UTC)
 
     action_start = datetime(2013, 11, 7, 19, 0, 0, tzinfo=dt.timezone.utc) \
         .replace(tzinfo=pytz.UTC)
-    y = signal.savgol_filter(values.values, 53, 3)[s_index: e_index]
 
     basic_plot(config, start, action_start, iterations=200)
 
@@ -401,18 +409,54 @@ def scenario2():
     basic_plot(config, start, action_start, iterations=200)
 
 
-
 def scenario3():
     with open("./config/wildfire.json", "r") as f:
         config = json.load(f)
 
-    start = datetime(2013, 11, 6, 15, 0, 0, tzinfo=dt.timezone.utc) \
-        .replace(tzinfo=pytz.UTC)
+    data = get_geoloc()
 
-    action_start = datetime(2013, 11, 6, 18, 15, 0, tzinfo=dt.timezone.utc) \
+    values = data.groupby(pd.Grouper(key="date", freq="15min"))["tweet"].count()
+    start = datetime(2020, 4, 12, 11, 0, 0, tzinfo=dt.timezone.utc) \
         .replace(tzinfo=pytz.UTC)
+    # y = signal.savgol_filter(values.values, 24, 2)
 
-    basic_plot(config, start, action_start, iterations=200)
+    basic_plot(config, start, year=2020, action_start=None, iterations=200, y=values.values, start_index=0, end_index=-1)
+
+    usage_p = [0.03, 0.05, 0.1, 0.2, 0.3, 0.5]
+    usage_v = []
+    x, y, framework = None, None, None
+
+    for j in usage_p:
+        vals = []
+        config["model_args"]["electric_car"]["p"] = j
+        for s in config["seeds"]:
+            config["seed"] = s
+            framework = EstimationFramework(config, plot=False)
+            x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
+                framework.estimate_power_outage(start, iterations=200, y_max=1000)
+            vals.append(y_true)
+            x, y, framework = x_all, y_ref, framework
+
+        average_val = []
+        for i in range(len(vals[0])):
+            average_val.append(mean(vals[j][i] for j in range(len(vals))))
+        usage_v.append(average_val)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    start_i, end_i = 80, -150
+    x = x[start_i:end_i]
+    for p, v in zip(usage_p, usage_v):
+        ax.plot(x, v[start_i:end_i], label=f"p={p}")
+    ax.plot(x, y[start_i:end_i], color="black", label=f"ref power consumption")
+    ax.set_ylabel("Power consumption in kW")
+    ax.set_xlabel("Time")
+    ax.axhline(framework.threshold, color='red', label="power threshold")
+    ax.legend(loc="upper right")
+    xfmt = md.DateFormatter('%H:%M')
+    ax.xaxis.set_major_formatter(xfmt)
+    plt.xticks(rotation=45)
+    plt.show()
 
 
 def scenario4():
@@ -442,7 +486,7 @@ def scenario4():
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    probs = [f"{int(p*100)}%"for p in probs_p]
+    probs = [f"{int(p * 100)}%" for p in probs_p]
     ax.bar(probs, probs_v, width=1, label=probs, edgecolor="white", linewidth=0.7)
     ax.set_ylabel("Additional power consumption in kW")
     ax.set_xlabel("Percentage of households with heat pumps")

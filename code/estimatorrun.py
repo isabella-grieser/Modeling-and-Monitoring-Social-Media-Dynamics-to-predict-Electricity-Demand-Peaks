@@ -6,11 +6,10 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as md
 
 if __name__ == "__main__":
-    data = get_typhoon_data()
+    data = get_geoloc()
 
     values = data.groupby(pd.Grouper(key="date", freq="15min"))["tweet"].count()
 
-    values = values
     start = values.index[0]
     y = signal.savgol_filter(values.values, 24, 2)
 
@@ -36,10 +35,11 @@ if __name__ == "__main__":
     ax.plot(values.index, return_dict["i"], label='infected')
     ax.plot(values.index, return_dict["r"], label='removed')
 
+    #xfmt = md.DateFormatter('%H:%M')
     xfmt = md.DateFormatter('%d.%m.')
     ax.xaxis.set_major_formatter(xfmt)
     ax.set_ylabel("Number of posts")
-    ax.set_xlabel("Time of post")
+    ax.set_xlabel("Time")
     ax.legend(loc="upper right")
     plt.xticks(rotation=45)
     plt.show()

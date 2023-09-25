@@ -36,8 +36,6 @@ class EstimationFramework:
 
             # find the ratio of nodes and edge degree
             ratio = return_dict["degree"] / n
-            # ratio for infection initialization
-            init_nodes = round(return_dict["s_init"] / n)
 
             model_config = {
                 "seed": self.config["seed"],

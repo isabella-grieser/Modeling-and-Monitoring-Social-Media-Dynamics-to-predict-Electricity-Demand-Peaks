@@ -1,20 +1,19 @@
-\chapter{Modeling Information Effects on Power Grids}
+\chapter{Modeling the Effects of Information on Power Grids}
 \label{implementationall}
-In this Chapter, a framework to analyze and predict 
+In this Chapter, a framework to model, analyze, and predict 
 the effects of information on social media on the 
-power grid will be introduced and the specific implementation of the 
-framework will be explained.
+power grid will be introduced.
 First, in Section \ref{simulationframeworksection}, 
-the implementation of the simulation framework will described.
-In Section \ref{modelsocialnetwork}, the underlying social network model
-used in the simulation is described. Then, in Section 
+the implementation of the simulation framework will be described.
+First, in Section \ref{modelsocialnetwork}, the underlying social network model
+used in the simulation model is described. Second, in Section 
 \ref{modelinformationdiffusion}, the algorithm used to model
 the information diffusion process in the social network is 
-defined. Next, in Section \ref{rulebasedpowerconsumption}, 
+defined. Third, in Section \ref{rulebasedpowerconsumption}, 
 the rules to model the additional power consumption is explained.
-In addition, in Section \ref{parameterestimationalgo},
-an parameter estimation algorithm to estimate realistic 
-values for the simulation parameters is introduced and 
+Additionally, in Section \ref{parameterestimationalgo},
+an parameter estimation algorithm for the estimation of 
+realistic values for the simulation parameters is introduced and 
 the different steps of the framework are described.
 
 \section{Implementation of the Simulation Framework}
@@ -24,15 +23,15 @@ both true and false information on critical infrastructures
 such as the power grid. The development of the simulation framework
 proposed in this work can be divided into three parts. First, a model 
 to describe social media networks with characteristics similar 
-or equal to real social media networks needs to implemented.
+or equal to real social media networks must be implemented.
 Second, an algorithm to model the 
 propagation of information over the network needs to be defined and 
 implemented. Third, rules to estimate the changes in the power consumption 
-need to be defined.
+are necessary.
 
 \subsection{Social Network Modeling Approaches}
 \label{modelsocialnetwork}
-Two approaches to create social media network graphs 
+Two approaches for the creation of social media network graphs 
 are considered in this Thesis.
 
 First, a real social media network can be used as an example 
@@ -41,10 +40,9 @@ It is difficult to determine which individuals
 control which accounts on social media networks due to privacy reasons.
 Thus, it is not possible to create a social network graph that 
 shows the real state of the social media network.
-Thus, datasets need to be used to model real life networks without 
-dealing with privacy concerns. There are datasets available to analyze
-real social media networks. One dataset collection that can 
-be used for such a task is the Stanford 
+Therefore, datasets can be used to avoid dealing with privacy concerns. 
+There are datasets available to analyze
+real social media networks, e.g. the Stanford 
 Large Network Dataset Collection \cite{snapnets}.
 This collection is part of the Stanford Network Analysis Project (SNAP).
 In this collection, there are datasets which show the network structure
@@ -53,12 +51,12 @@ The advantage of using real social networks as reference networks
 for the simulation framework is that real networks fulfill the 
 characteristics of social networks, since they
 are based on real data and not randomly generated. The problem
-is that using this approach leads to all simulations using either
+is that with this approach, all simulations use either
 one or few selected social network graph models. Since 
 few different graph models are used for consecutive simulations,
 it cannot be determined if the simulation results are based on the 
-specific structure of the specific social network graph or if the results 
-are seasonable for other social networks. Thus, the simulation results
+structure of the specific social network graph or if the results 
+are seasonable for other social networks, i.e. the simulation results
 may not be robust. Moreover, the size of the social network graph 
 cannot be changed without changing its characteristics, such as 
 the clustering coefficient. Since real social network graphs tend to be 
@@ -71,20 +69,15 @@ The other approach would be to generate a graph that is not based
 on any real social network, but can be used as a reference graph.
 For this, the generated graph needs to fulfill the common
 characteristics of social networks.
-Section \ref{randomgraphssection} introduces multiple random graph algorithms.
-Furthermore, in Section \ref{comparison-random-graphs},
-these algorithms are evaluated based on if they fulfill the characteristics
-of social networks defined in Section \ref{graphbasics}. 
 From the information provided in Section \ref{comparison-random-graphs}, 
 it is visible that the Barabási–Albert (BA) graph is the random graph 
 algorithm that fulfills the characteristics of social networks most effectively.
-The reason is that  BA graphs are both scale-free and have the small-world
-characteristic. BA graphs are also clustered.
+The reason is that BA graphs are both scale-free, have the small-world
+characteristic and are also clustered.
 Using a random graph to model the social media network has the advantage
-that a variety of different graph models can be generated to use for 
-the simulation. Thus, the simulation results can be considered as more 
-robust since every simulation can be done with a different 
-social media network model. Furthermore, different graph sizes can be 
+that each simulation can be run with an new, generated graph model. 
+Thus, the simulation results can be considered more robust. 
+Furthermore, different graph sizes can be 
 used in the simulation by changing the number of nodes to be generated.
 Thus, using random graph algorithms is computationally easier since 
 real social network graphs tend to be big.
@@ -92,9 +85,9 @@ The disadvantage is that random graph models may not fulfill
 all characteristics of a social network. As mentioned in 
 Section \ref{comparison-random-graphs}, the BA graph
 does not create graphs with a clustering coefficient that is as 
-high as real social networks. Nonetheless, the BA graph is
+high as that of real social networks. Nonetheless, the BA graph is
 a graph that is often used to model social networks.
-As a conclusion, since the usage of random graphs allows the usage
+Since the usage of random graphs allows the usage
 of unique graph models for the simulation and the size of the 
 graph can be changed without changing the graph characteristics, 
 the random graph generation approach was used to model social networks.
@@ -104,10 +97,7 @@ allow the simulation to model the information propagation
 progress on the graph. \textit{NetworkX} is a 
 Python package which provides various functions to model,
 analyze and manipulate graph-based structures. 
-Furthermore, it provides several graph-based algorithms.
-It also provides multiple random graph generation algorithms,
-such as the ER graph, WS graph or the BA graph. 
-Thus, the \textit{NetworkX} library was used in this Thesis for
+The library was used in this Thesis for
 the generation and modeling of the social network graph.
 
 \subsection{Information Propagation Algorithm}

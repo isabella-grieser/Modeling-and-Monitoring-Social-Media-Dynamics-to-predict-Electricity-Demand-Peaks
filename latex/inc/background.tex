@@ -2,21 +2,22 @@
 \label{background}
 
 In this chapter, the fundamental concepts necessary to understand 
-this thesis are explained.
-First, the general concept of panic buying,
-its consequences and what may lead to panic buying is explained 
-(see Section \ref{panicbuying}).
-Second, the fundamental theory of graph systems are 
-introducted and multiple attributes to describe graphs are defined 
-(see Section \ref{graphbasics}).
-Third, the concept of random graphs and multiple random 
+this Thesis are explained.
+First, in Section \ref{panicbuying}, 
+the general concept of panic buying,
+its consequences and what may lead to panic buying is explained.
+Second, in Section \ref{graphbasics}, 
+the fundamental theory of graph systems are 
+introducted and multiple attributes to describe graphs are defined.
+Furthermore, the concept of random graphs and multiple random 
 graph algorithms are described.
-Forth, the concept of information diffusion
+Third, the concept of information diffusion
 and multiple algorithms to model information diffusion are introduced
-(see Section \ref{informationdiffsection}).
-Fifth, different human-based variables that 
-correlate with the power consumption are described
-(see Section \ref{powerloadsection},).
+in Section \ref{informationdiffsection}.
+Forth, in Section \ref{powerloadsection}, 
+the field of power load forecasting is introduced and 
+different human-based variables that 
+correlate with the power consumption are described.
 
 
 \section{Panic Buying as a Result from Social Media Influence}
@@ -31,16 +32,16 @@ Currently, this phenomeon has gained interest since it occured
 during the COVID-19 pandemic,
 where the demand for disinfectants, soap and toilet paper increased significantly
 \cite{covidpanicbuying}. Nonetheless, panic buying is not a new behavior.
-However, there are other historical examples for panic buying behavior.
+There are other historical examples for panic buying behavior.
 These include the Spanish Flu
 in 1918, where there was an increasing demand for medications 
 \cite{honigsbaum2013regulating}. Another example is the Cuban Missile Crisis 
 in 1962, where the sales of canned foods increased significantly 
 \cite{george2004awaiting}. 
-Lastly, during hurricane Irma in 2017 in the US, the affected population bought
+Last, during hurricane Irma in 2017 in the US, the affected population bought
 significantly more fuel, bottled water 
 and other essential goods in anticipation of the hurricane \cite{irmahurricane},
-leading to shortages.
+thus leading to shortages.
 
 There are multiple possible reasons for panic buying behavior. These reasons 
 are described in the work of \textit{Prentice et al.}
@@ -53,7 +54,7 @@ are described in the work of \textit{Prentice et al.}
     \item Sense of Security: Given the uncertainty that the general population
     feels during a crisis, people want to secure their own future. This 
     also applies to situations where people expect 
-    shortages because of the fears and actions of their peers.
+    shortages due to the fears and actions of their peers.
     Thus, they participate in panic buying to the secure their
     own stockpile.
     \item Media Influence: The stories of shortages on the media
@@ -63,14 +64,14 @@ are described in the work of \textit{Prentice et al.}
 \end{itemize}
 
 One cause of special interest for this thesis is the influence of 
-media on the panic buying phenomenom. 
+social media on the panic buying phenomenom. 
 Multiple reasons for why social media influences consumer demand, 
 specifically in the case of the COVID-19 pandemic,
 are discussed in the work of \textit{Naeem} \cite{naeem2021social}.
 His work showed that since people are spreading their 
 own experiences on social media, the messages generated from their peers feel
 more personal and lead to a stronger reaction by increasing the will to 
-socially distance and stockpiling supplies. Additionally, people are generally
+socially distance and stockpiling supplies. Additionally, people are 
 influenced more strongly by their friends' posts and advices on social media.
 Moreover, since friend circles become more 
 internationalized through the global nature of social media networks,
@@ -88,7 +89,7 @@ Last, it was also proven that social media may increase rumor spreading,
 consequently leading to panic buying \cite{naeem2022understanding}.
 In conclusion, social media can both amplify the messages and rumors that lead to 
 panic buying and it can amplify the messages of governments and organizations 
-that may inhibit the panic buying phenomenom.
+that may inhibit panic buying.
 
 
 
@@ -145,32 +146,31 @@ Furthermore, graphs that specifically model networks follow two special
 characteristics that may differ from other types of graphs.
 First, network models are often scale-free networks.
 Scale-free networks are networks that follow the power law distribution.
-This law says that the degree distribution of a network
-$P_k$ follows the power distribution.
+The law stipulates that the degree distribution $P_k$ of a network
+follows the power distribution.
 This means that the probability that a node has a certain degree $k$ 
 is proportional to the function $k^{-\gamma}$, where
 $\gamma>1$.
-On the other hand, most nodes are not directly
-connected to one another in a small-world network.
+Moreover, most nodes are not directly connected to one another in a network.
 Nonetheless, it is likely that they share the same neighbors or that their
-neighbors share the same neighbors. 
-Thus, most nodes can reach most other
-nodes in the network by a small number of steps. For a network
+neighbors share the same neighbors. These networks are called small-world 
+networks. In these networks, most nodes can reach most other
+nodes by a small number of steps. For a network
 to be considered a small-world network, its average path length $l$ 
 needs to fullfil the condition $l\sim ln(n)$, where $n$ is the number
 of nodes in the graph \cite{wattsmodel}.
 
 One network that is of special interest in this thesis are social networks.
 Social networks describe how humans are socially connected. 
-These networks may for example model friendship, scientific co-authorship 
-or online social media networks \cite{basicnetwork}. 
+These networks may model friendship, scientific co-authorship 
+or online social media networks, for example \cite{basicnetwork}. 
 These kinds of networks can be modeled as graphs, where the nodes 
 are the general population modeled in the system
 and the edges model the relationship between the 
 different people.
 Social networks often share similar characteristics. The study of 
 \textit{Mislove et al.} that focuses on online social media networks
-shows, that social networks fulfill the small world characteristic,
+shows that social networks fulfill the small world characteristic,
 have a high clustering coefficient and are scale-free networks
 \cite{mislovesocialnetworkcharacteristics}. Thus, to accurately represent 
 social networks, a graph should ideally fulfill all three characteristics.
@@ -189,7 +189,7 @@ The most commonly used algorithms are introduced in this Section.
 \subsubsection{Erdős–Rényi Model}
 
 The oldest random graph algorithm is the 
-Erdős–Rényi (ER) random graph. For this type of random model, the
+Erdős–Rényi (ER) random graph. For this type of random graph model, the
 number of nodes $n$ and the probability $p$ that an 
 edge exists between two nodes are of fixed value \cite{basicnetwork}. 
 To generate an ER random graph, the algorithm goes through 
@@ -205,8 +205,9 @@ The graph characteristics of this type of random graph are shown in Table
 \ref{erdos-model}.
 An important observation is that 
 the average degree distribution $P_k$ follows the Poisson distribution
-$P_\lambda (k) = \frac{\lambda^k}{k!}\, \mathrm{e}^{-\lambda}$. Thus,
-ER graphs do not follow the power law distribution and are consequently
+$P_\lambda (k) = \frac{\lambda^k}{k!}\, \mathrm{e}^{-\lambda}$ and
+not the power distribution. Thus,
+ER graphs do not fulfill the power law characteristic and are consequently
 not scale-free. 
 
 \begin{table}[ht!]
@@ -245,10 +246,10 @@ Then, $n-a$ nodes are sequentially added to the graph.
 These nodes have a higher 
 probability to connect to vertices that are already well-connected. 
 Thus, the probability $p_i$ that a new node forms an edge with an
-existing node $i$ depends on its degree $c_i$. This means that the
+existing node $i$ depends on its degree $c_i$. Therefore, the
 probability can be calculated as $p_i= \frac{c_i}{\sum_{k}c_k}$.
 This concept of preferential attachement leads to the degree distribution
-$P_k\sim k^{-3}$. Thus the BA graph 
+$P_k\sim k^{-3}$. This means that the BA graph 
 fulfills the power law characteristic.
 This can be seen in the graph characteristics of the random graph
 in Table \ref{ba-model}. For this Table, $n$ is defined as the number
@@ -289,7 +290,7 @@ is connected to its $c$ nearest neighbors. Then, each edge $(a, b)$
 may be rewired given the probability $p$, thus reconnecting the edge to  $(a, b')$
 instead and creating a shortcut between the two non-neighboring nodes.
 Furthermore, the new edge may only be created as long as it does not create
-a loop $(a, a)$ and as long as the link $(a, b')$ does not already exist.
+a loop $(a, a)$ and as the link $(a, b')$ does not already exist.
 Another version of this algorithm does not rewire existing edges,
 but creates new random edges as shortcuts given the probability $p$.
 The second version creates a graph that can be considered more 
@@ -298,8 +299,9 @@ thus favored over the former algorithm \cite{basicnetwork}.
 
 The graph characteristics of the model can be seen
 in Table \ref{ws-model}. Given the degree distribution $P_k$, it can be seen
-that the distribution does not follow the power law since it is more similar
-to the Poisson distribution than a power law distribution. Thus, the WS model
+that the graph does not fulfill the power law characteristic
+since it is more similar
+to the Poisson distribution than a power distribution. Thus, the WS model
 is not scale-free.
 
 \begin{table}[ht!]
@@ -323,8 +325,8 @@ is not scale-free.
 
 \subsubsection{Comparison between the Random Graph Algorithms}
 \label{comparison-random-graphs}
-Analysing the average characteristics of all random graph algorithms introduced in
-this chapter, it can be seen that they differ in their average graph characteristics.
+Analyzing the average characteristics of all random graph algorithms introduced in
+this Chapter, it can be seen that they differ in their average graph characteristics.
 The comparison of the different characteristics of all three models are shown 
 in Table \ref{summary-graph-model}.
 First, the ER model has comparatively low clustering coefficient compared to the 
@@ -368,10 +370,10 @@ Furthermore, both true and false information can spread through
 these channels.
 Thus, information propagation over social media has become an 
 important research field in the academic community.
-The main way to analyze the spreading of information over a social network 
+The main way to analyze the spread of information over a social network 
 is to model the propagation process. The spread of information over 
 a network is called information diffusion. 
-The modeling of information diffusion can be divided into three components
+The information diffusion model can be divided into three components
 \cite{reviewinformationdiffusion}: 
 
 \begin{itemize}
@@ -394,7 +396,7 @@ The first two components are independent of specific simulation scenarios,
 unlike the third component. Thus the first two components should be further
 analyzed. Furthermore, there is a multitude of different ways 
 to model information diffusion in social networks. Therefore, the most common
-modeling methods will be further analyzed in this chapter.
+modeling methods will be further analyzed in this Chapter.
 
 \subsection{Epidemiological Models}
 \label{epidemologicalmodels}
@@ -402,10 +404,10 @@ modeling methods will be further analyzed in this chapter.
 Due to their similarity to the spread of infectious diseases, 
 the spread of misinformation is often modeled in the same way as epidemiological models.
 The simplest epidemiological model is the SI model, where entities in a system
-can either belong to the state \textit{Susceptible}($S$) or 
-\textit{Infected} ($I$). The number of total entities of a 
+can either belong to the \textit{Susceptible}($S$) or 
+\textit{Infected} ($I$) state. The number of total entities of a 
 system can be calculated as $N=S+I$. The SI model is the basis for many
-more specialised models where the states are more detailed to capture more 
+more specialized models where the states are more detailed to capture more 
 aspects of real life behavior. A few models based on the SI model and their 
 specific states are shown in Table \ref{SI-table}.
 
@@ -444,14 +446,15 @@ from being infected and changes its state to $I\to R$. An entity in a
 recovered state cannot be infected again by misinformation and thus is immune.
 In contrast to the SIR model, the SIS model assumes that
 the entity does not recover,
-but it \glqq forgets\grqq{} about the fact that the information is fake 
+but \glqq forgets\grqq{} about the fact that the information is fake 
 and becomes susceptible to misinformation again.
 
 Epidemiological models can be used for graphs to describe which nodes 
 in the graph belong to which state.
-There is no exact definition for a modeling algorithm to calculate the state 
+There is no exact definition for an algorithm to calculate the state 
 changes in the graph model. Nonetheless, the probability that an entity changes
-its state from susceptible to infected $S \to I$ generally increases depending on
+its state from \textit{Susceptible} to \textit{Infected} 
+$S \to I$ generally increases depending on
 how many neighbors are already infected. In its simplest form, a
 propagation algorithm may be defined as in Equation \ref{eqbasicpropagation} 
 \cite{easypropagation}.
@@ -467,34 +470,35 @@ by whether any neighboring node $b$ connected to $a$ is infected
 and fulfills the condition $f^{\mathrm{rand}}\geq \beta$.
 The condition $f^{\mathrm{rand}}$ is the random probability generation function and $1$ 
 is a function that equals one if the specific condition is fulfilled and 
-zero otherwise. This means if any neighbor $b$ is infected and the 
+zero otherwise. This means that if any neighbor $b$ is infected and the 
 condition $f^{rand}\geq \beta$ is fulfilled for $b$, then $a$ becomes infected. 
 Afterwards, a node can recover given the probability $\gamma$.
 
 Another method to model the information diffusion in an epidemiological model, 
-specially the propagation of fake news and its debunking,
+especially the propagation of fake news and its debunking,
 is described by \textit{Tambuscio et al.} \cite{sirsmodel}. In their work, they
-define a modified type of SIRS model where entities in the \textit{Susceptible}
+define a modified version of SIRS model where entities in the \textit{Susceptible}
 group can change their state to both the \textit{Infected} and
 \textit{Recovered} states.
-The entities in the \textit{Infected} believe in the fake news and spreads it 
+The entities in the \textit{Infected} group believe in the fake news and spread it 
 to its neighbors.
 The entities in the \textit{Recovered} group know that the fake news is not 
-true and only believes in the facts that are being spread. Furthermore, it
-also spreads the factual information to its neighbors.
-Members of both the \textit{Infected} and the \textit{Recovered} can also forget
-the information that they received and thus return to the \textit{Susceptible} state.
+true and only believe in the facts that are being spread. Furthermore, they
+also spread the factual information to their neighbors.
+Members of both the \textit{Infected} and the \textit{Recovered} groups 
+can forget the information that they received 
+and thus return to the \textit{Susceptible} state.
 
 \begin{figure}[!ht]
     \center
     \includegraphics[scale=.9]{figs/Tambuscio.png}
-    \caption{state chart for the model \cite{sirsmodel}}
+    \caption{State chart for the model \cite{sirsmodel}}
     \label{originalmodelstatechart}
 \end{figure}
 
 \begin{table}[ht!]
     \centering
-    \begin{tabular}{|c  c |} 
+    \begin{tabular}{|c | c |} 
      \hline
      & \\
      $\begin{aligned}
@@ -511,18 +515,18 @@ the information that they received and thus return to the \textit{Susceptible} s
        & \\
      \hline
     \end{tabular}
-    \caption{probability functions for the states \cite{sirsmodel}}
+    \caption{Probability functions for the states \cite{sirsmodel}}
     \label{SIS-table-equations}
 \end{table}
 
-In Figure \ref{originalmodelstatechart}, the states and the general probability
-for transitions of the model are shown.
+In Figure \ref{originalmodelstatechart}, the states and the general 
+probabilities for transitions of the model are shown.
 In Table \ref{SIS-table-equations}, the probability functions 
 $p_i^S, p_i^I, p_i^R$ that a node $i$ will belong to each state  
 \textit{Susceptible} ($S$),  \textit{Infected} ($I$) and 
-\textit{Recovered} ($R$) at the iteration step $t+1$ are defined more clearly. 
+\textit{Recovered} ($R$) at the iteration step $t+1$ are defined. 
 These probability functions 
-are dependent on the current state of the node $s_i=[s_i^S,  s_i^I,  s_i^R]$,
+depend on the current state of the node $s_i=[s_i^S,  s_i^I,  s_i^R]$,
 where $s_i^K$ is $1$ if the node $i$ has the state $K$ and else $0$.
 Furthermore, the probability functions also depend on the constant system 
 probabilities $p_{\mathrm{verify}}, p_{\mathrm{forget}}$. Last, the functions are also 
@@ -548,6 +552,9 @@ For differential equations, the amount of entities belonging to each state may c
 after a time duration $\Delta t$. The equations to calculate the 
 changes in number of entities in each state, and thus the progress 
 of the information diffusion, can be seen in Table \ref{SI-table-equations}.
+$\beta$ and $\gamma$ are the transition rate parameters of the model,
+where $\beta$ is the transmission rate and $\gamma$ the 
+recovery rate.
 
 \begin{table}[ht!]
     \centering
@@ -574,29 +581,20 @@ of the information diffusion, can be seen in Table \ref{SI-table-equations}.
     \label{SI-table-equations}
 \end{table}
 
-$\beta$ and $\gamma$ are the transition rates parameters of the model, where 
-$\beta$ is the transmission rate and $\gamma$ the 
-recovery rate. Moreover, the equations in Table \ref{SI-table-equations}
-are differential equations that are used to calculate the amount
-of entities for each state in the system, not to calculate in which state
-each entity in the system is in. Thus, the differential equations are 
-only useful if a system-level view on the propagation is required.
-If an entity-level view is necessary, i.e. if it is required to know which 
-specific entities are in which state, then graph based diffusion models are needed.
-
 
 \subsection{Information Cascade Models}
 
 Another way to model information diffusion in graphs is by viewing the diffusion as a 
-sequential information propagation process. This is the assumption in
-information cascade models. In this type of model, any node $n$ which is infected in the
-iteration step $i$ may infect its connected neighbor $a$ with a probability $P_n(a)$
-\cite{reviewinformationdiffusion}. All nodes infected by node $n$
+sequential information propagation process. That forms the foundational 
+assumption within information cascade models. In this model 
+\cite{reviewinformationdiffusion}, any node $n$ which is infected in the
+iteration step $i$ may infect its connected neighbor $a$ with a 
+probability $P_n(a)$. All nodes infected by node $n$
 can then infect their neighboring node in the next iteration step $i+1$
-and the node $n$ becomes inactive and does not infect any neighbors in any future
+and node $n$ becomes inactive and does not infect any neighbors in future
 iterations.
 Equation \ref{eqbasicpropagationcascading} 
-shows the how the propagation step is modeled.
+shows how the propagation step is modeled.
 Information cascade models are mostly used for prediction and influence 
 analysis purposes, and not to explain the collective behavior
 of the system during the information diffusion process.
@@ -616,18 +614,18 @@ Some subtypes are described in \cite{diffusionbasics}. These are:
     Thus, the probability function does not depend on the history 
     of the system and its information diffusion status.
     \item Decreasing Cascading Model: In this type of model, the probability
-    function to activate the node $a$ decreases with each attempts of its 
+    function to activate the node $a$ decreases with each attempt of its 
     neighbors. This means that if a neighbor $n$ unsuccessfully tries to infect
     $a$ at iteration step $i$, then the probability that the neighbor $m$
-    can sucessfully infect $a$ at step $i+t$ is smaller.
+    can sucessfully infect $a$ at step $i+t$ is lower.
 \end{itemize}
 
 \subsection{Threshold Models}
-Another method to analyze the diffusion process in graphs is by viewing the
+An additional method to analyze the diffusion process in graphs is by viewing the
 propagation step as a process where each entity needs to overcome a 
 specific threshold $\theta$ to become infected. More specifically, 
-a certain amount of neighbors need to be infected for node $a$ to become 
-infected, too. Contrary to cascade models, a node can always 
+a certain number of neighbors need to be infected for node $a$ to become 
+infected. Contrary to cascade models, a node can always 
 infect its neighbors as long as the conditions are fulfilled in the threshold 
 model. Equation \ref{eq:threshold} shows the general definition 
 for the threshold model.
@@ -644,32 +642,32 @@ Some subtypes described in \cite{diffusionbasics} are:
 \begin{itemize}
     \item Majority Threshold Model: A node $a$ becomes
     infected if the majority of its neighbors are infected, thus 
-    $\theta = \frac{1}{2}deg(a)$.
+    $\theta = \frac{1}{2}c_a$.
     \item Small Threshold Model: The threshold for which
     node $a$ becomes infected is very small. The advantage of this model is that 
     certain algorithms may be calculated faster \cite{diffusionbasics}.
     \item Unanimous Threshold Model: All neighbors 
     of a node $a$ need to be infected for $a$ to become infected, thus
-    $\theta = deg(a)$.
+    $\theta = c_a$.
 \end{itemize}
 
 
 \section{Power Load Forecasting Methods}
 \label{powerloadsection}
 
-An important task in modern power grid infrastructure management 
+An important task in modern power grid management 
 is to forecast power demand, so that the power supply can be adjusted accordingly.
 The power demand forecasting methods can be categorized in three types:
 short-, medium and long-term power demand forecast. These differ in which
-timespan they forecast the power demand. Most forecasting models are 
+timespan they forecast power demand. Most forecasting models are 
 either statistical models or artifical intelligence based models 
 \cite{raza2015review}. For these models to be able to predict the power 
 demand, they need input data which correlate with the power 
 usage. 
 
 \subsection{Variables used for Power Load Forecasting}
-
-Variables that correlate with the power load 
+\label{variabledependency}
+Variables that correlate with power load 
 can be classified as either endogenous or exogenous variables.
 Exogenous variables can be considered as independent variables 
 whose values are determined outside of the system. 
@@ -679,12 +677,12 @@ model.
 
 In the context of power load prediction, the most commonly 
 used endogenous variable is the historical power load data.
-For the exogenous variables, there are multiple types of 
+For exogenous variables, there are multiple types of 
 variables that are often considered as possible input data.
 The first type of variables are \textit{environmental} variables like temperature, 
 rainfall, humidity or wind power. A different type of variables are \textit{time} data
 such as the specific weekday, if a day is a holiday and the time of the day.
-Another type of variables are socio-economic variables such as the
+Another type of variables are \textit{socio-economic} variables such as the
 population size and growth, the exchange rate, the income level,
 the gross domestic product or the different types and amount 
 of consumers like agricultural, industrial or household consumers.
@@ -728,15 +726,15 @@ social media posts. The content in social media posts can be
 analyzed in two ways: 
 It can either be analyzed by searching for posts with a defined keyword or tag
 or it can be analyzed by using natural language processing techniques. 
-In natural language processing the raw text content 
+In natural language processing, the raw text content 
 (and possibly its metadata and attachements) of a post is analyzed
 to extract the desired information. Possible analysis
 methods would be to classify if a post is related to some energy-consuming
-behavior or to count the number of energy-relevant keywords in the text.
+behavior or to count the number of keywords related to energy usage in the text.
 For example, a natural language processing model was trained to 
 classify specifically energy-related tweets \cite{energybert}.
 The other possibility is to query the social media instance 
-to find all posts that contain the defined keyword or tag.
+to find all posts that contain a specific keyword or tag.
 This method is usually simpler than using more sophisticated natural 
 language processing techniques, but increases the number of false positive 
 posts that are not relevant for the specific task.
@@ -751,7 +749,7 @@ In addition, another work used topic mining techniques to find
 events on twitter posts that correlate with energy consumption 
 \cite{twittertopicevent}.
 Search engine indices are also a data type that can be considered 
-as partially related to social network data, since it also shows the 
+as partially related to social network data, since it shows the 
 interest that greater parts of the population have for a specific topic.
 In the work of \textit{Wu et al.}, it was proven that adding 
 keyword search counts can improve power load forecasting accuracy 
@@ -771,7 +769,7 @@ transportation infrastructure \cite{interdependnytrafficenergy}.
 Traffic data may correlate with power load in two ways:
 First, with traffic movement patterns, it is possible to follow the
 movement patterns of larger groups of people. As an example, in the morning,
-traffic intensity increases since larger part of the population needs
+traffic intensity increases since a larger part of the population needs
 to go to their workplace. Subsequently, this population group
 returns back to their residences after finishing their work in the afternoon.
 Thus, there is also an increased traffic intensity in the afternoon.
@@ -801,17 +799,18 @@ a similar time and duration \cite{gerossier2019modeling}.
 In addition, there are also works that describe
 power load prediction models for individual household
 charging forecasts \cite{skala2023interval}. 
-A notable work was done by \textit{Arias et al.} that also considered the traffic patterns
+A notable work was done by \textit{Arias et al.} that also considered 
+traffic patterns
 and analyzed the differences in EV charging behaviors between
 commercial and residential districts for power demand forecasting
 \cite{arias2016electric}.
 
 The last variable that depends on human behavior mentioned in this Section are
-satellite images. These kind of images can be used to find a variety 
+satellite images. This type of images can be used to find a variety 
 of enviromental factors relevant for power demand.
 Satellite images are mostly used to forecast power generation of 
 renewable resources such as solar power \cite{solarprediction}.
-But it can also be used to estimate household power consumption,
+However, it can also be used to estimate household power consumption,
 especially during nighttime. This is particularly of relevance for regions 
 where the electricity consumption data is unreliable, such as in developing contries
 \cite{reviewnighttime}. There is a correlation 
@@ -820,7 +819,7 @@ But this relation depends on the type of consumer, e.g. households or industry.
 Furthermore, the relation is not linear \cite{nighttimepowerestimation}. 
 An issue when using nighttime images for power demand prediction is 
 the inherent noise in the data. Non-household light sources such as 
-streetlights and vehicles add noise to the image data \cite{reviewnighttime}.
+streetlights and vehicles add noise to the images \cite{reviewnighttime}.
 Another application of nighttime satellite image is for power outage detection.
 If there is a power outage, the affected region will turn dark, which 
 can be detected in satellite images. Satellite image data 
@@ -828,15 +827,16 @@ was successfully used in multiple power outage detection models
 \cite{nightpoweroutage} \cite{twitterpoweroutagelighttime}.
 
 \subsection{Load Profiles as Power Load Forecasting Models}
-Another method to forecast power demand at a specific time are load 
-profiles. Load profiles describe the power usage pattern of costumers
-during a specific time, such as a day or a year. Load profiles are 
+\label{loadprofilebasic}
+Another method to estimate the power demand for a specific time are load 
+profiles. Load profiles describe representative power usage patterns 
+of costumers over time. Load profiles are 
 representative load curves and thus are independent of input variables.
 Load profiles differ by the type of custormer they represent. For 
 example, the load profiles provided by the German Federal Association of 
 Energy and Water Management (Bundesverband der Energie- und Wasserwirtschaft 
 e. V. (BDEW)) can be divided by households, commerce, 
-farms and other types of customers \cite{meier1999reprasentative}.
+farms, and other types of customers \cite{meier1999reprasentative}.
 There are three methods to model load profiles.
 Bottom-up models analyze the electricity consumption of individual customers
 and extrapolate the findings to a group of customers, e.g. households.

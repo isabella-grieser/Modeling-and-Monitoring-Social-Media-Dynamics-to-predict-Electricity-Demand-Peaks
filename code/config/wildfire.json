@@ -1,0 +1,24 @@
+{
+  "seeds": [1, 2, 3, 4, 5],
+  "network":{
+    "nodes": 1000,
+    "available": 1
+  },
+    "sim": {
+    "p_will_act": 1,
+    "p_verify": 0,
+    "alpha": 1,
+    "beta": 1,
+    "power_usage": 1,
+    "factor": 1,
+    "power_threshold": 1.5,
+    "fringe": false
+  },
+  "model_args":{
+    "electric_car": {
+      "power": 1.75,
+      "p": 0.03,
+      "duration": 4
+    }
+  }
+}
