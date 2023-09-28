@@ -51,13 +51,12 @@ def plot_basic_timeline(x_all, y_vals, y_ref, s_true, i_true, r_true, power_tres
         x_all, y_ref = x_all[start_index:], y_ref[start_index:]
         y_max, y_min, y_average = y_max[start_index:], y_min[start_index:], y_average[start_index:]
 
-    ax1.plot(x_all, y_ref)
     ax1.fill_between(x_all, y_min, y_max, color='blue', alpha=.5, linewidth=0)
     ax1.plot(x_all, y_average, linewidth=2, color='blue', label="true consumption")
     ax1.plot(x_all, y_ref, linewidth=2, color='black', label="ref consumption")
     ax1.axhline(power_tresh, color='red', label="power threshold")
     if spread is not None:
-        ax1.axvline(x=spread, color='yellow', ls=':', label='spread start')
+        ax1.axvline(x=spread, color='green', ls=':', label='spread start')
     if action is not None:
         ax1.axvline(x=action, color='red', ls=':', label='action start')
 
@@ -125,7 +124,7 @@ def basic_plot(config, start, action_start=None, iterations=200, year=2017, y=No
                         start_index=start_index, end_index=end_index)
 
 
-def plot_vals(config, attr1, attr2, probs, start, action_start, iterations=200):
+def plot_vals(config, attr1, attr2, probs, start, action_start, iterations=200, year=2013):
     final_vals = []
     i_average = []
     r_average = []
@@ -137,7 +136,7 @@ def plot_vals(config, attr1, attr2, probs, start, action_start, iterations=200):
         config[attr1][attr2] = j
         for s in config["seeds"]:
             config["seed"] = s
-            framework = EstimationFramework(config, plot=False)
+            framework = EstimationFramework(config, year=year, plot=False)
             x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
                 framework.estimate_power_outage(start, action_start=action_start, iterations=iterations, y_max=1000)
             max_val = max(y_true)
@@ -346,7 +345,7 @@ def scenario1():
         for usage_val, u_p in zip(usage_v, usage_p):
             # calc the difference
             y_plot = np.array(usage_val) - np.array(y_reference)
-            ax1.plot(x, y_plot[start_i: end_i], label=f"power_usage={u_p}")
+            ax1.plot(x, y_plot[start_i: end_i], label=f"p_power_usage={u_p}")
 
         for acting_val, a_p in zip(acting_v, acting_p):
             y_plot = np.array(acting_val) - np.array(y_reference)
@@ -354,7 +353,7 @@ def scenario1():
 
         for available_val, a_p in zip(available_v, available_p):
             y_plot = np.array(available_val) - np.array(y_reference)
-            ax3.plot(x, y_plot[start_i: end_i], label=f"available={a_p}")
+            ax3.plot(x, y_plot[start_i: end_i], label=f"p_available={a_p}")
 
         # ax1.plot(x, y_reference, color='black', label="ref consumption")
         # ax2.plot(x, y_reference, color='black', label="ref consumption")
@@ -363,9 +362,9 @@ def scenario1():
         ax2.xaxis.set_major_formatter(xfmt)
         ax3.xaxis.set_major_formatter(xfmt)
         ax1.set_ylabel("Power consumption in kW")
-        ax1.set_xlabel("p_will_act")
-        ax2.set_xlabel("power_usage")
-        ax3.set_xlabel("available")
+        ax1.set_xlabel("p_power_usage")
+        ax2.set_xlabel("p_will_act")
+        ax3.set_xlabel("p_available")
         ax1.legend(loc="upper right")
         ax2.legend(loc="upper right")
         ax3.legend(loc="upper left")
@@ -386,7 +385,7 @@ def scenario1():
         plt.xticks(rotation=45)
         plt.show()
 
-    basic_plot(config, start, action_start, y)
+    basic_plot(config, start=start, action_start=action_start, y=y, year=2013)
     analyze_propagation([0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.99], [0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.99],
                         [0, 0.05, 0.1, 0.2, 0.25, 0.3, 0.5])
     analyze_acting_params(acting_p=[0, 0.1, 0.2, 0.4, 0.6, 0.8, 1], usage_p=[0, 0.1, 0.2, 0.4, 0.6, 0.8, 1],
@@ -403,10 +402,10 @@ def scenario2():
     action_start = datetime(2013, 11, 7, 19, 0, 0, tzinfo=dt.timezone.utc) \
         .replace(tzinfo=pytz.UTC)
 
-    basic_plot(config, start, action_start, iterations=200)
+    basic_plot(config, start, action_start, year=2013, iterations=200)
 
     config["fringe"] = False
-    basic_plot(config, start, action_start, iterations=200)
+    basic_plot(config, start, action_start, year=2013, iterations=200)
 
 
 def scenario3():
@@ -466,7 +465,7 @@ def scenario4():
     action_start = datetime(2013, 11, 6, 18, 30, 0, tzinfo=dt.timezone.utc) \
         .replace(tzinfo=pytz.UTC)
 
-    basic_plot(config, action_start, action_start=None, iterations=100, start_index=90, end_index=-70)
+    basic_plot(config, action_start, action_start=None, year=2013, iterations=100, start_index=90, end_index=-70)
 
     probs_p = [0, 0.03, 0.05, 0.1, 0.15, 0.2]
     probs_v = []
@@ -522,7 +521,7 @@ def scenario4():
 
 
 if __name__ == "__main__":
-    # scenario1()
+    scenario1()
     # scenario2()
-    scenario3()
+    # scenario3()
     # scenario4()

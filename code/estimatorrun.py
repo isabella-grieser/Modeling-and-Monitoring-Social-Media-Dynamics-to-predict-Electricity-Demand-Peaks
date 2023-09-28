@@ -35,8 +35,8 @@ if __name__ == "__main__":
     ax.plot(values.index, return_dict["i"], label='infected')
     ax.plot(values.index, return_dict["r"], label='removed')
 
-    #xfmt = md.DateFormatter('%H:%M')
-    xfmt = md.DateFormatter('%d.%m.')
+    xfmt = md.DateFormatter('%H:%M')
+    #xfmt = md.DateFormatter('%d.%m.')
     ax.xaxis.set_major_formatter(xfmt)
     ax.set_ylabel("Number of posts")
     ax.set_xlabel("Time")

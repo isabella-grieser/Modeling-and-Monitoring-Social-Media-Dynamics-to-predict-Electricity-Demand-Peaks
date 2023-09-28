@@ -491,7 +491,7 @@ and thus return to the \textit{Susceptible} state.
 
 \begin{figure}[!ht]
     \center
-    \includegraphics[scale=.9]{figs/Tambuscio.png}
+    \includegraphics[scale=.8]{figs/Tambuscio.pdf}
     \caption{State chart for the model \cite{sirsmodel}}
     \label{originalmodelstatechart}
 \end{figure}
@@ -581,6 +581,22 @@ recovery rate.
     \label{SI-table-equations}
 \end{table}
 
+To change from a graph-based view to a system-level view, it is necessary
+to simplify the graph model. This can be done 
+
+To change from a graph-based view to a system-level view, it is necessary
+to generalize the graph model. This can be done with
+mean-field theory \cite{chaikin1995principles}.
+In mean-field theory, certain variables in the system are averaged, 
+making these variables constant over all entities in the model and thus 
+reducing the degrees of freedom that need to be considered.
+Thus, all unique interactions in the model are averaged into a simpler,
+higher-level and system-wide view.
+This approach originated from molecular analysis, where the method is used
+to average the behavior of many molecules into the average behavior
+of the whole system.
+However, it can also be used to analyze the characteristics of graphs
+\cite{barabasi1999mean}\cite{sirsmodel}.
 
 \subsection{Information Cascade Models}
 
@@ -830,7 +846,7 @@ was successfully used in multiple power outage detection models
 \label{loadprofilebasic}
 Another method to estimate the power demand for a specific time are load 
 profiles. Load profiles describe representative power usage patterns 
-of costumers over time. Load profiles are 
+of costumers over time \cite{proedrou2021comprehensive}. Load profiles are 
 representative load curves and thus are independent of input variables.
 Load profiles differ by the type of custormer they represent. For 
 example, the load profiles provided by the German Federal Association of 
