@@ -1,72 +1,87 @@
 \chapter{Related Works}
 \label{relatedworks}
 In light of the increasing usage of web-based technologies in our daily 
-lifes, web-based points of attacks that could attack a country's 
+lifes, web-based points of attacks that could endanger a country's 
 electrical infrastructure and other critical infrastructure 
 are becoming an increasing concern.
-Thus, the resilience of the electrical grid is in danger.
+Therefore, in order to secure the resilience of the electrical grid,
+it is necessary to analyze these points of attack.
 
-%One of these points of attack created by web-based technologies
-%are direct attacks via cyber attacks. The increased usage of 
-%smart grids, which uses the internet to support a variety of functions 
-%to make the electrical grid more efficient, increases the 
-%vulnerability of the electrical grid to cyberattacks.
-%Thus, cyber security for smart grids is a widely researched subject.
-%The threat of cyberattacks are research from multiple angles.
-%First, general vulnerabilities of the smart grid and the threats 
-%created by possible cyberattacks can be analysed and discussed 
-%\cite{cyberbasic1} \cite{cyberbasci2}.
-%Second, the detection of cyber attacks on the electrical grids are 
-%a wide resarch field. 
-
-%Hier könnte man auch false pricing attack power grid als keyword noch
-%weitersuchen
-The point of attack relevant for this thesis are social network-based
-attacks. These attacks try to influence the behavior of groups of people to 
-change the electricity consumption on a scale that may threaten the reliability
-of the electrical grid. This type of attack is not as well researched 
-compared to cybersecurity-based attack points. All works in this topic
-mainly consider false pricing attacks, where consumers receive false 
+This Thesis deals with social media-based
+attacks. These attacks try to 
+influence the electricity consumption of households 
+on a scale that may threaten the reliability
+of the electrical grid. 
+This type of attack is not as well researched 
+compared to cybersecurity-based attacks
+\cite{sun2018cyber}. 
+Most works dealing with social network-based
+attacks mainly consider false pricing attacks, where consumers receive false 
 electricity pricing information over social media and change their 
 electricity demand pattern based of the false information.
-In the work of \textit{Tang et al.}, they model such kind of attack on the 
-smart grid with a complex information propagation algorithm which considers 
-multiple types of influences, consumers with different types of 
-personalities and other characteristics \cite{falsepricing1}.
-Furthermore, they analyse the possible reaction to the attack, where
-the operators use load shedding to reduce the load on the energy system. 
-Another work implements a model similar to the model
-proposed by \textit{Tang et al.}, but with a focus on the consequences of a 
-possible false pricing attack \cite{vulnerabilityanalysis}.
+Other scenarios are usually not considered.
 
-Another problem that can be analysed in this topic is which $k$ entities 
+Social media-based attacks are still theoretical scenarios.
+Hence, the related works considered in this Thesis use theoretical
+models to analyze the effects of information on social media 
+on the power grid.
+
+The focus of the analysis can differ depending on the work.
+\cite{vulnerabilityanalysis} mainly focus in how the influence 
+level of different social media users can influence the 
+impact on the power grid. The work in \cite{pan2017threat}
+searches for $k$ entities that
 need to be influenced by misinformation to instill 
-the maximum damage on the power grid. In the work of \textit{Pan et al.}, 
-they analysed this issue, developing several heuristics to find the most 
-relevant entities in the system that can inflict the maximum damage by both 
-propagating the misinformation and increasing the demand 
-$d$ to $d(1+\Delta i)$ \cite{pan2017threat}. 
-Furthermore, they analysed load shedding as a
-countermeasure for the targeted misinformation attack.
-\textit{Nyugen et al.} extended the work of \textit{Pan et al.}
-by further analysing the general vulnerability and also the resilience of 
-the power grid if automatic load shedding is applied to the overloaded grid
-\cite{nguyen2019vulnerability}.
+the maximum damage to the power grid.
+Other works only analyze the 
+effects of misinformation on the power grid
+in general.
+Moreover, some works analyze possible countermeasures to misinformation-based
+attacks. Most of the countermeasures analyze load shedding as a 
+countermeasure \cite{pan2017threat} \cite{nguyen2019vulnerability}.
+In addition, most works do not propose any type of framework to 
+monitor or predict changes in power demand based on 
+information on social media.
 
-A paper that tries to analyse a more practical development of a misinformation
-attack is the paper of \textit{Raman et al.} \cite{raman2020weaponizing}.
-In their work, they used a survey to analyse the probability of a person
-reacting to misinformation, and thus increasing the electricity demand,
-and how likely they are to forward the misinformation to their peers.
-Furthermore, they focused on possible impacts on the electrical grid in 
-the future by also analysing the consequences of the increased 
-usage of electric vehicles in the future. Possible countermeasures like
-load shedding were not analysed.
+The information propagation algorithm used in the model also differs based
+on the work.
+Most models use independent cascade algorithms for the propagation
+\cite{raman2020weaponizing} \cite{pan2017threat}
+\cite{nguyen2019vulnerability}. 
+However, other algorithms were also used. One work uses an SIR 
+model as an information propagation algorithm 
+\cite{jamalzadeh2022protecting}. Amother work 
+\cite{vulnerabilityanalysis} introduces a price-based multi-level 
+influence propagation algorithm. In this algorithm, the information
+propagation depends on how much the entities want to influence other
+entities and the utility in the message being forwarded. 
 
-Last, in the work of \textit{Jamalzadeh et al.}, they created a model to monitor
-the power grid when its under a misinformation attack and to analyse
-how a possible campaign to counter the misinformation attack can mitigate
-the impacts of the attack \cite{jamalzadeh2022protecting}. Furthermore,
-they describe an optimization algorithm to minimize the amount of 
-entities affected by a possible blackout caused by the attack as 
-a countermeasure mechanism.
+A notable mention is the work in \cite{raman2020weaponizing},
+where the theoretical scenario of misinformation influencing 
+the power demand is analyzed with real data. For their work,
+\textit{Raman et al.} used a survey to analyze the probability 
+of a person reacting to misinformation,
+and thus increasing the electricity demand.
+Furthermore, they analyze how likely the affected entities 
+are to forward the misinformation to their
+peers. Other works usually do not use any real data to 
+make their models more realistic.
+
+Last, most works try to map the social media model to 
+a phyiscal power grid. Hence they map virtual social 
+media profiles to physical, energy-consuming 
+households that are connected to the energy infrastructure.
+The mapping is usually done by randomly mapping 
+social media entities to physical entities described
+in real power grid datasets \cite{nguyen2019vulnerability}
+\cite{pan2017threat}. However, this may not show a realistic 
+mapping between the two structures. There is 
+research into the problem of mapping social media 
+posts to physical locations \cite{jurgens2015geolocation}.
+A geolocation prediction frameworks that 
+uses Facebook household address data as a training data 
+source is introduced in \cite{backstrom2010find}.
+Twitter data can also be used to predict the location
+of the residence of an user \cite{zheng2018survey}.
+However, the accuracy of the detailed location of 
+an user's home location is questionable.

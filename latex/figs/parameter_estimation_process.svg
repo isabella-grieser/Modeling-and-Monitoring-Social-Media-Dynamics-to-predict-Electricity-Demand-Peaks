@@ -1,1 +1,249 @@
-<svg width="1280" height="720" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="hidden"><g><rect x="0" y="0" width="1280" height="720" fill="#FFFFFF"/><path d="M20.5001 296.834C20.5001 286.156 29.156 277.5 39.8337 277.5L222.166 277.5C232.844 277.5 241.5 286.156 241.5 296.834L241.5 374.166C241.5 384.844 232.844 393.5 222.166 393.5L39.8337 393.5C29.156 393.5 20.5001 384.844 20.5001 374.166Z" stroke="#000000" stroke-width="1.33333" stroke-miterlimit="8" fill="#FFFFFF" fill-rule="evenodd"/><text font-family="Calibri,Calibri_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(38.3026 328)">Search for relevant</text><text font-family="Calibri,Calibri_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(41.1693 357)">social media posts</text><path d="M272.5 296.834C272.5 286.156 281.156 277.5 291.834 277.5L474.166 277.5C484.844 277.5 493.5 286.156 493.5 296.834L493.5 374.166C493.5 384.844 484.844 393.5 474.166 393.5L291.834 393.5C281.156 393.5 272.5 384.844 272.5 374.166Z" stroke="#000000" stroke-width="1.33333" stroke-miterlimit="8" fill="#FFFFFF" fill-rule="evenodd"/><text font-family="Calibri,Calibri_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(293.004 299)">Count the amount</text><text font-family="Calibri,Calibri_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(309.117 328)">of social media</text><text font-family="Calibri,Calibri_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(294.704 357)">posts over a given</text><text font-family="Calibri,Calibri_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(306.311 386)">amount of time</text><path d="M528.5 296.667C528.5 286.081 537.081 277.5 547.667 277.5L731.333 277.5C741.919 277.5 750.5 286.081 750.5 296.667L750.5 373.333C750.5 383.919 741.919 392.5 731.333 392.5L547.667 392.5C537.081 392.5 528.5 383.919 528.5 373.333Z" stroke="#000000" stroke-width="1.33333" stroke-miterlimit="8" fill="#FFFFFF" fill-rule="evenodd"/><text font-family="Calibri,Calibri_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(548.407 342)">Filter the data plot</text><path d="M785.5 296.834C785.5 286.156 794.156 277.5 804.834 277.5L987.166 277.5C997.844 277.5 1006.5 286.156 1006.5 296.834L1006.5 374.166C1006.5 384.844 997.844 393.5 987.166 393.5L804.834 393.5C794.156 393.5 785.5 384.844 785.5 374.166Z" stroke="#000000" stroke-width="1.33333" stroke-miterlimit="8" fill="#FFFFFF" fill-rule="evenodd"/><text font-family="Calibri,Calibri_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(850.742 327)">Minimize</text><text font-family="Cambria Math,Cambria Math_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(800.222 357)">(</text><text font-family="Cambria Math,Cambria Math_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(810.222 357)">(</text><text font-family="Cambria Math,Cambria Math_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(820.222 357)">𝐼</text><path d="M850.957 338.854C853.238 339.455 854.99 340.754 856.213 342.75 857.436 344.746 858.047 347.154 858.047 349.975 858.047 352.803 857.438 355.211 856.219 357.199 855 359.188 853.246 360.482 850.957 361.084L850.676 360.182C852.481 359.58 853.822 358.393 854.701 356.619 855.58 354.846 856.02 352.592 856.02 349.857 856.02 347.217 855.582 345.023 854.707 343.277 853.832 341.531 852.477 340.357 850.641 339.756ZM839.348 338.854 839.664 339.756C837.836 340.357 836.483 341.531 835.604 343.277 834.725 345.023 834.286 347.217 834.286 349.857 834.286 352.592 834.725 354.846 835.604 356.619 836.483 358.393 837.825 359.58 839.629 360.182L839.348 361.084C837.059 360.482 835.305 359.188 834.086 357.199 832.868 355.211 832.258 352.803 832.258 349.975 832.258 347.154 832.87 344.746 834.092 342.75 835.315 340.754 837.067 339.455 839.348 338.854Z" fill-rule="evenodd"/><text font-family="Cambria Math,Cambria Math_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(840.109 357)">𝑡</text><text font-family="Cambria Math,Cambria Math_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(865.489 357)">−</text><text font-family="Cambria Math,Cambria Math_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(888.822 357)">𝑛</text><text font-family="Cambria Math,Cambria Math_MSFontService,sans-serif" font-weight="400" font-size="18" transform="translate(902.656 362)">𝑝𝑜𝑠𝑡𝑠</text><path d="M970.817 338.854C973.099 339.455 974.85 340.754 976.073 342.75 977.296 344.746 977.907 347.154 977.907 349.975 977.907 352.803 977.298 355.211 976.079 357.199 974.86 359.188 973.106 360.482 970.817 361.084L970.536 360.182C972.341 359.58 973.682 358.393 974.561 356.619 975.44 354.846 975.88 352.592 975.88 349.857 975.88 347.217 975.442 345.023 974.567 343.277 973.692 341.531 972.337 340.357 970.501 339.756ZM959.208 338.854 959.524 339.756C957.696 340.357 956.343 341.531 955.464 343.277 954.585 345.023 954.146 347.217 954.146 349.857 954.146 352.592 954.585 354.846 955.464 356.619 956.343 358.393 957.685 359.58 959.489 360.182L959.208 361.084C956.919 360.482 955.165 359.188 953.946 357.199 952.728 355.211 952.118 352.803 952.118 349.975 952.118 347.154 952.73 344.746 953.952 342.75 955.175 340.754 956.927 339.455 959.208 338.854Z" fill-rule="evenodd"/><text font-family="Cambria Math,Cambria Math_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(959.969 357)">𝑡</text><text font-family="Cambria Math,Cambria Math_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(980.016 357)">)</text><text font-family="Cambria Math,Cambria Math_MSFontService,sans-serif" font-weight="400" font-size="18" transform="translate(990.016 348)">2</text><path d="M1031.5 296.834C1031.5 286.156 1040.16 277.5 1050.83 277.5L1234.17 277.5C1244.84 277.5 1253.5 286.156 1253.5 296.834L1253.5 374.166C1253.5 384.844 1244.84 393.5 1234.17 393.5L1050.83 393.5C1040.16 393.5 1031.5 384.844 1031.5 374.166Z" stroke="#000000" stroke-width="1.33333" stroke-miterlimit="8" fill="#FFFFFF" fill-rule="evenodd"/><text font-family="Calibri,Calibri_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(1059.76 328)">Solve differential</text><text font-family="Calibri,Calibri_MSFontService,sans-serif" font-weight="400" font-size="24" transform="translate(1093.49 357)">equations</text><path d="M241.5 335.167 265.527 335.167 265.527 335.833 241.5 335.833ZM264.194 331.5 272.194 335.5 264.194 339.5Z"/><path d="M0.00630033-0.333274 28.606 0.207386 28.5934 0.873933-0.00630033 0.333274ZM27.3422-3.48383 35.2652 0.666667 27.191 4.51474Z" transform="matrix(1 0 0 -1 493.5 335.167)"/><path d="M750.506 334.167 779.106 334.707 779.093 335.374 750.494 334.833ZM777.842 331.016 785.765 335.167 777.691 339.015Z"/><path d="M896.167 278.833 896.167 227.071 1143.04 227.071 1143.04 270.833 1142.37 270.833 1142.37 227.405 1142.7 227.738 896.5 227.738 896.833 227.405 896.833 278.833ZM1146.7 269.5 1142.7 277.5 1138.7 269.5Z"/><path d="M1143.04 392.5 1143.04 448.18 896.167 448.18 896.167 400.5 896.833 400.5 896.833 447.847 896.5 447.514 1142.7 447.514 1142.37 447.847 1142.37 392.5ZM892.5 401.833 896.5 393.833 900.5 401.833Z"/></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1269.2765"
+   height="267.11349"
+   overflow="hidden"
+   version="1.1"
+   id="svg25"
+   sodipodi:docname="parameter_estimation_process.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs25">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath25">
+      <rect
+         style="fill:#ffffff"
+         id="rect26"
+         width="1269.2765"
+         height="267.11349"
+         x="7.7989335"
+         y="203.74715" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="namedview25"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     showgrid="false"
+     inkscape:zoom="1.0257813"
+     inkscape:cx="632.20107"
+     inkscape:cy="156.46611"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg25" />
+  <g
+     id="g25"
+     clip-path="url(#clipPath25)"
+     transform="translate(-7.7989335,-203.74715)">
+    <rect
+       x="0"
+       y="0"
+       width="1280"
+       height="720"
+       fill="#ffffff"
+       id="rect1" />
+    <path
+       d="m 20.5001,296.834 c 0,-10.678 8.6559,-19.334 19.3336,-19.334 H 222.166 c 10.678,0 19.334,8.656 19.334,19.334 v 77.332 c 0,10.678 -8.656,19.334 -19.334,19.334 H 39.8337 c -10.6777,0 -19.3336,-8.656 -19.3336,-19.334 z"
+       stroke="#000000"
+       stroke-width="1.33333"
+       stroke-miterlimit="8"
+       fill="#ffffff"
+       fill-rule="evenodd"
+       id="path1" />
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(38.3026,328)"
+       id="text1">Search for relevant</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(41.1693,357)"
+       id="text2">social media posts</text>
+    <path
+       d="m 272.5,296.834 c 0,-10.678 8.656,-19.334 19.334,-19.334 h 182.332 c 10.678,0 19.334,8.656 19.334,19.334 v 77.332 c 0,10.678 -8.656,19.334 -19.334,19.334 H 291.834 c -10.678,0 -19.334,-8.656 -19.334,-19.334 z"
+       stroke="#000000"
+       stroke-width="1.33333"
+       stroke-miterlimit="8"
+       fill="#ffffff"
+       fill-rule="evenodd"
+       id="path2" />
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(293.004,299)"
+       id="text3">Count the amount</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(309.117,328)"
+       id="text4">of social media</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(294.704,357)"
+       id="text5">posts over a given</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(306.311,386)"
+       id="text6">amount of time</text>
+    <path
+       d="m 528.5,296.667 c 0,-10.586 8.581,-19.167 19.167,-19.167 h 183.666 c 10.586,0 19.167,8.581 19.167,19.167 v 76.666 c 0,10.586 -8.581,19.167 -19.167,19.167 H 547.667 c -10.586,0 -19.167,-8.581 -19.167,-19.167 z"
+       stroke="#000000"
+       stroke-width="1.33333"
+       stroke-miterlimit="8"
+       fill="#ffffff"
+       fill-rule="evenodd"
+       id="path6" />
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(564.277,328)"
+       id="text7">Smoothen</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(670.61,328)"
+       id="text8">data</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(619.604,357)"
+       id="text9">plot</text>
+    <path
+       d="m 785.5,296.834 c 0,-10.678 8.656,-19.334 19.334,-19.334 h 182.332 c 10.678,0 19.334,8.656 19.334,19.334 v 77.332 c 0,10.678 -8.656,19.334 -19.334,19.334 H 804.834 c -10.678,0 -19.334,-8.656 -19.334,-19.334 z"
+       stroke="#000000"
+       stroke-width="1.33333"
+       stroke-miterlimit="8"
+       fill="#ffffff"
+       fill-rule="evenodd"
+       id="path9" />
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(850.742,327)"
+       id="text10">Minimize</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(800.222,357)"
+       id="text11">(</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(810.222,357)"
+       id="text12">𝐼</text>
+    <path
+       d="m 840.957,338.854 c 2.281,0.601 4.033,1.9 5.256,3.896 1.223,1.996 1.834,4.404 1.834,7.225 0,2.828 -0.609,5.236 -1.828,7.224 -1.219,1.989 -2.973,3.283 -5.262,3.885 l -0.281,-0.902 c 1.805,-0.602 3.146,-1.789 4.025,-3.563 0.879,-1.773 1.319,-4.027 1.319,-6.762 0,-2.64 -0.438,-4.834 -1.313,-6.58 -0.875,-1.746 -2.23,-2.92 -4.066,-3.521 z m -11.609,0 0.316,0.902 c -1.828,0.601 -3.181,1.775 -4.06,3.521 -0.879,1.746 -1.318,3.94 -1.318,6.58 0,2.735 0.439,4.989 1.318,6.762 0.879,1.774 2.221,2.961 4.025,3.563 l -0.281,0.902 c -2.289,-0.602 -4.043,-1.896 -5.262,-3.885 -1.218,-1.988 -1.828,-4.396 -1.828,-7.224 0,-2.821 0.612,-5.229 1.834,-7.225 1.223,-1.996 2.975,-3.295 5.256,-3.896 z"
+       fill-rule="evenodd"
+       id="path12" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(830.109,357)"
+       id="text13">𝑡</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(855.489,357)"
+       id="text14">−</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(878.822,357)"
+       id="text15">𝑛</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="18px"
+       transform="translate(892.656,362)"
+       id="text16">𝑝𝑜𝑠𝑡𝑠</text>
+    <path
+       d="m 960.817,338.854 c 2.282,0.601 4.033,1.9 5.256,3.896 1.223,1.996 1.834,4.404 1.834,7.225 0,2.828 -0.609,5.236 -1.828,7.224 -1.219,1.989 -2.973,3.283 -5.262,3.885 l -0.281,-0.902 c 1.805,-0.602 3.146,-1.789 4.025,-3.563 0.879,-1.773 1.319,-4.027 1.319,-6.762 0,-2.64 -0.438,-4.834 -1.313,-6.58 -0.875,-1.746 -2.23,-2.92 -4.066,-3.521 z m -11.609,0 0.316,0.902 c -1.828,0.601 -3.181,1.775 -4.06,3.521 -0.879,1.746 -1.318,3.94 -1.318,6.58 0,2.735 0.439,4.989 1.318,6.762 0.879,1.774 2.221,2.961 4.025,3.563 l -0.281,0.902 c -2.289,-0.602 -4.043,-1.896 -5.262,-3.885 -1.218,-1.988 -1.828,-4.396 -1.828,-7.224 0,-2.821 0.612,-5.229 1.834,-7.225 1.223,-1.996 2.975,-3.295 5.256,-3.896 z"
+       fill-rule="evenodd"
+       id="path16" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(949.969,357)"
+       id="text17">𝑡</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(970.016,357)"
+       id="text18">)</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="18px"
+       transform="translate(980.016,348)"
+       id="text19">2</text>
+    <path
+       d="m 1031.5,296.834 c 0,-10.678 8.66,-19.334 19.33,-19.334 h 183.34 c 10.67,0 19.33,8.656 19.33,19.334 v 77.332 c 0,10.678 -8.66,19.334 -19.33,19.334 h -183.34 c -10.67,0 -19.33,-8.656 -19.33,-19.334 z"
+       stroke="#000000"
+       stroke-width="1.33333"
+       stroke-miterlimit="8"
+       fill="#ffffff"
+       fill-rule="evenodd"
+       id="path19" />
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(1059.76,328)"
+       id="text20">Solve differential</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(1093.49,357)"
+       id="text21">equations</text>
+    <path
+       d="m 241.5,335.167 h 24.027 v 0.666 H 241.5 Z m 22.694,-3.667 8,4 -8,4 z"
+       id="path21" />
+    <path
+       d="M 0.00630033,-0.333274 28.606,0.207386 28.5934,0.873933 -0.00630033,0.333274 Z M 27.3422,-3.48383 35.2652,0.666667 27.191,4.51474 Z"
+       transform="matrix(1,0,0,-1,493.5,335.167)"
+       id="path22" />
+    <path
+       d="m 750.506,334.167 28.6,0.54 -0.013,0.667 -28.599,-0.541 z m 27.336,-3.151 7.923,4.151 -8.074,3.848 z"
+       id="path23" />
+    <path
+       d="m 896.167,278.833 v -51.762 h 246.873 v 43.762 h -0.67 v -43.428 l 0.33,0.333 H 896.5 l 0.333,-0.333 v 51.428 z m 250.533,-9.333 -4,8 -4,-8 z"
+       id="path24" />
+    <path
+       d="m 1143.04,392.5 v 55.68 H 896.167 V 400.5 h 0.666 v 47.347 l -0.333,-0.333 h 246.2 l -0.33,0.333 V 392.5 Z m -250.54,9.333 4,-8 4,8 z"
+       id="path25" />
+  </g>
+</svg>
