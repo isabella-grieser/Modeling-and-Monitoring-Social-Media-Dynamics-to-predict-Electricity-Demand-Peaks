@@ -1,8 +1,8 @@
 \chapter{Background}
 \label{background}
 
-In this chapter, the fundamental concepts necessary to understand 
-this Thesis are explained.
+In this chapter, the fundamental concepts to understand 
+this thesis are explained.
 First, in Section \ref{panicbuying}, 
 the general concept of panic buying,
 its consequences and what may lead to panic buying is explained.
@@ -38,7 +38,7 @@ in 1918, where there was an increasing demand for medications
 \cite{honigsbaum2013regulating}. Another example is the Cuban Missile Crisis 
 in 1962, where the sales of canned foods increased significantly 
 \cite{george2004awaiting}. 
-Last, during hurricane Irma in 2017 in the US, the affected population bought
+Then, during hurricane Irma in 2017 in the US, the affected population bought
 significantly more fuel, bottled water 
 and other essential goods in anticipation of the hurricane \cite{irmahurricane},
 thus leading to shortages.
@@ -72,15 +72,15 @@ His work showed that since people are spreading their
 own experiences on social media, the messages generated from their peers feel
 more personal and lead to a stronger reaction by increasing the will to 
 socially distance and stockpiling supplies. Additionally, people are 
-influenced more strongly by their friends' posts and advices on social media.
+influenced more by their friends' posts and advices on social media.
 Moreover, since friend circles become more 
 internationalized through the global nature of social media networks,
 events in other countries and the
-possible consequences for one's own country can be analyzed, thus
+possible consequences for their own country can be analyzed, thus
 leading to a reaction. As an example,
 shortage of a specific good in one country can lead to people in other countries
-assuming that the shortage may happen in one's own country, thus leading to 
-panic buying in one's own country. 
+assuming that the shortage may happen in their country, thus leading to 
+panic buying in their country. 
 The next discovery was that people in positions of authority and with expertise,
 such as politicians, organizations, and experts, can use social media to increase 
 the outreach of their messages, leading to people talking about their 
@@ -98,14 +98,14 @@ that may inhibit panic buying.
 Graph are often used to model real-world systems.
 A graph is an abstract structure that represents a set of objects and the 
 relationship between the objects. 
-This Thesis focuses primarily on social media networks
+This thesis focuses primarily on social media networks
 \cite{socialgraphexample}. Nonetheless, graphs can 
 also be applied to other real-world systems, such as economic systems 
 \cite{economicsgraph} or power grids \cite{powergraphexample}.
 
 
 Per definition, a graph $G(V, E)$ consists of a set of vertices (or nodes) $V$ and a 
-set of edges $E$. Each edge connects two nodes $x, y \in V$ and is 
+set of edges (or links) $E$. Each edge connects two nodes $x, y \in V$ and is 
 written as $e=(x, y)$. This means that for all $e\in E$, the 
 condition  $e \subseteq\{ (x, y) \mid x, y \in V  \}$ 
 is valid.
@@ -168,8 +168,7 @@ These kinds of networks can be modeled as graphs, where the nodes
 are the general population modeled in the system
 and the edges model the relationship between the 
 different people.
-Social networks often share similar characteristics. The study of 
-\textit{Mislove et al.} that focuses on online social media networks
+The study of \textit{Mislove et al.} that focuses on online social media networks
 shows that social networks fulfill the small world characteristic,
 have a high clustering coefficient and are scale-free networks
 \cite{mislovesocialnetworkcharacteristics}. Thus, to accurately represent 
@@ -227,8 +226,8 @@ not scale-free.
      $C=\frac{\overline{c}}{n-1}=p$ \\ 
      \hline
      Average Path Length \cite{averagepath}& 
-     $l = \frac{\ln{n} - \gamma}{\ln(\overline{c}))} + \frac{1}{2}, 
-     \gamma=0.57722$ \\ 
+     $l = \frac{\ln{n} - \gamma}{\ln(\overline{c})} + \frac{1}{2}, 
+     \gamma \approx 0.57722$ \\ 
      \hline
     \end{tabular}
     \caption{Mean characteristics of the ER random graph \cite{basicnetwork}}
@@ -270,7 +269,7 @@ will create when being added to the random graph.
      \hline
      Average Path Length \cite{averagepath}& 
      $l = \frac{\ln{n}- \ln{m/2} - 1 - \gamma}{\ln(\ln(n))+\ln{(m/2)}} + \frac{3}{2}, 
-     \gamma=0.57722$ \\ 
+     \gamma \approx 0.57722$ \\ 
      \hline
     \end{tabular}
     \caption{Mean characteristics of the BA random graph \cite{basicnetwork}}
@@ -290,10 +289,10 @@ is connected to its $c$ nearest neighbors. Then, each edge $(a, b)$
 may be rewired given the probability $p$, thus reconnecting the edge to  $(a, b')$
 instead and creating a shortcut between the two non-neighboring nodes.
 Furthermore, the new edge may only be created as long as it does not create
-a loop $(a, a)$ and as the link $(a, b')$ does not already exist.
+a loop $(a, a)$ and the link $(a, b')$ does not already exist.
 Another version of this algorithm does not rewire existing edges,
 but creates new random edges as shortcuts given the probability $p$.
-The second version creates a graph that can be considered more 
+This version creates a graph that can be considered more 
 \glqq random\grqq{} as the graph generated in the first algorithm and is
 thus favored over the former algorithm \cite{basicnetwork}.
 
@@ -326,7 +325,7 @@ is not scale-free.
 \subsubsection{Comparison between the Random Graph Algorithms}
 \label{comparison-random-graphs}
 Analyzing the average characteristics of all random graph algorithms introduced in
-this Chapter, it can be seen that they differ in their average graph characteristics.
+this Section, it can be seen that they differ in their average graph characteristics.
 The comparison of the different characteristics of all three models are shown 
 in Table \ref{summary-graph-model}.
 First, the ER model has comparatively low clustering coefficient compared to the 
@@ -460,12 +459,12 @@ propagation algorithm may be defined as in Equation \ref{eqbasicpropagation}
 \cite{easypropagation}.
 
 \begin{equation}
-    I(a) = 1 (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
-    1(f^{\mathrm{rand}}\geq \beta)>0) 
+    I_\beta(a) = 1 \left (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
+    1(f^{\mathrm{rand}}\geq \beta)>0 \right ) 
     \label{eqbasicpropagation}
 \end{equation}
 
-In the equation, the infection status $I(a)$ of each node $a$ is defined 
+In equation \ref{eqbasicpropagation}, the infection status $I_\beta(a)$ of each node $a$ is defined 
 by whether any neighboring node $b$ connected to $a$ is infected 
 and fulfills the condition $f^{\mathrm{rand}}\geq \beta$.
 The condition $f^{\mathrm{rand}}$ is the random probability generation function and $1$ 
@@ -616,8 +615,8 @@ analysis purposes, and not to explain the collective behavior
 of the system during the information diffusion process.
 
 \begin{equation}
-    I(a) = 1 (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
-    1(f^{rand}\geq P_n(a))>0) 
+    I(a) = 1 \left (\sum\limits_{\substack{(b,a)\in E, \\ b \in V \cap I}}
+    1(f^{rand}\geq P_n(a))>0 \right ) 
     \label{eqbasicpropagationcascading}
 \end{equation}
 
@@ -720,13 +719,13 @@ Exogenous variables that are explicitly linked to human behaviour,
 such as social media usage, traffic information, satellite image data or 
 internet usage, are not used often for power load forecasting. 
 But these are the variables that would probably be affected in a change of 
-human behavior. Therefore, these variables are analyzed for this Thesis.
+human behavior. Therefore, these variables are analyzed for this thesis.
 
 Social media data does not directly correlate with power demand, but it is
 possible to extract information relevant for power demand forecasting
 from the content generated by it.
 First, it is possible to analyze the spatial density of people by 
-counting the amount of tweets tagged in a specific location of interest. 
+counting the amount of social media posts tagged in a specific location of interest. 
 It was shown that there is a significant
 correlation between the number of geotagged tweets
 and the power consumption in a specific region \cite{twittergeoloccorr}.
@@ -759,7 +758,7 @@ In the work of \textit{LaLone et al.}, they show that the number of energy
 related tweets during hurricane Katrina correlated with the number of 
 power outages at the same time \cite{poweroutagetwitter}.
 Another work uses twitter data with both keyword search and 
-tweets that were classified with natural language processing techniques to
+tweets that were classified with natural language processing techniques
 to find power outage regions \cite{twitterpoweroutagelighttime}.
 In addition, another work used topic mining techniques to find
 events on twitter posts that correlate with energy consumption 

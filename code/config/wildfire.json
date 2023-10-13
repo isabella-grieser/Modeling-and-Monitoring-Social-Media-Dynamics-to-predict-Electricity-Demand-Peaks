@@ -1,5 +1,6 @@
 {
   "seeds": [1, 2, 3, 4, 5],
+  "seed": 1,
   "network":{
     "nodes": 1000,
     "available": 1
@@ -17,7 +18,7 @@
   "model_args":{
     "electric_car": {
       "power": 1.75,
-      "p": 0.03,
+      "p": 0.20,
       "duration": 4
     }
   }

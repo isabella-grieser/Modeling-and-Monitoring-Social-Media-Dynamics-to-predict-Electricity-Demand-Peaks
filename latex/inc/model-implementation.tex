@@ -32,7 +32,7 @@ are necessary.
 \subsection{Social Network Modeling Approaches}
 \label{modelsocialnetwork}
 Two approaches for the creation of social media network graphs 
-are considered in this Thesis.
+are considered in this thesis.
 
 First, a real social media network can be used as an example 
 social network graph model. 
@@ -56,7 +56,7 @@ one or few selected social network graph models. Since
 few different graph models are used for consecutive simulations,
 it cannot be determined if the simulation results are based on the 
 structure of the specific social network graph or if the results 
-are seasonable for other social networks, i.e. the simulation results
+are reasonable for other social networks, i.e. the simulation results
 may not be robust. Moreover, the size of the social network graph 
 cannot be changed without changing its characteristics, such as 
 the clustering coefficient. Since real social network graphs tend to be 
@@ -107,7 +107,7 @@ On the other hand, epidemiological models such as the SIR model
 focus on the changes of the states of the entities in the system.
 Therefore, it is possible to define different behaviors in the
 information diffusion progress with epidemiological models. 
-In this Thesis, the focus is on both how the information
+In this thesis, the focus is on both how the information
 propagates and how it could be combated using fact-checking.
 This can be studied in more detail if entities can 
 show different behaviors depending on what kind of information
@@ -120,7 +120,7 @@ The graph-based information diffusion model of \textit{Tambuscio et al.}
 \cite{sirsmodel}, which was introduced in Section \ref{epidemologicalmodels},
 has the advantage of being able to model both the misinformation and fact-checking 
 diffusion process in the same model. 
-For this Thesis, the model of \cite{sirsmodel} was
+For this thesis, the model of \cite{sirsmodel} was
 modified to deal with a differing assumption.
 The short-term effects of the information 
 on the power grid are analyzed in this work. 
@@ -213,30 +213,30 @@ are made. These are all listed below.
     patterns on a household level than a personal level. The reason
     is that usually
     there is one of each appliance that consume a lot of electricity, 
-    such as washing machines, ovens or dryers, in household.
+    such as washing machines, ovens or dryers, in a household.
     \item The time of infection of an entity may not
     always coincide with the time when the entity changes its 
     power consumption. This is due to the fact that in the information
-    being spread on social media, there may be be points in time
+    being spread on social media, there may be points in time
     mentioned, hence leading to a delayed action response by the
     infected entities. An example scenario where such an assumption
     would be true is a false pricing information scenario 
     (Section \ref{contextmotivation}, Chapter 
     \ref{relatedworks}, Section \ref{demandresponsesection}).
     In this assumption, an entity may receive the information 
-    at 3PM that the electricity price will be reduced 
-    starting 5PM. Thus, the household already received the
+    at 3 p.m that the electricity price will be reduced 
+    starting 5 p.m. Thus, the household already received the
     information and may be considered as infected in the social network
     graph, but it will not act on the information since changing
-    its power demand would only benefit it starting 5PM. Thus, its 
-    action will be delayed until 5PM. 
+    its power demand would only benefit it starting 5 p.m. Thus, its 
+    action will be delayed until 5 p.m. 
     \item There may not be an immediate change 
     in power demand even if an entity is both infected and the entity 
     is in the time window to take action. This means that even if
     both conditions are fulfilled, the entity may delay its action. 
     For example, given the false pricing information scenario, 
-    even if it is 5PM, not all entities may immediately change their 
-    behavior at 5PM, but some may start at 5:15PM, at 5:30PM, etc..
+    even if it is 5 p.m, not all entities may immediately change their 
+    behavior at 5 p.m, but some may start at 5:15 p.m, at 5:30 p.m, etc. .
     The reason is that entities may not fully focus on the information
     that they received, but they will casually act on it while going 
     on with their lives. 
@@ -286,10 +286,8 @@ are made. These are all listed below.
 The power demand changes should be comparable to reference data.
 For this, load profiles are used as reference points to increase
 or reduce power demand from consuming entities.
-The load profile used for this Thesis is the standard load profile
-for households created by the German Federal Association of Energy and 
-Water Management (Bundesverband der Energie- und Wasserwirtschaft 
-e. V. (BDEW)) \cite{meier1999reprasentative}.
+The load profile used for this thesis is the standard load profile
+for households created by the BDEW.
 For each infected household, the additional power usage is 
 added on top of the power demand given by the load profile.
 The additional power usage is defined by the appliances in each
@@ -342,8 +340,6 @@ are fulfilled. This constraint is checked with the
 condition $p<p_{\mathrm{power\_usage}}$. 
 Then, it will start with the next iteration $i+1$.
 
-Next, the main components of the simulation framework are shown
-in Figure \ref{simframework}.
 The simulation algorithm receives a social 
 network graph, reference power consumption data with their 
 corresponding dates, and 
@@ -354,13 +350,6 @@ $i$ time steps. Next, the output of the simulation is the
 power demand over the time $[t, t+i]$ based on the
 input parameters.
 
-\begin{figure}[!ht]
-    \center
-    \includegraphics[scale=.5]{figs/Simulation-framework.pdf}
-    \caption{Basic structure of the simulation framework}
-    \label{simframework}
-\end{figure}
-
 
 \section{System Parameter Estimation Framework}
 \label{parameterestimationalgo}
@@ -370,13 +359,13 @@ of information on the power grid was introduced. However, the simulation results
 may differ significantly depending on the parameters chosen for the simulation.
 Furthermore, if the systems parameters are chosen arbitrarily,
 the result of the simulation may be unrealistic. 
-If the framework should produce realistic results and if
-it should be used to possibly predict excess power consumption, an 
-algorithm to estimate realistic values for the system parameters is needed.
+Hence, to produce realistic results and to predict excess power consumption, an 
+algorithm to estimate realistic values for the system parameters is necessary
+for the simulation framework.
 
 In Section \ref{powerloadsection}, different variables that 
 correlate with power load were introduced. These variables can be 
-used to estimate realistic system parameters. For this Thesis, social media data is 
+used to estimate realistic system parameters. For this thesis, social media data is 
 used to estimate the system parameters that control the 
 information propagation. Since it is difficult to get personalized 
 information of people on the internet due to data privacy reasons, the
@@ -393,7 +382,7 @@ equations of the SIR model, calculate the infection curve and minimize
 its difference to the true infection process that can be seen via the
 social media data. A simplified diagram with the steps of the algorithm
 can be seen in Figure \ref{paramestimationbasic}. The method proposed 
-in this Thesis contains four different steps. 
+in this thesis contains four different steps. 
 The first three steps are used to gather and preprocess 
 the data that is relevant for the parameter estimation process.
 The last step is the parameter estimation algorithm.

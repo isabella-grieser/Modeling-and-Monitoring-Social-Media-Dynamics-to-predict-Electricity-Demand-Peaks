@@ -10,11 +10,13 @@ from demandlib import bdew
 
 class EstimationFramework:
 
-    def __init__(self, config, year=2013, plot=True):
+    def __init__(self, config, year=2013, plot=True, save=False, save_path="./output/video.mp4"):
         self.config = config
         self.year = year
         self.plot = plot
         self.threshold = None
+        self.save = save
+        self.save_path = save_path
 
     def estimate_power_outage(self, start, action_start=None, data=None,
                               factor=1,
@@ -80,7 +82,8 @@ class EstimationFramework:
                               nr_init_nodes=1)
 
         x_all, y_true, y_ref, s_true, i_true, r_true = \
-            simulator.iterate(iterations, plot=self.plot, save=False, intervall_time=50)
+            simulator.iterate(iterations, plot=self.plot, save=self.save,
+                              save_name=self.save_path, intervall_time=50)
 
         self.threshold = simulator.power_thresh
         # find first occurrence where value is true

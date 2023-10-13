@@ -486,7 +486,7 @@ def scenario4():
     fig = plt.figure()
     ax = fig.add_subplot(111)
     probs = [f"{int(p * 100)}%" for p in probs_p]
-    ax.bar(probs, probs_v, width=1, label=probs, edgecolor="white", linewidth=0.7)
+    ax.plot(probs, probs_v)
     ax.set_ylabel("Additional power consumption in kW")
     ax.set_xlabel("Percentage of households with heat pumps")
     plt.xticks(rotation=45)
@@ -513,15 +513,66 @@ def scenario4():
     fig = plt.figure()
     ax = fig.add_subplot(111)
     duration = [str(d) for d in duration_p]
-    ax.bar(duration, duration_v, width=1, label=duration, edgecolor="white", linewidth=0.7)
+    ax.plot(duration, duration_v)
     ax.set_ylabel("Additional power consumption in kW")
-    ax.set_xlabel("Duration of the usage of heat pumps")
+    ax.set_xlabel("Duration of the usage of heat pumps in iterations")
     plt.xticks(rotation=45)
     plt.show()
 
 
+def presentation_animations():
+    def scen1():
+        with open("./config/demand-response.json", "r") as f:
+            config = json.load(f)
+
+        s_index, e_index = 0, -1
+        data = get_typhoon_data()
+        values = data.groupby(pd.Grouper(key="date", freq="15min"))["tweet"].count()
+
+        start = values.index[s_index]
+
+        y = signal.savgol_filter(values.values, 53, 3)[s_index: e_index]
+        action_start = datetime(2013, 11, 7, 19, 0, 0, tzinfo=dt.timezone.utc) \
+            .replace(tzinfo=pytz.UTC)
+
+        framework = EstimationFramework(config, year=2013, plot=True,
+                                        save=True, save_path="./output/scen1.mp4")
+        framework.estimate_power_outage(start, action_start, y_max=1000,  data=y, index_shift=150)
+
+    def scen2():
+        with open("./config/conspiracy.json", "r") as f:
+            config = json.load(f)
+
+        start = datetime(2013, 11, 7, 10, 45, 0, tzinfo=dt.timezone.utc) \
+            .replace(tzinfo=pytz.UTC)
+        action_start = datetime(2013, 11, 7, 19, 0, 0, tzinfo=dt.timezone.utc) \
+            .replace(tzinfo=pytz.UTC)
+        framework = EstimationFramework(config, year=2013, plot=True,
+                                        save=True, save_path="./output/scen2.mp4")
+        framework.estimate_power_outage(start, action_start, y_max=1000, index_shift=150)
+
+    def scen3():
+        with open("./config/wildfire.json", "r") as f:
+            config = json.load(f)
+
+        data = get_geoloc()
+
+        values = data.groupby(pd.Grouper(key="date", freq="15min"))["tweet"].count()
+        start = datetime(2020, 4, 12, 11, 0, 0, tzinfo=dt.timezone.utc) \
+            .replace(tzinfo=pytz.UTC)
+
+        framework = EstimationFramework(config, year=2020, plot=True,
+                                        save=True, save_path="./output/scen3_mod.mp4")
+        framework.estimate_power_outage(start, y_max=1000, data=values, index_shift=150)
+
+    #scen1()
+    #scen2()
+    scen3()
+
+
 if __name__ == "__main__":
-    scenario1()
+    # scenario1()
     # scenario2()
-    # scenario3()
+    scenario3()
     # scenario4()
+    # presentation_animations()

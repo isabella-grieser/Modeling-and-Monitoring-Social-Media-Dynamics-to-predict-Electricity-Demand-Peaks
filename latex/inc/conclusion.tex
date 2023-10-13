@@ -6,44 +6,57 @@ consumer behavior can lead to significant supply chain issues.
 As a consequence, there is a growing interest in researching 
 how shifts in demand manifest during crises. 
 Critical infrastructure such as the power grid
-was still not affected by such demand changes.
+do not seem to have been yet affected by such demand changes.
 Nonetheless, these demand shifts could affect the critical 
 infrastructure in the future. In order to 
 formulate countermeasures to such risks, it is 
 important to analyze how these demand shifts could 
-manifest and how they would progress. In this Thesis,
+arise and how they would progress. In this Thesis,
 a framework was implemented to simulate the effects of 
 changes in consumer behavior. The focus was set on
 consumer behavior changes based on the spread
 of information on social media. 
 The simulation framework was implemented using 
-a generated random graph as a representation for social 
-media networks. Moreover, a susceptible-infectious-recovered 
-(SIR) model, an epidemological model, is used to model 
-the information propagation in the social media network.
-Entities considered as \textit{Infected}
-by the SIR model use an additional amount of 
-electricity. The excess power consumption is 
-calculated on an appliance level.
+a Barabási–Albert random graph as a representation for social 
+media networks. Moreover, an epidemological model, 
+the susceptible-infectious-recovered model, is used to model 
+the information propagation in a social media network.
 In addition, an algorithm was implemented to estimate 
 simulation parameters based on real social media 
-data. Then, the simulation framework was
-used to analyze both the simulation framework and
-the effects of information 
+data. 
+
+The simulation framework was used to analyze both 
+the simulation framework and the effects of information 
 on social media on consumer behavior and 
 consequently on the power grid infrastructure.
 For this, four different 
 scenarios were introduced where information
-on the internet could lead to consumer demand
-changes. 
+on the internet could lead to consumer demand changes. 
+The first scenario dealt with the concept of 
+demand-response programs. The second focused on 
+coordinated acts by a conspiracy theorists to destabilize 
+the power grid. The third one dealt with rumors leading 
+to a mass panic, thus leading people to charge their 
+electric vehicles and leaving their homes in masses.
+The last one comprises of an emergency message 
+which requests people to shower immediately.
 The analysis of the scenarios 
 showed that syncronized consumer
-demand changes pose a real threat to the power
-grid infrastructure. Furthermore, the adoption
-of energy-intensive technologies such as heat
-pumps or electric vehicles may increase the 
+demand changes pose a significant threat to the power
+grid. The risk for the power grid depends on the percentage
+of the population that is willing to change their behavior 
+due to the information being spread.
+Furthermore, the adoption
+of energy-intensive technologies such as 
+electric vehicles may increase the 
 effects of syncronized consumer demand changes
-on the infrastructure.
+on the infrastructure. 
+Hence, the risk of excess power demand events may
+elevate with increased adoption of new, energy consuming 
+technologies in society.
+The results show that policymakers should consider the
+threat of misinformaion and formulate countermeasures
+to deal with possible consequences of such events.
 
 \section{Future Works}
 
@@ -66,8 +79,9 @@ traffic flow out of residential districts into
 commercial and industrial districts of the city 
 could be observed. With this,
 the percentage of households with at least one 
-resident who could change the demand for electricity
-could be estimated.
+resident at home could be estimated. 
+This would allow for a more realistic estimation 
+of which households could affect the power grid.
 Third, the excess power consumption could be mapped
 to a physical location. Consequently, with this, 
 the power demand changes could be mapped to the 
@@ -99,8 +113,5 @@ households are considered as
 
 
 %POINTS: more appliance usage more detailed with load profile models
-% use more of the variables for power load forecasting
-% specially mention using traffic data to estimate
-% household occupation parameters
-% mention the idea of geolocalizing the excess power consumption
-% mention analyse more scenarios
+% social media data gathering
+% countermeasures

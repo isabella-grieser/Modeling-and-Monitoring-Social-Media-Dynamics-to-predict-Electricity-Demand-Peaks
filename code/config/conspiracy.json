@@ -1,5 +1,6 @@
 {
   "seeds": [6,7,8,9,10],
+  "seed": 1,
   "network":{
     "nodes": 1000,
     "available": 0.2,
