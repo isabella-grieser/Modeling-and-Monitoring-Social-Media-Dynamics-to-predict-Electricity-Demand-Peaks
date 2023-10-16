@@ -31,7 +31,7 @@ This concept of influencing the demand is called demand-response.
 With real time pricing (RTP), the electricity prices change
 dynamically based on the total electricity demand.
 The price changes are then forwarded to the customers with ICT, 
-who are hence informed of the price changes.
+who are informed of the price changes.
 The idea of RTP is that consumers change their electricity demand
 by shifting activities with a high electricity usage, 
 such as washing clothes or cooking, to time periods 
@@ -39,7 +39,7 @@ where the total electricity supply is higher and thus the prices
 are lower.
 RTP was already used in a variety of programs
 under real life conditions \cite{barbose2004survey} 
-and studies showed the benefits of such programs \cite{albadi2008summary}.
+and studies show the benefits of such programs \cite{albadi2008summary}.
 
 Rumors about changing prices spreading through social media may be of 
 concern to utility companies.
@@ -413,7 +413,7 @@ these extremists can be seen in Figure \ref{schwurbler}.
  
 Multiple assumptions can be drawn for the scenario.
 First, it is assumed that the time when an entity receives the
-information does not coincidences with the time when it acts on the information.
+information does not coincidence with the time when it acts on the information.
 Furthermore, it is unlikely that large parts of the population wil
 act on the information in this scenario 
 since it is assumed that only a small minority
@@ -452,7 +452,7 @@ is not high, as observed in Figure \ref{schwurblerresults}.
 Only 200 of 1000 nodes get infected. The reason is 
 that $p_{\mathrm{available}}=0.2$, therefore only $20\%$ of the nodes
 can get infected. In addition, it is visible that the results 
-are not very robust because the results change heavily in different 
+are not very robust since the results change heavily in different 
 simulations. The reason is that depending on the network structure
 and which entities can get infected and will act on the information, 
 the infected entities may not be able to infect all other entities
@@ -515,7 +515,7 @@ entities that are open for this kind of information.
 
 Sometimes the dangers in a disaster are so severe that 
 authorities choose to order the evacuation of the affected population.
-For these types of evacuation, the autorities may use emergency channels 
+For these types of evacuations, autorities may use emergency channels 
 to inform the population of the evacuation.
 However, people may also choose to leave the city in masses on their own accord.
 The information of a possible disaster, such as a wildfire, reaching the
@@ -575,7 +575,7 @@ $\frac{k'}{N'}=0.53$.
 \begin{figure}[!ht]
     \center
     \includegraphics[scale=.6]{figs/eval/scenario3/informationpropagation.pdf}
-    \caption{Information propagation progress for the soccer dataset 
+    \caption{Information propagation progress for the twitter dataset 
     and estimated infection process}
     \label{geoloctweet}
 \end{figure}
@@ -717,14 +717,14 @@ would double their average power consumption for a short time.
 To check if the simulation framework calculates the same 
 results, the framework was configured with immediate
 propagation of information. Thus, the propagation
-parameters is set as 
+parameters are set as 
 $\alpha=1, \beta=1, p_{verify}=0$. 
 Furthermore, it is assumed that all infected 
 individuals will immediately act on the information.
 Therefore, the activation parameters are 
 set as $p_{\mathrm{available}}=1, 
 p_{\mathrm{power\_usage}}=1, p_{\mathrm{will\_act}}=1$.
-In addition, the duration of the heat pump is set to one iteration.
+In addition, the duration of the heat pump usage is set to one iteration.
 The configuration file is provided in the Appendix in
 Listing \ref{scenario4config}.
 
@@ -741,8 +741,8 @@ $\frac{1}{100}$ of the size of Darmstadt, the
 excess power consumption should be
 $1337.5\,kWh\cdot \frac{1}{100} \approx 13.3\,kWh $.
 However, the excess power consumption 
-calculated by the simulation is $12\,kWh$.
-Thus, it is lower than the analytical result.
+calculated by the simulation is $12\,kWh$,
+lower than the analytical result.
 The reason is that given the implementation of the 
 framework, not all nodes can be infected at the first
 iteration step $t_0$. This can be observed in the 

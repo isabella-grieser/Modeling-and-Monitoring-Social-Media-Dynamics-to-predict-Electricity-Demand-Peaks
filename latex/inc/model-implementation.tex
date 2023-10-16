@@ -4,12 +4,12 @@ In this Chapter, a framework to model, analyze, and predict
 the effects of information on social media on the 
 power grid will be introduced.
 First, in Section \ref{simulationframeworksection}, 
-the implementation of the simulation framework will be described.
-First, in Section \ref{modelsocialnetwork}, the underlying social network model
-used in the simulation model is described. Second, in Section 
+the implementation of the simulation framework is described.
+For this Section, the underlying social network model
+used in the simulation model is explained in Section \ref{modelsocialnetwork}. Afterwards, in Section 
 \ref{modelinformationdiffusion}, the algorithm used to model
 the information diffusion process in the social network is 
-defined. Third, in Section \ref{rulebasedpowerconsumption}, 
+defined. Next, in Section \ref{rulebasedpowerconsumption}, 
 the rules to model the additional power consumption is explained.
 Additionally, in Section \ref{parameterestimationalgo},
 an parameter estimation algorithm for the estimation of 
@@ -100,11 +100,11 @@ In Section \ref{informationdiffsection}, three different information diffusion
 model algorithms were introduced.
 Both the information cascade model and the threshold model focus on the 
 information diffusion process itself and not on the change of the behavior
-of the single entities in the system. Thus, in these two models,
+of the entities in the system. Thus, in these two models,
 entities may have two states: 
 \textit{Informed} or \textit{Not Informed}.
 On the other hand, epidemiological models such as the SIR model
-focus on the changes of the states of the entities in the system.
+focus on the state changes of the entities in the system.
 Therefore, it is possible to define different behaviors in the
 information diffusion progress with epidemiological models. 
 In this thesis, the focus is on both how the information
@@ -146,7 +146,7 @@ In conclusion, the modified model can be categorized as a SIR model.
 \begin{figure}[!ht]
     \center
     \includegraphics[scale=.8]{figs/Tambuscio_modified.pdf}
-    \caption{State chart for the modified model}
+    \caption{State chart of the modified model}
     \label{modifiedmodelstatechart}
 \end{figure}
 
@@ -169,7 +169,7 @@ In conclusion, the modified model can be categorized as a SIR model.
        & \\
      \hline
     \end{tabular}
-    \caption{Modified probability functions for the states}
+    \caption{Modified probability functions of the states}
     \label{modified-SIS-table-equations}
 \end{table}
 
@@ -217,12 +217,11 @@ are made. These are all listed below.
     \item The time of infection of an entity may not
     always coincide with the time when the entity changes its 
     power consumption. This is due to the fact that in the information
-    being spread on social media, there may be points in time
+    being spread on social media, there may be specific points in time
     mentioned, hence leading to a delayed action response by the
     infected entities. An example scenario where such an assumption
     would be true is a false pricing information scenario 
-    (Section \ref{contextmotivation}, Chapter 
-    \ref{relatedworks}, Section \ref{demandresponsesection}).
+    (Section \ref{demandresponsesection}).
     In this assumption, an entity may receive the information 
     at 3 p.m that the electricity price will be reduced 
     starting 5 p.m. Thus, the household already received the
@@ -236,12 +235,12 @@ are made. These are all listed below.
     both conditions are fulfilled, the entity may delay its action. 
     For example, given the false pricing information scenario, 
     even if it is 5 p.m, not all entities may immediately change their 
-    behavior at 5 p.m, but some may start at 5:15 p.m, at 5:30 p.m, etc. .
+    behavior at 5 p.m, but some may start at 5:15 p.m, at 5:30 p.m, etc..
     The reason is that entities may not fully focus on the information
     that they received, but they will casually act on it while going 
     on with their lives. 
-    Therefore, it is assumed that for each infected entity that can 
-    take action with the probability $p_{\mathrm{power\_usage}}$, where 
+    Therefore, it is assumed that for each infected entity can 
+    take action given the probability $p_{\mathrm{power\_usage}}$, where 
     $p_{\mathrm{power\_usage}}$ is a system
     parameter that defines the probability where an entity
     starts changing its power demand when both other conditions are
@@ -261,7 +260,7 @@ are made. These are all listed below.
     it believes in the information.
     \item Some entities may not be able to participate due 
     to constraints that are outside of their control. For example, 
-    one entity may be interested in participating in energy reduction
+    one entity may be interested in participating in the energy reduction
     program to reduce his energy costs, but is unable to do so since 
     the entity has an energy provider which does not offer such a program.
     Thus, even if the entity is infected and would like to act on the 
@@ -271,8 +270,8 @@ are made. These are all listed below.
     This availability to participate in the power demand change event is 
     given with the probability $p_{\mathrm{available}}$.
     \item There may be scenarios where 
-    an entity both does not act on the information and does not 
-    spread the information further. This would be the case for information
+    an entity both does not act on the information and does not further
+    spread the information. This would be the case for information
     which is considered not believeable or untrustworthy by the general
     population. These are called \textit{fringe} scenarios.
     \item If the total power demand of all entities exceeds a 
@@ -294,7 +293,7 @@ The additional power usage is defined by the appliances in each
 household that are of relevance for the specific scenario. 
 
 Given the assumptions and the system parameters, the simulation 
-algorithm can thus be introduced. 
+algorithm can be introduced. 
 It is assumed that the social network graph used in the algorithm
 is initialized with each node belonging to the \textit{Susceptible} class.
 Moreover, it is assumed that $m$ nodes in the graph are declared
@@ -559,7 +558,7 @@ $\Delta S$ can be deduced as shown in Equation \ref{delta-s-deduction-eqs}.
 
 
 Summarized, the differential equations that are used for the parameter estimation 
-algorithm can be seen in Equation \ref{all-deduced-diff-equations}.
+algorithm can be seen in Equations \ref{all-deduced-diff-equations}.
 
 \begin{subequations}
     \begin{align}
@@ -585,6 +584,8 @@ subgroup infected or susceptible to the information is not known.
 Then, the three propagation parameters $\alpha, \beta, p_{{\mathrm{verify}}}$ 
 are not known and need to be infered. 
 Last, the initial values $S(t_0), I(t_0), R(t_0)$ are also not known.
+However, given the relation $S(t)+I(t)+R(t)=N$, one of the four variables can 
+be replaced with the other three variables.
 
 \section{Prediction of Excess Power Consumption Events}
 
@@ -599,7 +600,7 @@ First, the data used for the parameter estimation process is gathered and
 preprocessed. Second, this data is used for the parameter estimation algorithm. 
 Third, the simulation framework is configured
 with the parameters estimated in the previous step. For this, 
-$\alpha, \beta, p_{{\mathrm{verify}}}, S(t_0), I(t_0), R(t_0)$ 
+$\alpha, \beta, p_{{\mathrm{verify}}}$ 
 are used to configure the 
 information propagation process implemented in the simulation framework.
 The variables $N$ and $k$ are used to configure the random graph generation

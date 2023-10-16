@@ -1,7 +1,7 @@
 \chapter{Background}
 \label{background}
 
-In this chapter, the fundamental concepts to understand 
+In this Chapter, the fundamental concepts to understand 
 this thesis are explained.
 First, in Section \ref{panicbuying}, 
 the general concept of panic buying,
@@ -17,7 +17,7 @@ in Section \ref{informationdiffsection}.
 Forth, in Section \ref{powerloadsection}, 
 the field of power load forecasting is introduced and 
 different human-based variables that 
-correlate with the power consumption are described.
+correlate with power consumption are described.
 
 
 \section{Panic Buying as a Result from Social Media Influence}
@@ -32,7 +32,7 @@ Currently, this phenomeon has gained interest since it occured
 during the COVID-19 pandemic,
 where the demand for disinfectants, soap and toilet paper increased significantly
 \cite{covidpanicbuying}. Nonetheless, panic buying is not a new behavior.
-There are other historical examples for panic buying behavior.
+There are other historical examples for panic buying.
 These include the Spanish Flu
 in 1918, where there was an increasing demand for medications 
 \cite{honigsbaum2013regulating}. Another example is the Cuban Missile Crisis 
@@ -123,8 +123,8 @@ explained below \cite{basicnetwork}.
 \begin{itemize}
     \item The degree $c_v$ of a node $v \in V$ is the number of edges connected to the
     node $v$. 
-    \item The degree distribution $P_k$ is the probability distribution 
-    of the node degrees $k$ over all nodes $V$ in the graph $G$
+    \item The degree distribution $P_c$ is the probability distribution 
+    of the node degrees $c_v$ over all nodes $V$ in the graph $G$. 
     \item The average path length $l$ is the average number of steps between
     the shortest paths for all possible node combinations in a graph.
     \item The clustering coefficient $C$ describes how densely connected
@@ -146,10 +146,10 @@ Furthermore, graphs that specifically model networks follow two special
 characteristics that may differ from other types of graphs.
 First, network models are often scale-free networks.
 Scale-free networks are networks that follow the power law distribution.
-The law stipulates that the degree distribution $P_k$ of a network
+The law stipulates that the degree distribution $P_c$ of a network
 follows the power distribution.
-This means that the probability that a node has a certain degree $k$ 
-is proportional to the function $k^{-\gamma}$, where
+This means that the probability that a node has a certain degree $c$ 
+is proportional to the function $c^{-\gamma}$, where
 $\gamma>1$.
 Moreover, most nodes are not directly connected to one another in a network.
 Nonetheless, it is likely that they share the same neighbors or that their
@@ -199,7 +199,7 @@ Thus, the number of edges $|E|$ is not fixed.
 The characteristics besides the number of nodes and the
 probability of the ER graph are generally not known.
 Nonetheless, the average value of the other
-characteristics to analyze the random graph algorithm can be calculated.
+characteristics can be calculated to analyze the random graph algorithm.
 The graph characteristics of this type of random graph are shown in Table 
 \ref{erdos-model}.
 An important observation is that 
@@ -392,10 +392,10 @@ The information diffusion model can be divided into three components
 \end{itemize}
 
 The first two components are independent of specific simulation scenarios,
-unlike the third component. Thus the first two components should be further
+unlike the third component. Thus, the first two components should be further
 analyzed. Furthermore, there is a multitude of different ways 
 to model information diffusion in social networks. Therefore, the most common
-modeling methods will be further analyzed in this Chapter.
+modeling methods will be further analyzed in this Section.
 
 \subsection{Epidemiological Models}
 \label{epidemologicalmodels}
@@ -441,7 +441,7 @@ entity may become infected and therefore change its state to $S\to I$.
 An infected entity knows and believes in the misinformation and may
 spread the misinformation to other entities in the system. After being infected,
 an entity may learn that the information is fake. Therefore, it recovers 
-from being infected and changes its state to $I\to R$. An entity in a 
+from being infected and changes its state to $I\to R$. An entity in the 
 recovered state cannot be infected again by misinformation and thus is immune.
 In contrast to the SIR model, the SIS model assumes that
 the entity does not recover,
@@ -464,7 +464,7 @@ propagation algorithm may be defined as in Equation \ref{eqbasicpropagation}
     \label{eqbasicpropagation}
 \end{equation}
 
-In equation \ref{eqbasicpropagation}, the infection status $I_\beta(a)$ of each node $a$ is defined 
+In Equation \ref{eqbasicpropagation}, the infection status $I_\beta(a)$ of each node $a$ is defined 
 by whether any neighboring node $b$ connected to $a$ is infected 
 and fulfills the condition $f^{\mathrm{rand}}\geq \beta$.
 The condition $f^{\mathrm{rand}}$ is the random probability generation function and $1$ 
@@ -581,9 +581,6 @@ recovery rate.
 \end{table}
 
 To change from a graph-based view to a system-level view, it is necessary
-to simplify the graph model. This can be done 
-
-To change from a graph-based view to a system-level view, it is necessary
 to generalize the graph model. This can be done with
 mean-field theory \cite{chaikin1995principles}.
 In mean-field theory, certain variables in the system are averaged, 
@@ -591,7 +588,7 @@ making these variables constant over all entities in the model and thus
 reducing the degrees of freedom that need to be considered.
 Thus, all unique interactions in the model are averaged into a simpler,
 higher-level and system-wide view.
-This approach originated from molecular analysis, where the method is used
+This approach originates from molecular analysis, where the method is used
 to average the behavior of many molecules into the average behavior
 of the whole system.
 However, it can also be used to analyze the characteristics of graphs
@@ -673,11 +670,11 @@ Some subtypes described in \cite{diffusionbasics} are:
 An important task in modern power grid management 
 is to forecast power demand, so that the power supply can be adjusted accordingly.
 The power demand forecasting methods can be categorized in three types:
-short-, medium and long-term power demand forecast. These differ in which
+short-, medium- and long-term power demand forecast. These differ in which
 timespan they forecast power demand. Most forecasting models are 
 either statistical models or artifical intelligence based models 
 \cite{raza2015review}. For these models to be able to predict the power 
-demand, they need input data which correlate with the power 
+demand, they need input data which correlate with power 
 usage. 
 
 \subsection{Variables used for Power Load Forecasting}
@@ -687,7 +684,7 @@ can be classified as either endogenous or exogenous variables.
 Exogenous variables can be considered as independent variables 
 whose values are determined outside of the system. 
 Endogenous variables, on the other side, 
-are variables that are dependent of other variables in the 
+are variables that are dependent on other variables in the 
 model.
 
 In the context of power load prediction, the most commonly 
@@ -729,7 +726,7 @@ counting the amount of social media posts tagged in a specific location of inter
 It was shown that there is a significant
 correlation between the number of geotagged tweets
 and the power consumption in a specific region \cite{twittergeoloccorr}.
-As a possible explanation for this correlation is that 
+A possible explanation for this correlation is that 
 increased human activity in a specific region leads to a greater 
 use of facilities such as heating or air conditioning in buildings or 
 other types of power-consuming behavior.
@@ -859,6 +856,6 @@ For household customers, the appliance usage and electricity consumption
 and the behavior patterns of the inhabitants are analyzed to model
 the power consumption. Top-down models use the total power consumption 
 estimates to approximate the power consumption of individual consumers.
-Hybrid models combine both bottom-up and top-down models to model 
+Hybrid models combine both bottom-up and top-down models to create 
 load profiles. 
 

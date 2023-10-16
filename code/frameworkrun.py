@@ -573,6 +573,6 @@ def presentation_animations():
 if __name__ == "__main__":
     # scenario1()
     # scenario2()
-    scenario3()
-    # scenario4()
+    # scenario3()
+    scenario4()
     # presentation_animations()
