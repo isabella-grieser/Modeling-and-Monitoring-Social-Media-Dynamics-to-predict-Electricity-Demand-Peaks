@@ -98,6 +98,12 @@
 \usepackage{graphicx}
 \newcommand*{\mrm}[1]{\ensuremath{\mathrm{#1}}}
 
+\usepackage{cleveref}
+
+\captionsetup[subfigure]{subrefformat=simple,labelformat=simple}
+\renewcommand\thesubfigure{(\alph{subfigure})}
+
+
 \usepackage{listings}
 \definecolor{eclipseStrings}{RGB}{42,0.0,255}
 \definecolor{eclipseKeywords}{RGB}{127,0,85}
