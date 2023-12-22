@@ -6,7 +6,7 @@ from sim.parameterEstimator import *
 from gen.model import *
 from sim.simulator import Simulator
 from demandlib import bdew
-
+from utils.utils import *
 
 class EstimationFramework:
 
@@ -22,15 +22,18 @@ class EstimationFramework:
                               factor=1,
                               days=1, beta=0.1, alpha=0.4,
                               p_verify=0.4, degree=10, iterations=200,
-                              y_max=5000, index_shift=100, edge_ratio=0.0065):
+                              y_max=5000, index_shift=100, edge_ratio=0.0065, window=35):
 
         # estimate parameters
         if data is not None:
-            start_time, end_time, time_step = 0, len(data), 1
-            i, r, s = data[0], 0, data.max() * 0.8
+            vals = data
+            #vals = running_mean(data, window)
 
-            return_dict = solve_params(s, i, r, start_time, end_time, time_step, data, beta, alpha, degree,
-                                       p_verify)
+            start_time, end_time, time_step = 0, len(vals), 1
+            i, r, s = vals[0], 0, vals.max() * 0.8
+
+            return_dict = solve_params(s, i, r, start_time, end_time, time_step, vals, beta, alpha, degree,
+                                       p_verify, end_time)
 
             # create dynamic config for model generation
             nodes = self.config["network"]["nodes"]

@@ -1,6 +1,5 @@
 # custom ignores
 .idea
-**.csv
 **.pdf
 **.mp4
 **.hdf5
@@ -14,6 +13,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
+code/data/energy/*
+code/data/social_media/florence/*
+code/data/social_media/geoloc/*
+code/data/social_media/other/*
+code/data/social_media/other_tweets/*
 
 # C extensions
 *.so
@@ -173,4 +178,3 @@ cython_debug/
 *.gz
 *.toc
 *.xmpi
-*.csv

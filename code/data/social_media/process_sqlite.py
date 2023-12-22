@@ -6,6 +6,23 @@ import datetime as dt
 import pandas as pd
 import pytz
 
+def get_groenwald():
+    frames = []
+    for i in range(4, 6):
+        records = map(json.loads, open(f'data/social_media/other_tweets/2022-08-0{i}.ndjson', encoding="utf8"))
+        df = pd.DataFrame.from_records(records)
+        frames.append(df)
+
+    result = pd.concat(frames)
+    result["date"] = pd.to_datetime(result["created_at"], format="%Y-%m-%dT%H:%M:%S")
+    result["date"] = result["date"].apply(lambda x: x.replace(tzinfo=pytz.UTC))
+    result["tweet"] = result["text"]
+    result = result.drop(columns=['id', 'text', 'conversation_id', 'lang', 'geo', 'user', 'media', 'created_at'])
+
+    result = result[result['tweet'].str.contains("Grunewald")]
+    df.to_csv("data_output/saved_tweets.csv", sep='\t', encoding='utf-8')
+    return result
+
 
 def get_typhoon_data():
     conn = sqlite3.connect('data/social_media/yolandatweets.sqlite')
@@ -89,7 +106,6 @@ def get_txt_tweet(hashtag, start_date):
 
 
 if __name__ == "__main__":
-    hashtag = "Women4Bernie"
     start_date = datetime(2013, 11, 7, 17, 0, 0, tzinfo=dt.timezone.utc) \
         .replace(tzinfo=pytz.UTC)
-    get_txt_tweet(hashtag, start_date, freq="15min")
+    get_groenwald()

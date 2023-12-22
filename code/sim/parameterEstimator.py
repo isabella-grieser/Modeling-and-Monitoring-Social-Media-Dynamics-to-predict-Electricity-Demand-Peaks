@@ -2,7 +2,8 @@ import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import least_squares, minimize
 
-def solve_params(n, i, r, start_time, end_time, time_step, twitter_data, beta, alpha, degree, p_verify):
+def solve_params(n, i, r, start_time, end_time, time_step, twitter_data, beta, alpha, degree, p_verify,
+                end_time2):
     def sir_model(t, y, b, a, p, d):
         S, I, R = y
         n = S + I + R
@@ -29,16 +30,20 @@ def solve_params(n, i, r, start_time, end_time, time_step, twitter_data, beta, a
     time_points = np.arange(start_time, end_time, time_step)
     init_params = np.array([beta, alpha, p_verify, degree, n, i, r])
 
-    bounds = ((0, 1), (0, 0.999), (0, 1), (0, float('inf')), (0, float('inf')), (0, float('inf')), (0, float('inf')))
+    bounds = ((0.01, 0.99), (0.01, 0.99), (0, 1), (0, float('inf')), (0, float('inf')), (0, float('inf')), (0, float('inf')))
+    #bounds = ((0, 0, 0, 0, 0, 0, 0), (0.99, 0.99, 1, float('inf'), float('inf'), float('inf'), float('inf')))
+
     #minimize the difference between the sir model and the twitter data
     result = minimize(error_function, init_params, bounds=bounds)
+    #result = least_squares(error_function, init_params, bounds=bounds, loss="cauchy")
+
     optimal_beta, optimal_alpha, optimal_p, optimal_d, optimal_s, optimal_i, optimal_r = result.x
 
-    print(result.fun)
     init = [optimal_s, optimal_i, optimal_r]
     #calculate the sir model progression
     solution = solve_ivp(lambda t, y: sir_model(t, y, optimal_beta, optimal_alpha, optimal_p, optimal_d),
-                         time_span, init, t_eval=time_points)
+                         (start_time, end_time2), init,
+                         t_eval=np.arange(start_time, end_time2, time_step))
 
     return_dict = {
         "beta": optimal_beta,

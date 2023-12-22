@@ -160,13 +160,13 @@ def scenario1():
     data = get_typhoon_data()
 
     s_index, e_index = 0, -1
-    values = data.groupby(pd.Grouper(key="date", freq="15min"))["tweet"].count()
+    values = data.groupby(pd.Grouper(key="date", freq="15min"))["tweet"].count()[s_index: e_index]
 
     start = values.index[s_index]
 
     action_start = datetime(2013, 11, 7, 19, 0, 0, tzinfo=dt.timezone.utc) \
         .replace(tzinfo=pytz.UTC)
-    y = signal.savgol_filter(values.values, 53, 3)[s_index: e_index]
+
 
     with open("./config/demand-response.json", "r") as f:
         config = json.load(f)
@@ -385,7 +385,7 @@ def scenario1():
         plt.xticks(rotation=45)
         plt.show()
 
-    basic_plot(config, start=start, action_start=action_start, y=y, year=2013)
+    basic_plot(config, start=start, action_start=action_start, y=values, year=2013)
     analyze_propagation([0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.99], [0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.99],
                         [0, 0.05, 0.1, 0.2, 0.25, 0.3, 0.5])
     analyze_acting_params(acting_p=[0, 0.1, 0.2, 0.4, 0.6, 0.8, 1], usage_p=[0, 0.1, 0.2, 0.4, 0.6, 0.8, 1],
@@ -569,10 +569,9 @@ def presentation_animations():
     #scen2()
     scen3()
 
-
 if __name__ == "__main__":
-    # scenario1()
+    scenario1()
     # scenario2()
     # scenario3()
-    scenario4()
+    # scenario4()
     # presentation_animations()

@@ -1,5 +1,5 @@
 {
-  "seeds": [1, 2, 3, 4, 5],
+  "seeds": [1],
   "seed": 2,
   "network":{
     "nodes": 1000,
