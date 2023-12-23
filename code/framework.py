@@ -22,7 +22,8 @@ class EstimationFramework:
                               factor=1,
                               days=1, beta=0.1, alpha=0.4,
                               p_verify=0.4, degree=10, iterations=200,
-                              y_max=5000, index_shift=100, edge_ratio=0.0065, window=35):
+                              y_max=5000, index_shift=100, edge_ratio=0.0065,
+                              minutes=15):
 
         # estimate parameters
         if data is not None:
@@ -82,7 +83,7 @@ class EstimationFramework:
         simulator = Simulator(social_network_model, x_val, y_val, args=self.config["sim"],
                               seed=self.config["seed"], spread_start=spread_start, si="kW",
                               power_start=action_start, days=days, y_max=y_max,
-                              nr_init_nodes=1)
+                              nr_init_nodes=1, minutes=minutes)
 
         x_all, y_true, y_ref, s_true, i_true, r_true = \
             simulator.iterate(iterations, plot=self.plot, save=self.save,

@@ -19,6 +19,7 @@ code/data/social_media/florence/*
 code/data/social_media/geoloc/*
 code/data/social_media/other/*
 code/data/social_media/other_tweets/*
+code/images/*
 
 # C extensions
 *.so

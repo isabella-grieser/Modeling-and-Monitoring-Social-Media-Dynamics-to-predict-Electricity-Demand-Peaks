@@ -1,12 +1,8 @@
-import matplotlib
 from data.social_media.process_sqlite import *
-from scipy import signal
 from sim.parameterEstimator import *
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
 from utils.utils import *
-from datetime import time, timedelta
-
 
 if __name__ == "__main__":
     data = get_groenwald()
@@ -44,14 +40,14 @@ if __name__ == "__main__":
     ax.plot(rang, return_dict["i"], label='i', color='red')
     ax.plot(rang, return_dict["r"], label='r', color='blue')
 
-    p_vals = [3, 7, 13]
+    p_vals = [3, 5, 11]
     n_vals = []
     def define_time_str(p):
         hours, mins = divmod(p * 30, 60)
-        return f"{hours}h {mins} mins"
+        return f"{hours}:{mins}h"
 
     for p, c in zip(p_vals, ['gold', 'lawngreen', 'darkolivegreen']):
-        values_pred = values_filtered[st:p]
+        values_pred = values_filtered[:p]
         # estimate parameters
         start_time_pred, end_time_pred, time_step_pred = 0, len(values_pred), 1
         i, r, s = values_pred[0], 0, values_pred.max() * 0.8
@@ -59,10 +55,9 @@ if __name__ == "__main__":
         return_dict_pred = solve_params(s, i, r, start_time_pred, end_time_pred, time_step_pred, values_pred,
                                         beta, alpha, degree, p_verify, end_time2=len(full_vals))
         ratio = return_dict_pred["degree"] / n
-        print(f"estimated param prediction: p_verify: {return_dict_pred['p_verify']}, "
+        print(f"estimated param prediction for {define_time_str(p)}: p_verify: {return_dict_pred['p_verify']}, "
               f"alpha: {return_dict_pred['alpha']}, beta: {return_dict_pred['beta']}, degree ratio: {ratio}")
         n_vals.append(return_dict_pred['s_init'] + return_dict_pred['i_init'] + return_dict_pred['r_init'])
-        hours, mins = divmod(p * 30, 60)
         range_1 = index[:p]
         range_2 = index[p:len(values_filtered)]
         #ax.plot(range_1, return_dict_pred["s"][:p], label='predicted s', color='lime')

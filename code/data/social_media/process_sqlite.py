@@ -20,7 +20,7 @@ def get_groenwald():
     result = result.drop(columns=['id', 'text', 'conversation_id', 'lang', 'geo', 'user', 'media', 'created_at'])
 
     result = result[result['tweet'].str.contains("Grunewald")]
-    df.to_csv("data_output/saved_tweets.csv", sep='\t', encoding='utf-8')
+    result.to_csv("data_output/saved_tweets.csv", sep='\t', encoding='utf-8')
     return result
 
 
