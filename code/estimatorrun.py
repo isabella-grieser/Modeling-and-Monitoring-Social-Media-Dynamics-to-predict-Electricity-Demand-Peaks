@@ -19,13 +19,14 @@ if __name__ == "__main__":
     values_filtered = running_mean(values.values, window)
     index = values.index[int(window/2):-int(window/2)]
 
-    full_vals = values.values
+    full_vals = values_filtered
     # estimate parameters
     start_time, end_time, time_step = 0, len(full_vals), 1
     i, r, s = full_vals[0], 0, full_vals.max() * 0.8
     beta, alpha, p_verify, degree = 0.1, 0.4, 0.4, 10
 
-    return_dict = solve_params(s, i, r, start_time, end_time, time_step, full_vals, beta, alpha, degree,
+
+    return_dict = solve_params(s, i, r, start_time, time_step, full_vals, beta, alpha, degree,
                                p_verify, end_time2=len(index))
 
     n = return_dict["s_init"] + return_dict["i_init"] + return_dict["r_init"]
@@ -36,23 +37,25 @@ if __name__ == "__main__":
 
     rang = index
     ax.plot(rang, values_filtered, label='dataset', color='steelblue')
-    ax.plot(rang, return_dict["s"], label='s', color='green')
+    #ax.plot(rang, return_dict["s"], label='s', color='green')
     ax.plot(rang, return_dict["i"], label='i', color='red')
-    ax.plot(rang, return_dict["r"], label='r', color='blue')
+    #ax.plot(rang, return_dict["r"], label='r', color='blue')
 
-    p_vals = [3, 5, 11]
+    p_vals = [2, 6, 10, 14, 16]
     n_vals = []
     def define_time_str(p):
         hours, mins = divmod(p * 30, 60)
+        if mins == 0:
+            return f"{hours}h"
         return f"{hours}:{mins}h"
 
-    for p, c in zip(p_vals, ['gold', 'lawngreen', 'darkolivegreen']):
+    for p, c in zip(p_vals, ['lawngreen', 'mediumspringgreen', "green", 'gold', 'yellow']):
         values_pred = values_filtered[:p]
         # estimate parameters
         start_time_pred, end_time_pred, time_step_pred = 0, len(values_pred), 1
         i, r, s = values_pred[0], 0, values_pred.max() * 0.8
 
-        return_dict_pred = solve_params(s, i, r, start_time_pred, end_time_pred, time_step_pred, values_pred,
+        return_dict_pred = solve_params(s, i, r, start_time_pred, time_step_pred, values_pred,
                                         beta, alpha, degree, p_verify, end_time2=len(full_vals))
         ratio = return_dict_pred["degree"] / n
         print(f"estimated param prediction for {define_time_str(p)}: p_verify: {return_dict_pred['p_verify']}, "

@@ -1,11 +1,11 @@
 from data.social_media.process_sqlite import *
 from framework import EstimationFramework
-from framework import running_mean
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
-from frameworkrun import create_plot
 from statistics import mean
 import numpy as np
+from utils.utils import running_mean
+from frameworkrun import create_plot
 
 def plot_basic_timeline(ax1, ax2, x_all, y_vals, y_ref, s_true, i_true, r_true, ls, color,
                         label, start_index=0, end_index=-1):
@@ -65,9 +65,9 @@ def plot_basic_timeline(ax1, ax2, x_all, y_vals, y_ref, s_true, i_true, r_true, 
 if __name__ == "__main__":
     data = get_groenwald()
 
-    start = datetime(2022, 8, 4, 13, 0, 0, tzinfo=dt.timezone.utc) \
+    start = datetime(2022, 11, 20, 16, 0, 0, tzinfo=dt.timezone.utc) \
         .replace(tzinfo=pytz.UTC)
-    action_start = datetime(2022, 8, 4, 19, 0, 0, tzinfo=dt.timezone.utc) \
+    action_start = datetime(2022, 11, 20, 19, 0, 0, tzinfo=dt.timezone.utc) \
         .replace(tzinfo=pytz.UTC)
 
     st, e = 0, -1
@@ -83,12 +83,12 @@ if __name__ == "__main__":
 
     x_all, y_ref = None, None
     framework = None
-    p_vals = [3, 5, 11, len(values_filtered)]
-    labels = ["4:00", "5:00", "8:00", "full dataset"]
+    p_vals = [6, 10, 14, len(values_filtered)]
+    labels = ["after 3h", "after 5h", "after 7h", "full dataset"]
     dots = ['--', '-.', 'dotted', '-']
     colors = ['gold', 'lawngreen', 'darkolivegreen', 'blue']
     y_vals, s_vals, i_vals, r_vals = [], [], [], []
-    """
+
     fig, ax1, ax2 = create_plot()
     for p, ls, c, lab in zip(p_vals, dots, colors, labels):
         values_pred = values_filtered[:p]
@@ -98,18 +98,18 @@ if __name__ == "__main__":
 
             x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
                 framework.estimate_power_outage(start, action_start=action_start, iterations=100,
-                                                y_max=1000, data=values_pred, minutes=30)
+                                                y_max=1000, data=values_pred, minutes=30, estimation_end_time=len(index))
             y_vals.append(y_true)
             s_vals.append(s_true)
             i_vals.append(i_true)
             r_vals.append(r_true)
         plot_basic_timeline(ax1, ax2, x_all, y_vals=y_vals, y_ref=y_ref, label=lab,
                             s_true=s_vals, i_true=i_vals, r_true=r_vals, ls=ls, color=c,
-                            start_index=80, end_index=-30)
+                            start_index=85, end_index=-55)
 
     ax1.axhline(framework.threshold, color='red', label="threshold")
 
-    ax1.axvline(x=start, color='green', ls=':', label='spread start')
+    # ax1.axvline(x=start, color='green', ls=':', label='spread start')
     ax1.axvline(x=action_start, color='red', ls=':', label='action start')
 
     ax1.legend(loc="upper left")
@@ -126,27 +126,21 @@ if __name__ == "__main__":
     ax1.legend(handles, labels)
 
     plt.show()
-
     extent = ax1.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
     extent2 = ax2.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
 
     fig.savefig('images/power_demand.pdf', bbox_inches=extent.expanded(1.2, 1.2))
     fig.savefig('images/sir.pdf', bbox_inches=extent.expanded(1.2, 1.2))
-    """
     # model prediction framework
-    datapoints = range(6, int(len(values_filtered)), 6)
+    datapoints = range(8, int(len(values_filtered)), 8)
     y_max = []
-    config["sim"]["p_verify"] = 0.03919758446621254
-    config["sim"]["alpha"] = 0.172974080900178
-    config["sim"]["beta"] = 0.99
-    config["network"]["edges"] = int(0.12619829266035892 * config["network"]["nodes"])
     for p in datapoints:
         values_pred = values_filtered[:p]
         framework = EstimationFramework(config, year=2022, plot=False)
 
         x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
             framework.estimate_power_outage(start, action_start=action_start, iterations=100,
-                                            y_max=1000, data=values_pred, minutes=30)
+                                            y_max=1000, data=values_pred, minutes=30, estimation_end_time=len(index))
         y_vals.append(y_true)
         diffs = [y_true[i] - y_ref[i] for i in range(len(y_true))]
         y_max.append(y_true[np.argmax(diffs)])
@@ -157,8 +151,14 @@ if __name__ == "__main__":
     plt.axhline(framework.threshold, color='red', label="threshold")
     plt.show()
 
+
+    config["sim"]["p_verify"] = 0.03919758446621254
+    config["sim"]["alpha"] = 0.172974080900178
+    config["sim"]["beta"] = 0.99
+    config["network"]["edges"] = int(0.12619829266035892 * config["network"]["nodes"])
+
     # plot different adoption rates for evs
-    ev_adoption = [0.05, 0.1, 0.25, 0.4]
+    ev_adoption = [0, 0.1, 0.25, 0.5,  0.75, 1]
 
     power_vals = []
     for p in ev_adoption:
@@ -171,8 +171,8 @@ if __name__ == "__main__":
 
             x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
                 framework.estimate_power_outage(start, action_start=action_start, iterations=100,
-                                                y_max=1000, data=values_pred, minutes=30)
-            y_vals.append(y_true)
+                                                y_max=1000, data=values_pred, minutes=30, estimation_end_time=len(index))
+            vals.append(y_true)
 
         average_val = []
         for i in range(len(vals[0])):
@@ -181,11 +181,11 @@ if __name__ == "__main__":
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    start_i, end_i = 80, -30
+    start_i, end_i = 90, -55
     x = x_all[start_i:end_i]
 
-    dots = ['--', '-.', 'dotted', '-']
-    colors = ['gold', 'lawngreen', 'darkolivegreen', 'blue']
+    dots = ['--', '-.', 'dotted', '-', ":", "dashdot"]
+    colors = ['gold', 'lawngreen', 'darkolivegreen', 'blue', "red", "gray"]
 
     for p, v, d in zip(ev_adoption, power_vals, dots):
         ax.plot(x, v[start_i:end_i], label=f"p={p}", ls=d)

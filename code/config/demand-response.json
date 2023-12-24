@@ -3,7 +3,7 @@
   "seed": 2,
   "network":{
     "nodes": 1000,
-    "available": 0.5,
+    "available": 1,
     "edges": 25
   },
   "reference" : [
@@ -12,45 +12,45 @@
       ""
   ],
     "sim": {
-    "p_will_act": 1,
+    "p_will_act": 0.9,
     "p_verify": 0.07,
     "alpha": 0.4,
     "beta": 0.6,
-    "power_usage": 1,
+    "power_usage": 0.9,
     "factor": 1,
-    "power_threshold": 2,
+    "power_threshold": 1.5,
     "fringe": false
   },
   "model_args":{
     "electric_car": {
-      "power": 1.9,
-      "p": 0.02,
-      "duration": 32
+      "power": 2.0,
+      "p": 0.0208,
+      "duration": 12
     },
     "washing_machine": {
       "power": 0.5,
-      "p": 95.8,
-      "duration": 4
-    },
-    "washer_dryer": {
-      "power": 0.900,
-      "p": 42.6,
+      "p": 0.95,
       "duration": 3
     },
+    "washer_dryer": {
+      "power": 0.8,
+      "p": 0.423,
+      "duration": 2
+    },
     "dishwasher": {
-      "power": 0.700,
-      "p": 71.7,
-      "duration": 8
+      "power": 0.7,
+      "p": 0.719,
+      "duration": 3
     },
     "oven": {
-      "power": 1,
-      "p": 80,
-      "duration": 4
+      "power": 0.9,
+      "p": 0.8,
+      "duration": 2
     },
     "electric_stove": {
-      "power": 1,
-      "p": 94,
-      "duration": 2
+      "power": 0.9,
+      "p": 0.94,
+      "duration": 1
     }
   }
 }

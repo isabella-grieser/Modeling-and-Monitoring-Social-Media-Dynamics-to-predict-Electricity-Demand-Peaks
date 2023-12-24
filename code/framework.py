@@ -1,12 +1,10 @@
-import json
-
+import math
 import pytz
 
 from sim.parameterEstimator import *
 from gen.model import *
 from sim.simulator import Simulator
 from demandlib import bdew
-from utils.utils import *
 
 class EstimationFramework:
 
@@ -23,18 +21,20 @@ class EstimationFramework:
                               days=1, beta=0.1, alpha=0.4,
                               p_verify=0.4, degree=10, iterations=200,
                               y_max=5000, index_shift=100, edge_ratio=0.0065,
-                              minutes=15):
+                              minutes=15, estimation_end_time=None):
 
         # estimate parameters
         if data is not None:
             vals = data
             #vals = running_mean(data, window)
 
-            start_time, end_time, time_step = 0, len(vals), 1
+            start_time, time_step = 0, 1
             i, r, s = vals[0], 0, vals.max() * 0.8
 
-            return_dict = solve_params(s, i, r, start_time, end_time, time_step, vals, beta, alpha, degree,
-                                       p_verify, end_time)
+            if estimation_end_time is None:
+                estimation_end_time = len(vals)
+            return_dict = solve_params(s, i, r, start_time, time_step, vals, beta, alpha, degree,
+                                       p_verify, estimation_end_time)
 
             # create dynamic config for model generation
             nodes = self.config["network"]["nodes"]
@@ -43,9 +43,16 @@ class EstimationFramework:
             # find the ratio of nodes and edge degree
             ratio = return_dict["degree"] / n
 
+            edges = round(ratio * nodes)
+            if edges <= 1:
+                edges = 1
+
+            if edges >= nodes:
+                edges = int(nodes/2)
+
             model_config = {
                 "seed": self.config["seed"],
-                "edges": round(ratio * nodes)
+                "edges": edges
             }
 
             social_network_model = create_social_network_graph(nodes, "barabasi_albert", model_config)

@@ -2,8 +2,9 @@ import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import least_squares, minimize
 
-def solve_params(n, i, r, start_time, end_time, time_step, twitter_data, beta, alpha, degree, p_verify,
-                end_time2):
+def solve_params(s, i, r, start_time, time_step, twitter_data, beta, alpha, degree, p_verify, end_time2):
+
+    t_eval2 = np.arange(start_time, end_time2, time_step)
     def sir_model(t, y, b, a, p, d):
         S, I, R = y
         n = S + I + R
@@ -16,34 +17,41 @@ def solve_params(n, i, r, start_time, end_time, time_step, twitter_data, beta, a
         return [dsdt, didt, drdt]
 
     def error_function(params):
-        b, a, p, d, n, I, R = params
-        S = n - I - R
+        b, a, p, d, S, I, R = params
         init = [S, I, R]
-        solution = solve_ivp(lambda t, y: sir_model(t, y, b, a, p, d), time_span, init,
-                             t_eval=time_points)
+        solution = solve_ivp(lambda t, y: sir_model(t, y, b, a, p, d), (start_time, end_time2), init,
+                             t_eval=t_eval2)
         i_pred = solution.y[1]
-        error = np.mean((twitter_data - i_pred) ** 2)
+        error = np.mean((twitter_data - i_pred[:len(twitter_data)]) ** 2)
         return error
 
-    #create minimization parameters
-    time_span = (start_time, end_time)
-    time_points = np.arange(start_time, end_time, time_step)
-    init_params = np.array([beta, alpha, p_verify, degree, n, i, r])
+    #the constraint is written as an inequality to allow for rounding errors
+    #rounding it and putting it as an equality does not work for the minimization algorithm
+    def const(params):
+        b, a, p, d, S, I, R = params
+        init = [S, I, R]
+        solution = solve_ivp(lambda t, y: sir_model(t, y, b, a, p, d), (start_time, end_time2), init,
+                             t_eval=t_eval2)
+        i_pred = solution.y[1]
+        return 0.5 - i_pred[-1]
 
-    bounds = ((0.01, 0.99), (0.01, 0.99), (0, 1), (0, float('inf')), (0, float('inf')), (0, float('inf')), (0, float('inf')))
-    #bounds = ((0, 0, 0, 0, 0, 0, 0), (0.99, 0.99, 1, float('inf'), float('inf'), float('inf'), float('inf')))
+    #create minimization parameters
+    init_params = np.array([beta, alpha, p_verify, degree, s, i, r])
+
+    bounds = ((0.01, 0.99), (0.01, 0.99), (0, 1), (0, float('inf')), (1, float('inf')), (0, float('inf')), (0, float('inf')))
+
+    cons = ({'type': 'ineq', 'fun': const})
 
     #minimize the difference between the sir model and the twitter data
-    result = minimize(error_function, init_params, bounds=bounds)
-    #result = least_squares(error_function, init_params, bounds=bounds, loss="cauchy")
+    result = minimize(error_function, init_params, bounds=bounds, constraints=cons)
 
     optimal_beta, optimal_alpha, optimal_p, optimal_d, optimal_s, optimal_i, optimal_r = result.x
-
     init = [optimal_s, optimal_i, optimal_r]
+
     #calculate the sir model progression
     solution = solve_ivp(lambda t, y: sir_model(t, y, optimal_beta, optimal_alpha, optimal_p, optimal_d),
                          (start_time, end_time2), init,
-                         t_eval=np.arange(start_time, end_time2, time_step))
+                         t_eval=t_eval2)
 
     return_dict = {
         "beta": optimal_beta,
