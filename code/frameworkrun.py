@@ -419,7 +419,8 @@ def scenario3():
         .replace(tzinfo=pytz.UTC)
     # y = signal.savgol_filter(values.values, 24, 2)
 
-    basic_plot(config, start, year=2020, action_start=None, iterations=200, y=values.values, start_index=0, end_index=-1)
+    basic_plot(config, start, year=2020, action_start=None, iterations=200, y=values.values,
+               start_index=0, end_index=-1)
 
     usage_p = [0.03, 0.05, 0.1, 0.2, 0.3, 0.5]
     usage_v = []

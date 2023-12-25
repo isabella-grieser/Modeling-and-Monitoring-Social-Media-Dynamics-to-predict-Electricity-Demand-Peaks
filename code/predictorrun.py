@@ -83,14 +83,14 @@ if __name__ == "__main__":
 
     x_all, y_ref = None, None
     framework = None
-    p_vals = [6, 10, 14, len(values_filtered)]
-    labels = ["after 3h", "after 5h", "after 7h", "full dataset"]
+    p_vals = [2, 10, 16, len(values_filtered)]
+    labels = ["after 1h", "after 5h", "after 8h", "full dataset"]
     dots = ['--', '-.', 'dotted', '-']
     colors = ['gold', 'lawngreen', 'darkolivegreen', 'blue']
-    y_vals, s_vals, i_vals, r_vals = [], [], [], []
 
     fig, ax1, ax2 = create_plot()
     for p, ls, c, lab in zip(p_vals, dots, colors, labels):
+        y_vals, s_vals, i_vals, r_vals = [], [], [], []
         values_pred = values_filtered[:p]
         for s in config["seeds"]:
             config["seed"] = s
@@ -132,8 +132,9 @@ if __name__ == "__main__":
     fig.savefig('images/power_demand.pdf', bbox_inches=extent.expanded(1.2, 1.2))
     fig.savefig('images/sir.pdf', bbox_inches=extent.expanded(1.2, 1.2))
     # model prediction framework
-    datapoints = range(8, int(len(values_filtered)), 8)
+    datapoints = range(2, int(len(values_filtered)), 4)
     y_max = []
+
     for p in datapoints:
         values_pred = values_filtered[:p]
         framework = EstimationFramework(config, year=2022, plot=False)
@@ -141,7 +142,6 @@ if __name__ == "__main__":
         x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
             framework.estimate_power_outage(start, action_start=action_start, iterations=100,
                                             y_max=1000, data=values_pred, minutes=30, estimation_end_time=len(index))
-        y_vals.append(y_true)
         diffs = [y_true[i] - y_ref[i] for i in range(len(y_true))]
         y_max.append(y_true[np.argmax(diffs)])
 
@@ -151,18 +151,12 @@ if __name__ == "__main__":
     plt.axhline(framework.threshold, color='red', label="threshold")
     plt.show()
 
-
-    config["sim"]["p_verify"] = 0.03919758446621254
-    config["sim"]["alpha"] = 0.172974080900178
-    config["sim"]["beta"] = 0.99
-    config["network"]["edges"] = int(0.12619829266035892 * config["network"]["nodes"])
-
     # plot different adoption rates for evs
     ev_adoption = [0, 0.1, 0.25, 0.5,  0.75, 1]
 
     power_vals = []
     for p in ev_adoption:
-        values_pred = values_filtered
+        values_pred = values_filtered[:len(values_filtered)]
         config["model_args"]["electric_car"]["p"] = p
         vals = []
         for s in config["seeds"]:

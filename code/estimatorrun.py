@@ -23,17 +23,16 @@ if __name__ == "__main__":
     # estimate parameters
     start_time, end_time, time_step = 0, len(full_vals), 1
     i, r, s = full_vals[0], 0, full_vals.max() * 0.8
-    beta, alpha, p_verify, degree = 0.1, 0.4, 0.4, 10
+    beta, alpha, p_verify, degree_ratio = 0.1, 0.4, 0.4, 0.25
 
 
-    return_dict = solve_params(s, i, r, start_time, time_step, full_vals, beta, alpha, degree,
+    return_dict = solve_params(s, i, r, start_time, time_step, full_vals, beta, alpha, degree_ratio,
                                p_verify, end_time2=len(index))
 
     n = return_dict["s_init"] + return_dict["i_init"] + return_dict["r_init"]
     # find the ratio of nodes and edge degree
-    ratio = return_dict["degree"] / n
     print(f"estimated params: p_verify: {return_dict['p_verify']}, "
-          f"alpha: {return_dict['alpha']}, beta: {return_dict['beta']}, degree ratio: {ratio}")
+          f"alpha: {return_dict['alpha']}, beta: {return_dict['beta']}")
 
     rang = index
     ax.plot(rang, values_filtered, label='dataset', color='steelblue')
@@ -56,10 +55,10 @@ if __name__ == "__main__":
         i, r, s = values_pred[0], 0, values_pred.max() * 0.8
 
         return_dict_pred = solve_params(s, i, r, start_time_pred, time_step_pred, values_pred,
-                                        beta, alpha, degree, p_verify, end_time2=len(full_vals))
-        ratio = return_dict_pred["degree"] / n
+                                        beta, alpha, degree_ratio, p_verify, end_time2=len(full_vals))
+
         print(f"estimated param prediction for {define_time_str(p)}: p_verify: {return_dict_pred['p_verify']}, "
-              f"alpha: {return_dict_pred['alpha']}, beta: {return_dict_pred['beta']}, degree ratio: {ratio}")
+              f"alpha: {return_dict_pred['alpha']}, beta: {return_dict_pred['beta']}")
         n_vals.append(return_dict_pred['s_init'] + return_dict_pred['i_init'] + return_dict_pred['r_init'])
         range_1 = index[:p]
         range_2 = index[p:len(values_filtered)]

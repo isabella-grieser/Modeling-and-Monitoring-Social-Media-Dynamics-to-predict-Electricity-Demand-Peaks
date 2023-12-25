@@ -18,7 +18,7 @@
     "beta": 0.6,
     "power_usage": 0.9,
     "factor": 1,
-    "power_threshold": 1.5,
+    "power_threshold": 2,
     "fringe": false
   },
   "model_args":{

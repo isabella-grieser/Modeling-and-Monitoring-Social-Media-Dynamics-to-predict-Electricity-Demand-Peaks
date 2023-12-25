@@ -19,40 +19,29 @@ class EstimationFramework:
     def estimate_power_outage(self, start, action_start=None, data=None,
                               factor=1,
                               days=1, beta=0.1, alpha=0.4,
-                              p_verify=0.4, degree=10, iterations=200,
+                              p_verify=0.4, iterations=200,
                               y_max=5000, index_shift=100, edge_ratio=0.0065,
-                              minutes=15, estimation_end_time=None):
+                              minutes=15, estimation_end_time=None,
+                              degree_ratio=0.25):
 
         # estimate parameters
         if data is not None:
             vals = data
-            #vals = running_mean(data, window)
 
             start_time, time_step = 0, 1
             i, r, s = vals[0], 0, vals.max() * 0.8
 
             if estimation_end_time is None:
                 estimation_end_time = len(vals)
-            return_dict = solve_params(s, i, r, start_time, time_step, vals, beta, alpha, degree,
+            return_dict = solve_params(s, i, r, start_time, time_step, vals, beta, alpha, degree_ratio,
                                        p_verify, estimation_end_time)
 
             # create dynamic config for model generation
             nodes = self.config["network"]["nodes"]
-            n = return_dict["s_init"] + return_dict["i_init"] + return_dict["r_init"]
-
-            # find the ratio of nodes and edge degree
-            ratio = return_dict["degree"] / n
-
-            edges = round(ratio * nodes)
-            if edges <= 1:
-                edges = 1
-
-            if edges >= nodes:
-                edges = int(nodes/2)
 
             model_config = {
                 "seed": self.config["seed"],
-                "edges": edges
+                "edges": int(degree_ratio * nodes)
             }
 
             social_network_model = create_social_network_graph(nodes, "barabasi_albert", model_config)
@@ -61,7 +50,7 @@ class EstimationFramework:
             self.config["sim"]["beta"] = return_dict["beta"]
 
             print(f"estimated params: p_verify: {return_dict['p_verify']}, "
-                f"alpha: {return_dict['alpha']}, beta: {return_dict['beta']}, degree ratio: {ratio}")
+                f"alpha: {return_dict['alpha']}, beta: {return_dict['beta']}")
         else:
             model_config = {
                 "seed": self.config["seed"],
