@@ -24,7 +24,7 @@ def create_plot():
     ax1.set_xlabel(f"Time")
     ax1.legend(loc="upper left")
 
-    ax2.set_ylabel(f"Infection Process")
+    ax2.set_ylabel(f"Number of infected entities")
     ax2.set_xlabel(f"Time")
     xfmt2 = md.DateFormatter('%H:%M')
     ax2.xaxis.set_major_formatter(xfmt2)

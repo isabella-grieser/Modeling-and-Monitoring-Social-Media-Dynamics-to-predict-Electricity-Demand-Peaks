@@ -48,17 +48,23 @@ def plot_basic_timeline(ax1, ax2, x_all, y_vals, y_ref, s_true, i_true, r_true, 
                                                                                               start_index:end_index]
         r_max, r_min, r_average = r_max[start_index:end_index], r_min[start_index:end_index], r_average[
                                                                                               start_index:end_index]
+        start_index = next(ind for ind, ia in enumerate(i_average) if ia > 1.5)
+        i_start_proc = i_average[start_index-1:]
+        print(
+            f"start slope for {label}: {(i_start_proc[2] - i_start_proc[0]) / 0.5} "
+            f"between {x_all[start_index-1]} and {x_all[start_index+1]}")
     else:
         s_max, s_min, s_average = s_max[start_index:], s_min[start_index:], s_average[start_index:]
         i_max, i_min, i_average = i_max[start_index:], i_min[start_index:], i_average[start_index:]
         r_max, r_min, r_average = r_max[start_index:], r_min[start_index:], r_average[start_index:]
 
     # ax2.fill_between(x_all, s_min, s_max, color='green', alpha=.5, linewidth=0)
-    ax2.plot(x_all, s_average, linewidth=2, color='green', ls=ls, label="susceptible")
+    #ax2.plot(x_all, s_average, linewidth=2, color='green', ls=ls, label="susceptible")
     # ax2.fill_between(x_all, i_min, i_max, color='red', alpha=.5, linewidth=0)
-    ax2.plot(x_all, i_average, linewidth=2, color='red', ls=ls, label="infected")
+    ax2.plot(x_all, i_average, linewidth=2, color=color, ls=ls, label=label)
+    # ax2.plot(x_all, i_average, linewidth=2, color='red', ls=ls, label="infected")
     # ax2.fill_between(x_all, r_min, r_max, color='blue', alpha=.5, linewidth=0)
-    ax2.plot(x_all, r_average, linewidth=2, color='blue', ls=ls, label="removed")
+    #ax2.plot(x_all, r_average, linewidth=2, color='blue', ls=ls, label="removed")
 
     ax1.plot(x_all, y_ref, linewidth=2, color='black', label="ref")
 
@@ -71,7 +77,7 @@ if __name__ == "__main__":
         .replace(tzinfo=pytz.UTC)
 
     st, e = 0, -1
-    values = data.groupby(pd.Grouper(key="date", freq="30min"))["tweet"].count()[st:]
+    values = data.groupby(pd.Grouper(key="date", freq="30min"))["tweet"].count()[st:e]
 
     window = 3
 
@@ -83,12 +89,27 @@ if __name__ == "__main__":
 
     x_all, y_ref = None, None
     framework = None
-    p_vals = [2, 10, 16, len(values_filtered)]
-    labels = ["after 1h", "after 5h", "after 8h", "full dataset"]
-    dots = ['--', '-.', 'dotted', '-']
-    colors = ['gold', 'lawngreen', 'darkolivegreen', 'blue']
+    p_vals = [4, 8, 12, 16, len(values_filtered)]
+    labels = ["after 2h", "after 4h", "after 6h", "after 8h", "full dataset"]
+    dots = ['--', '-.', ':', (0, (3, 5, 1, 5, 1, 5)), '-']
+    colors = ['gold', 'lawngreen', 'darkolivegreen', 'orange', 'blue']
 
-    fig, ax1, ax2 = create_plot()
+    fig1, ax1 = plt.subplots(1, 1, figsize=(7, 6))
+
+    fig2, ax2 = plt.subplots(1, 1, figsize=(7, 6))
+    xfmt = md.DateFormatter('%H:%M')
+    ax1.xaxis.set_major_formatter(xfmt)
+    ax1.set_ylabel(f"Power Consumption in kW")
+    ax1.set_xlabel(f"Time")
+    ax1.legend(loc="upper left")
+
+    ax2.set_ylabel(f"Number of infected entities")
+    ax2.set_xlabel(f"Time")
+    xfmt2 = md.DateFormatter('%H:%M')
+    ax2.xaxis.set_major_formatter(xfmt2)
+    # ax2.set(xlim=(self.x[0], self.x[self.timespan + iterations]), ylim=(0, n_size))
+    ax2.legend(loc="upper left")
+
     for p, ls, c, lab in zip(p_vals, dots, colors, labels):
         y_vals, s_vals, i_vals, r_vals = [], [], [], []
         values_pred = values_filtered[:p]
@@ -126,11 +147,9 @@ if __name__ == "__main__":
     ax1.legend(handles, labels)
 
     plt.show()
-    extent = ax1.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-    extent2 = ax2.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
 
-    fig.savefig('images/power_demand.pdf', bbox_inches=extent.expanded(1.2, 1.2))
-    fig.savefig('images/sir.pdf', bbox_inches=extent.expanded(1.2, 1.2))
+    fig1.savefig('images/power_demand.pdf')
+    fig2.savefig('images/sir.pdf')
     # model prediction framework
     datapoints = range(2, int(len(values_filtered)), 4)
     y_max = []
