@@ -20,9 +20,9 @@ class EstimationFramework:
                               factor=1,
                               days=1, beta=0.1, alpha=0.4,
                               p_verify=0.4, iterations=200,
-                              y_max=5000, index_shift=100, edge_ratio=0.0065,
+                              y_max=5000, index_shift=100,
                               minutes=15, estimation_end_time=None,
-                              degree_ratio=0.25):
+                              degree_ratio=0.05):
 
         # estimate parameters
         if data is not None:
@@ -54,7 +54,7 @@ class EstimationFramework:
         else:
             model_config = {
                 "seed": self.config["seed"],
-                "edges": round(edge_ratio * self.config["network"]["nodes"])
+                "edges": round(degree_ratio * self.config["network"]["nodes"])
             }
             social_network_model = create_social_network_graph(self.config["network"]["nodes"],
                                                                "barabasi_albert", model_config)

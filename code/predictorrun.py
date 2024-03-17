@@ -59,14 +59,15 @@ def plot_basic_timeline(ax1, ax2, x_all, y_vals, y_ref, s_true, i_true, r_true, 
         r_max, r_min, r_average = r_max[start_index:], r_min[start_index:], r_average[start_index:]
 
     # ax2.fill_between(x_all, s_min, s_max, color='green', alpha=.5, linewidth=0)
-    #ax2.plot(x_all, s_average, linewidth=2, color='green', ls=ls, label="susceptible")
+    # ax2.plot(x_all, s_average, linewidth=2, color='green', ls=ls, label="susceptible")
+
     # ax2.fill_between(x_all, i_min, i_max, color='red', alpha=.5, linewidth=0)
-    ax2.plot(x_all, i_average, linewidth=2, color=color, ls=ls, label=label)
+    ax2.plot(x_all, i_average, linewidth=2, color=color, ls=ls, label="infection process")
     # ax2.plot(x_all, i_average, linewidth=2, color='red', ls=ls, label="infected")
     # ax2.fill_between(x_all, r_min, r_max, color='blue', alpha=.5, linewidth=0)
     #ax2.plot(x_all, r_average, linewidth=2, color='blue', ls=ls, label="removed")
 
-    ax1.plot(x_all, y_ref, linewidth=2, color='black', label="ref")
+    ax1.plot(x_all, y_ref, linewidth=2, color='black', label="reference")
 
 if __name__ == "__main__":
     data = get_groenwald()
@@ -89,26 +90,36 @@ if __name__ == "__main__":
 
     x_all, y_ref = None, None
     framework = None
-    p_vals = [4, 8, 12, 16, len(values_filtered)]
-    labels = ["after 2h", "after 4h", "after 6h", "after 8h", "full dataset"]
-    dots = ['--', '-.', ':', (0, (3, 5, 1, 5, 1, 5)), '-']
-    colors = ['gold', 'lawngreen', 'darkolivegreen', 'orange', 'blue']
+    #p_vals = [4, 8, 12, 16, len(values_filtered)]
+    #labels = ["after 2h", "after 4h", "after 6h", "after 8h", "full dataset"]
+    #dots = ['--', '-.', ':', (0, (3, 5, 1, 5, 1, 5)), '-']
+    #colors = ['gold', 'lawngreen', 'darkolivegreen', 'orange', 'blue']
 
+    #p_vals = [4, 8, 12, 16, len(values_filtered)]
+    #labels = ["after 2h", "after 4h", "after 6h", "after 8h", "full dataset"]
+    #dots = ['--', '-.', ':', (0, (3, 5, 1, 5, 1, 5)), '-']
+    #colors = ['gold', 'lawngreen', 'darkolivegreen', 'orange', 'blue']
+    p_vals = [len(values_filtered)]
+    labels = ["est. power consumption"]
+    dots = ['-']
+    colors = ['blue']
     fig1, ax1 = plt.subplots(1, 1, figsize=(7, 6))
 
     fig2, ax2 = plt.subplots(1, 1, figsize=(7, 6))
     xfmt = md.DateFormatter('%H:%M')
     ax1.xaxis.set_major_formatter(xfmt)
-    ax1.set_ylabel(f"Power Consumption in kW")
-    ax1.set_xlabel(f"Time")
+    ax1.set_ylabel(f"Power Demand (kW)", fontsize=12)
+    ax1.set_xlabel(f"Time", fontsize=12)
     ax1.legend(loc="upper left")
 
-    ax2.set_ylabel(f"Number of infected entities")
-    ax2.set_xlabel(f"Time")
+    ax2.set_ylabel(f"Number of infected entities", fontsize=12)
+    ax2.set_ylim([0, config["network"]["nodes"]])
+    ax2.set_xlabel(f"Time", fontsize=12)
     xfmt2 = md.DateFormatter('%H:%M')
     ax2.xaxis.set_major_formatter(xfmt2)
     # ax2.set(xlim=(self.x[0], self.x[self.timespan + iterations]), ylim=(0, n_size))
-    ax2.legend(loc="upper left")
+    ax2.legend(loc="upper right")
+    ax1.legend(loc="upper right")
 
     for p, ls, c, lab in zip(p_vals, dots, colors, labels):
         y_vals, s_vals, i_vals, r_vals = [], [], [], []
@@ -128,18 +139,18 @@ if __name__ == "__main__":
                             s_true=s_vals, i_true=i_vals, r_true=r_vals, ls=ls, color=c,
                             start_index=85, end_index=-55)
 
-    ax1.axhline(framework.threshold, color='red', label="threshold")
+    #ax1.axhline(framework.threshold, color='red', label="threshold")
 
     # ax1.axvline(x=start, color='green', ls=':', label='spread start')
     ax1.axvline(x=action_start, color='red', ls=':', label='action start')
-
-    ax1.legend(loc="upper left")
-    ax2.legend(loc="upper left")
 
     handles, labels = ax2.get_legend_handles_labels()
     labels, ids = np.unique(labels, return_index=True)
     handles = [handles[i] for i in ids]
     ax2.legend(handles, labels)
+
+    ax2.legend(loc="upper right")
+    ax1.legend(loc="upper right")
 
     handles, labels = ax1.get_legend_handles_labels()
     labels, ids = np.unique(labels, return_index=True)
@@ -148,8 +159,8 @@ if __name__ == "__main__":
 
     plt.show()
 
-    fig1.savefig('images/power_demand.pdf')
-    fig2.savefig('images/sir.pdf')
+    fig1.savefig('images/power_demand.pdf',bbox_inches='tight', format="pdf")
+    fig2.savefig('images/sir.pdf',bbox_inches='tight', format="pdf")
     # model prediction framework
     datapoints = range(2, int(len(values_filtered)), 4)
     y_max = []
@@ -165,13 +176,13 @@ if __name__ == "__main__":
         y_max.append(y_true[np.argmax(diffs)])
 
     plt.plot(datapoints, y_max)
-    plt.xlabel("Number of datapoints")
-    plt.ylabel("Maximum estimated power consumption in kW")
+    plt.xlabel("Number of datapoints", fontsize=12)
+    plt.ylabel("Maximum estimated power consumption in kW", fontsize=12)
     plt.axhline(framework.threshold, color='red', label="threshold")
     plt.show()
 
     # plot different adoption rates for evs
-    ev_adoption = [0, 0.1, 0.25, 0.5,  0.75, 1]
+    ev_adoption = [0, 0.25, 0.5, 0.75, 1]
 
     power_vals = []
     for p in ev_adoption:
@@ -201,13 +212,13 @@ if __name__ == "__main__":
     colors = ['gold', 'lawngreen', 'darkolivegreen', 'blue', "red", "gray"]
 
     for p, v, d in zip(ev_adoption, power_vals, dots):
-        ax.plot(x, v[start_i:end_i], label=f"p={p}", ls=d)
-    ax.plot(x, y_ref[start_i:end_i], color="black", label=f"ref power consumption")
-    ax.set_ylabel("Power consumption in kW")
-    ax.set_xlabel("Time")
-    ax.axhline(framework.threshold, color='red', label="power threshold")
+        ax.plot(x, v[start_i:end_i], label=f"adoption rate={p}", ls=d)
+    ax.plot(x, y_ref[start_i:end_i], color="black", label=f"reference")
+    ax.set_ylabel("Power consumption in kW", fontsize=12)
+    ax.set_xlabel("Time", fontsize=12)
+    # ax.axhline(framework.threshold, color='red', label="power threshold")
     ax.legend(loc="upper right")
     xfmt = md.DateFormatter('%H:%M')
     ax.xaxis.set_major_formatter(xfmt)
-    plt.xticks(rotation=45)
+    fig2.savefig('images/variant_ev.pdf',bbox_inches='tight', format="pdf")
     plt.show()

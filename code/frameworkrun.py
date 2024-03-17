@@ -373,8 +373,7 @@ def scenario1():
         ax3.tick_params(labelrotation=45)
         plt.show()
 
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
+        fig, (ax) = plt.subplots(1, 1, figsize=(5,3))
         for usage_val, u_p in zip(usage_v, usage_p):
             ax.plot(x, usage_val[start_i: end_i], label=f"power_usage={u_p}")
         ax.plot(x, y_reference[start_i: end_i], color='black', label="ref consumption")

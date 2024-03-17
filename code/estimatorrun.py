@@ -7,8 +7,8 @@ from utils.utils import *
 if __name__ == "__main__":
     data = get_groenwald()
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
+    fig, (ax) = plt.subplots(1, 1, figsize=(7,4))
+    # fig.subplots_adjust(bottom=0.05)
 
     st, e = 0, -1
     values = data.groupby(pd.Grouper(key="date", freq="30min"))["tweet"].count()[st:e]
@@ -35,52 +35,20 @@ if __name__ == "__main__":
           f"alpha: {return_dict['alpha']}, beta: {return_dict['beta']}")
 
     rang = index
-    ax.plot(rang, values_filtered, label='dataset', color='steelblue')
-    #ax.plot(rang, return_dict["s"], label='s', color='green')
-    ax.plot(rang, return_dict["i"], label='full estimation', color='red')
-    #ax.plot(rang, return_dict["r"], label='r', color='blue')
-
-    p_vals = [4, 8, 12, 16]
-    n_vals = []
-    def define_time_str(p):
-        hours, mins = divmod(p * 30, 60)
-        if mins == 0:
-            return f"{hours}h"
-        return f"{hours}:{mins}h"
-
-    for p, c in zip(p_vals, ['lawngreen', 'mediumspringgreen', "green", 'gold', 'yellow']):
-        values_pred = values_filtered[:p]
-        # estimate parameters
-        start_time_pred, end_time_pred, time_step_pred = 0, len(values_pred), 1
-        i, r, s = values_pred[0], 0, values_pred.max() * 0.8
-
-        return_dict_pred = solve_params(s, i, r, start_time_pred, time_step_pred, values_pred,
-                                        beta, alpha, degree_ratio, p_verify, end_time2=len(full_vals))
-
-        print(f"estimated param prediction for {define_time_str(p)}: p_verify: {return_dict_pred['p_verify']}, "
-              f"alpha: {return_dict_pred['alpha']}, beta: {return_dict_pred['beta']}")
-        infects = return_dict_pred["i"]
-        print(f"start slope for {define_time_str(p)}: {(infects[1] - infects[0])/0.5} between {index[0]} and {index[1]}")
-        n_vals.append(return_dict_pred['s_init'] + return_dict_pred['i_init'] + return_dict_pred['r_init'])
-        range_1 = index[:p]
-        range_2 = index[p:len(values_filtered)]
-        #ax.plot(range_1, return_dict_pred["s"][:p], label='predicted s', color='lime')
-        ax.plot(range_1, return_dict_pred["i"][:p], label=f'i_pred after {define_time_str(p)}', color=c)
-        #ax.plot(range_1, return_dict_pred["r"][:p], label='predicted r', color='cornflowerblue')
-
-        #ax.plot(range_2, return_dict_pred["s"][p:len(values_filtered)], color='lime', linestyle='--')
-        ax.plot(range_2, return_dict_pred["i"][p:len(values_filtered)], linestyle='--', color=c)
-        #ax.plot(range_2, return_dict_pred["r"][p:len(values_filtered)], color='cornflowerblue', linestyle='--')
+    ax.plot(rang, values_filtered, color='steelblue', label='dataset')
+    ax.plot(rang, return_dict["s"], label='estimated S', color='green')
+    ax.plot(rang, return_dict["i"], label='estimated I', color='red')
+    ax.plot(rang, return_dict["r"], label='estimated R', color='blue')
 
     ax.set_ylim([0, 100])
 
     xfmt = md.DateFormatter('%H:%M')
     #xfmt = md.DateFormatter('%d.%m.')
     ax.xaxis.set_major_formatter(xfmt)
-    ax.set_ylabel("Number of posts")
+    ax.set_ylabel("Number of posts every 30 minutes")
     ax.set_xlabel("Time")
     ax.legend(loc="upper right")
-    plt.xticks(rotation=45)
+    # plt.xticks(rotation=45)
 
     # ax2 = fig.add_subplot(122)
 
@@ -89,4 +57,4 @@ if __name__ == "__main__":
     # ax2.set_xlabel("Prediction time")
 
     plt.show()
-
+    #plt.savefig("images/predictions.pdf",bbox_inches='tight', format="pdf")
