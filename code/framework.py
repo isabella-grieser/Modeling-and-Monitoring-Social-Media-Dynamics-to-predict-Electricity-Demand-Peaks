@@ -1,7 +1,8 @@
 import math
 import pytz
 
-from sim.parameterEstimator import *
+#from sim.parameterEstimator import *
+from sim.diffParamEstimator import *
 from gen.model import *
 from sim.simulator import Simulator
 from demandlib import bdew
@@ -22,35 +23,40 @@ class EstimationFramework:
                               p_verify=0.4, iterations=200,
                               y_max=5000, index_shift=100,
                               minutes=15, estimation_end_time=None,
-                              degree_ratio=0.05):
+                              degree_ratio=0.02):
 
         # estimate parameters
         if data is not None:
             vals = data
 
             start_time, time_step = 0, 1
-            i, r, s = vals[0], 0, vals.max() * 0.8
+            beta, alpha, p_verify = 0.1, 0.4, 0.4
 
             if estimation_end_time is None:
                 estimation_end_time = len(vals)
-            return_dict = solve_params(s, i, r, start_time, time_step, vals, beta, alpha, degree_ratio,
-                                       p_verify, estimation_end_time)
+            #return_dict = solve_params(s, i, r, start_time, time_step, vals, beta, alpha, degree_ratio,
+            #                           p_verify, estimation_end_time)
 
+            return_dict = solve_params(vals, beta, alpha, p_verify, 1000, degree_ratio, estimation_end_time)
             # create dynamic config for model generation
             nodes = self.config["network"]["nodes"]
+            edges = int(degree_ratio * nodes)
 
             model_config = {
                 "seed": self.config["seed"],
-                "edges": int(degree_ratio * nodes)
+                "edges": degree_ratio
             }
+
 
             social_network_model = create_social_network_graph(nodes, "barabasi_albert", model_config)
             self.config["sim"]["p_verify"] = return_dict["p_verify"]
             self.config["sim"]["alpha"] = return_dict["alpha"]
-            self.config["sim"]["beta"] = return_dict["beta"]
+            # define b as = k * b_i /N
+            self.config["sim"]["beta"] = 2 * return_dict["beta"] * degree_ratio / nodes
 
-            print(f"estimated params: p_verify: {return_dict['p_verify']}, "
-                f"alpha: {return_dict['alpha']}, beta: {return_dict['beta']}")
+            print(f"estimated params: p_verify: {self.config['sim']['p_verify']}, "
+                f"alpha: {self.config['sim']['alpha']}, beta: {self.config['sim']['beta']}"
+                f" N: {return_dict['n']}")
         else:
             model_config = {
                 "seed": self.config["seed"],

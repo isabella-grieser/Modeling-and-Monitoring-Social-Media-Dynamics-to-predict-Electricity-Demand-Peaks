@@ -12,9 +12,9 @@ def solve_params(s, i, r, start_time, time_step, twitter_data, beta, alpha, degr
         div = (I * (1 + a) + R * (1 - a))
         if div == 0:
             div = 1
-        dsdt = - b * d / n * S
-        didt = (b * d / n) * (I * (1 + a) / div) * S - p * I
-        drdt = (b * d / n) * (R * (1 - a) / div) * S + p * I
+        dsdt = - 2 * b * d / n * S
+        didt = 2 * (b * d / n) * (I * (1 + a) / div) * S - p * I
+        drdt = 2 * (b * d / n) * (R * (1 - a) / div) * S + p * I
         return [dsdt, didt, drdt]
 
     def error_function(params):

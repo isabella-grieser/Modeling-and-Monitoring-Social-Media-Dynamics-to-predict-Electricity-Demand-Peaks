@@ -55,6 +55,7 @@ def plot_alpha(alpha_p, config, start, action_start):
     ax1.set_xlabel("Time")
     ax1.set_ylabel("Number of infected entities")
     ax1.xaxis.set_major_locator(plt.MaxNLocator(3))
+    ax1.margins(x=0)
     xfmt = md.DateFormatter('%H:%M')
     ax1.xaxis.set_major_formatter(xfmt)
     plt.show()
@@ -79,6 +80,7 @@ def plot_beta(beta_p, config, start, action_start):
     #ax1.tick_params(labelrotation=45)
     xfmt = md.DateFormatter('%H:%M')
     ax1.xaxis.set_major_formatter(xfmt)
+    ax1.margins(x=0)
     plt.show()
     plt.savefig("images/beta.pdf",bbox_inches='tight', format="pdf")
 
@@ -101,6 +103,7 @@ def plot_verify(verify_p, config, start, action_start):
     #ax1.tick_params(labelrotation=45)
     xfmt = md.DateFormatter('%H:%M')
     ax1.xaxis.set_major_formatter(xfmt)
+    ax1.margins(x=0)
     plt.show()
     plt.savefig("images/verify.pdf",bbox_inches='tight', format="pdf")
 
@@ -108,7 +111,7 @@ def analyze_propagation(alpha_p, beta_p, verify_p, config, start, action_start):
     config["sim"]["beta"] = .2
     config["sim"]["alpha"] = .4
     config["sim"]["p_verify"] = .2
-    # plot_alpha(alpha_p, config, start, action_start)
+    #plot_alpha(alpha_p, config, start, action_start)
     config["sim"]["alpha"] = .4
     plot_beta(beta_p, config, start, action_start)
     config["sim"]["beta"] = .2

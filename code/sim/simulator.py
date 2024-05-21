@@ -348,8 +348,6 @@ class Simulator:
                   const.InfectionStatus.RECOVERED]
 
         # after conditions are filled: implement SIR Model
-        # given the paper "Fact-checking Effect on Viral Hoaxes:
-        # A Model of Misinformation Spread in Social Networks"
         p_verify, alpha, beta = self.args["p_verify"], self.args["alpha"], self.args["beta"]
 
         def calc_state_probabilities(n):

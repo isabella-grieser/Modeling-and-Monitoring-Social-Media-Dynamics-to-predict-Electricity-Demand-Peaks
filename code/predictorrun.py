@@ -23,8 +23,10 @@ def plot_basic_timeline(ax1, ax2, x_all, y_vals, y_ref, s_true, i_true, r_true, 
         x_all, y_ref = x_all[start_index:], y_ref[start_index:]
         y_max, y_min, y_average = y_max[start_index:], y_min[start_index:], y_average[start_index:]
 
-    # ax1.fill_between(x_all, y_min, y_max, color='blue', alpha=.5, linewidth=0)
+    #ax1.fill_between(x_all, y_min, y_max, color='blue', alpha=.5, linewidth=0)
     ax1.plot(x_all, y_average, linewidth=2, color=color, ls=ls, label=label)
+    ax1.plot(x_all, y_ref, linewidth=2, color='black', label="reference")
+    ax1.margins(x=0)
 
     s_max, s_min, s_average = [], [], []
     i_max, i_min, i_average = [], [], []
@@ -59,17 +61,17 @@ def plot_basic_timeline(ax1, ax2, x_all, y_vals, y_ref, s_true, i_true, r_true, 
         r_max, r_min, r_average = r_max[start_index:], r_min[start_index:], r_average[start_index:]
 
     # ax2.fill_between(x_all, s_min, s_max, color='green', alpha=.5, linewidth=0)
-    # ax2.plot(x_all, s_average, linewidth=2, color='green', ls=ls, label="susceptible")
+    ax2.plot(x_all, s_average, linewidth=2, color='green', ls=ls, label="susceptible")
 
-    # ax2.fill_between(x_all, i_min, i_max, color='red', alpha=.5, linewidth=0)
-    ax2.plot(x_all, i_average, linewidth=2, color=color, ls=ls, label="infection process")
+    #ax2.fill_between(x_all, i_min, i_max, color='red', alpha=.5, linewidth=0)
+    ax2.plot(x_all, i_average, linewidth=2, color='red', ls=ls, label="infected")
     # ax2.plot(x_all, i_average, linewidth=2, color='red', ls=ls, label="infected")
     # ax2.fill_between(x_all, r_min, r_max, color='blue', alpha=.5, linewidth=0)
-    #ax2.plot(x_all, r_average, linewidth=2, color='blue', ls=ls, label="removed")
-
-    ax1.plot(x_all, y_ref, linewidth=2, color='black', label="reference")
+    ax2.plot(x_all, r_average, linewidth=2, color='blue', ls=ls, label="removed")
+    ax2.margins(x=0)
 
 if __name__ == "__main__":
+    np.random.seed(seed=42)
     data = get_groenwald()
 
     start = datetime(2022, 11, 20, 16, 0, 0, tzinfo=dt.timezone.utc) \
@@ -90,22 +92,13 @@ if __name__ == "__main__":
 
     x_all, y_ref = None, None
     framework = None
-    #p_vals = [4, 8, 12, 16, len(values_filtered)]
-    #labels = ["after 2h", "after 4h", "after 6h", "after 8h", "full dataset"]
-    #dots = ['--', '-.', ':', (0, (3, 5, 1, 5, 1, 5)), '-']
-    #colors = ['gold', 'lawngreen', 'darkolivegreen', 'orange', 'blue']
-
-    #p_vals = [4, 8, 12, 16, len(values_filtered)]
-    #labels = ["after 2h", "after 4h", "after 6h", "after 8h", "full dataset"]
-    #dots = ['--', '-.', ':', (0, (3, 5, 1, 5, 1, 5)), '-']
-    #colors = ['gold', 'lawngreen', 'darkolivegreen', 'orange', 'blue']
     p_vals = [len(values_filtered)]
     labels = ["est. power consumption"]
     dots = ['-']
     colors = ['blue']
-    fig1, ax1 = plt.subplots(1, 1, figsize=(7, 6))
+    fig1, ax1 = plt.subplots(1, 1, figsize=(10, 6))
 
-    fig2, ax2 = plt.subplots(1, 1, figsize=(7, 6))
+    fig2, ax2 = plt.subplots(1, 1, figsize=(10, 6))
     xfmt = md.DateFormatter('%H:%M')
     ax1.xaxis.set_major_formatter(xfmt)
     ax1.set_ylabel(f"Power Demand (kW)", fontsize=12)
@@ -113,13 +106,18 @@ if __name__ == "__main__":
     ax1.legend(loc="upper left")
 
     ax2.set_ylabel(f"Number of infected entities", fontsize=12)
-    ax2.set_ylim([0, config["network"]["nodes"]])
     ax2.set_xlabel(f"Time", fontsize=12)
     xfmt2 = md.DateFormatter('%H:%M')
     ax2.xaxis.set_major_formatter(xfmt2)
     # ax2.set(xlim=(self.x[0], self.x[self.timespan + iterations]), ylim=(0, n_size))
     ax2.legend(loc="upper right")
     ax1.legend(loc="upper right")
+    ax1.margins(x=0)
+    ax2.margins(x=0)
+
+    iterations = 200
+    start_i, end_i = 80, -30
+    degree = 20
 
     for p, ls, c, lab in zip(p_vals, dots, colors, labels):
         y_vals, s_vals, i_vals, r_vals = [], [], [], []
@@ -129,15 +127,16 @@ if __name__ == "__main__":
             framework = EstimationFramework(config, year=2022, plot=False)
 
             x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
-                framework.estimate_power_outage(start, action_start=action_start, iterations=100,
-                                                y_max=1000, data=values_pred, minutes=30, estimation_end_time=len(index))
+                framework.estimate_power_outage(start, action_start=action_start, iterations=iterations,
+                                                y_max=1000, data=values_pred, minutes=30, estimation_end_time=len(index),
+                                                degree_ratio=degree)
             y_vals.append(y_true)
             s_vals.append(s_true)
             i_vals.append(i_true)
             r_vals.append(r_true)
         plot_basic_timeline(ax1, ax2, x_all, y_vals=y_vals, y_ref=y_ref, label=lab,
                             s_true=s_vals, i_true=i_vals, r_true=r_vals, ls=ls, color=c,
-                            start_index=85, end_index=-55)
+                            start_index=start_i, end_index=end_i)
 
     #ax1.axhline(framework.threshold, color='red', label="threshold")
 
@@ -170,8 +169,9 @@ if __name__ == "__main__":
         framework = EstimationFramework(config, year=2022, plot=False)
 
         x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
-            framework.estimate_power_outage(start, action_start=action_start, iterations=100,
-                                            y_max=1000, data=values_pred, minutes=30, estimation_end_time=len(index))
+            framework.estimate_power_outage(start, action_start=action_start, iterations=iterations,
+                                            y_max=1000, data=values_pred, minutes=30, estimation_end_time=len(index),
+                                            degree_ratio=degree)
         diffs = [y_true[i] - y_ref[i] for i in range(len(y_true))]
         y_max.append(y_true[np.argmax(diffs)])
 
@@ -194,8 +194,9 @@ if __name__ == "__main__":
             framework = EstimationFramework(config, year=2022, plot=False)
 
             x_start, x_all, y_true, y_ref, s_true, i_true, r_true = \
-                framework.estimate_power_outage(start, action_start=action_start, iterations=100,
-                                                y_max=1000, data=values_pred, minutes=30, estimation_end_time=len(index))
+                framework.estimate_power_outage(start, action_start=action_start, iterations=iterations,
+                                                y_max=1000, data=values_pred, minutes=30, estimation_end_time=len(index),
+                                                degree_ratio=degree)
             vals.append(y_true)
 
         average_val = []
@@ -218,6 +219,8 @@ if __name__ == "__main__":
     ax.set_xlabel("Time", fontsize=12)
     # ax.axhline(framework.threshold, color='red', label="power threshold")
     ax.legend(loc="upper right")
+    ax.margins(x=0)
+
     xfmt = md.DateFormatter('%H:%M')
     ax.xaxis.set_major_formatter(xfmt)
     fig2.savefig('images/variant_ev.pdf',bbox_inches='tight', format="pdf")
