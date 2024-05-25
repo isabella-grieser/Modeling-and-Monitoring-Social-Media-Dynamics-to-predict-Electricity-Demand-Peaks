@@ -8,6 +8,8 @@
 **.sqlite
 **.xls
 **.ndjson
+latex/
+presentations/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

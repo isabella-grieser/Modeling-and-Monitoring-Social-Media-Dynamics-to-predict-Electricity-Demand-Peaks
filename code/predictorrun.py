@@ -32,17 +32,34 @@ def plot_basic_timeline(ax1, ax2, x_all, y_vals, y_ref, s_true, i_true, r_true, 
     i_max, i_min, i_average = [], [], []
     r_max, r_min, r_average = [], [], []
     for i in range(len(s_true[0])):
-        s_max.append(max(s_true[j][i] for j in range(len(s_true))))
-        s_min.append(min(s_true[j][i] for j in range(len(s_true))))
-        s_average.append(mean(s_true[j][i] for j in range(len(s_true))))
+        s_values = [s_true[j][i] for j in range(len(s_true))]
+        var_s = np.var(s_values)
+        m_s = mean(s_values)
+        #s_max.append(max(s_true[j][i] for j in range(len(s_true))))
+        #s_min.append(min(s_true[j][i] for j in range(len(s_true))))
+        #s_average.append(mean(s_true[j][i] for j in range(len(s_true))))
+        s_max.append(m_s + var_s)
+        s_min.append(m_s - var_s)
+        s_average.append(m_s)
 
-        i_max.append(max(i_true[j][i] for j in range(len(i_true))))
-        i_min.append(min(i_true[j][i] for j in range(len(i_true))))
-        i_average.append(mean(i_true[j][i] for j in range(len(i_true))))
+        var_i = np.var([i_true[j][i] for j in range(len(i_true))])
+        m_i = mean(i_true[j][i] for j in range(len(i_true)))
+        #i_max.append(max(i_true[j][i] for j in range(len(i_true))))
+        #i_min.append(min(i_true[j][i] for j in range(len(i_true))))
+        #i_average.append(mean(i_true[j][i] for j in range(len(i_true))))
+        i_max.append(m_i + var_i)
+        i_min.append(m_i - var_i)
+        i_average.append(m_i)
 
-        r_max.append(max(r_true[j][i] for j in range(len(r_true))))
-        r_min.append(min(r_true[j][i] for j in range(len(r_true))))
-        r_average.append(mean(r_true[j][i] for j in range(len(r_true))))
+        var_r = np.var([r_true[j][i] for j in range(len(r_true))])
+        m_r = mean(r_true[j][i] for j in range(len(r_true)))
+        #r_max.append(max(r_true[j][i] for j in range(len(r_true))))
+        #r_min.append(min(r_true[j][i] for j in range(len(r_true))))
+        #r_average.append(mean(r_true[j][i] for j in range(len(r_true))))
+        r_max.append(m_r + var_r)
+        r_min.append(m_r - var_r)
+        r_average.append(m_r)
+
     if end_index < 0:
         s_max, s_min, s_average = s_max[start_index:end_index], s_min[start_index:end_index], s_average[
                                                                                               start_index:end_index]
@@ -60,14 +77,15 @@ def plot_basic_timeline(ax1, ax2, x_all, y_vals, y_ref, s_true, i_true, r_true, 
         i_max, i_min, i_average = i_max[start_index:], i_min[start_index:], i_average[start_index:]
         r_max, r_min, r_average = r_max[start_index:], r_min[start_index:], r_average[start_index:]
 
-    # ax2.fill_between(x_all, s_min, s_max, color='green', alpha=.5, linewidth=0)
+    ax2.fill_between(x_all, s_min, s_max, color='green', alpha=.5, linewidth=0)
     ax2.plot(x_all, s_average, linewidth=2, color='green', ls=ls, label="susceptible")
 
-    #ax2.fill_between(x_all, i_min, i_max, color='red', alpha=.5, linewidth=0)
+    ax2.fill_between(x_all, i_min, i_max, color='red', alpha=.5, linewidth=0)
     ax2.plot(x_all, i_average, linewidth=2, color='red', ls=ls, label="infected")
-    # ax2.plot(x_all, i_average, linewidth=2, color='red', ls=ls, label="infected")
-    # ax2.fill_between(x_all, r_min, r_max, color='blue', alpha=.5, linewidth=0)
+
+    ax2.fill_between(x_all, r_min, r_max, color='blue', alpha=.5, linewidth=0)
     ax2.plot(x_all, r_average, linewidth=2, color='blue', ls=ls, label="removed")
+
     ax2.margins(x=0)
 
 if __name__ == "__main__":
@@ -93,7 +111,7 @@ if __name__ == "__main__":
     x_all, y_ref = None, None
     framework = None
     p_vals = [len(values_filtered)]
-    labels = ["est. power consumption"]
+    labels = ["simulated power consumption"]
     dots = ['-']
     colors = ['blue']
     fig1, ax1 = plt.subplots(1, 1, figsize=(10, 6))
